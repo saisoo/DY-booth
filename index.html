@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>덕영 RAS 페스타 부스 배치도</title>
+<title>RAS 페스타 스캔 테스트</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap">
@@ -186,7 +186,64 @@ button:focus-visible{outline:3px solid var(--pink);outline-offset:2px}
 .field .hint{margin:0;font-size:2.6cqw;font-weight:500;letter-spacing:-.01em;line-height:1.5;color:rgba(255,255,255,.6);word-break:keep-all}
 .field .hint.found{color:#fff;font-weight:700}
 .field .hint.found b{color:var(--yellow)}
+.share-btn{margin-top:4px;display:inline-flex;align-items:center;gap:8px;padding:11px 20px;border-radius:999px;border:0;cursor:pointer;
+  background:linear-gradient(100deg,#ff5e7e,#8a5cff 60%,#2aa5f5);color:#fff;font-weight:700;font-size:15px;letter-spacing:-.01em;box-shadow:0 8px 20px rgba(138,92,255,.3);touch-action:manipulation}
+.share-btn:active{transform:scale(.97)}
+.share-msg{margin:0;font-size:13px;font-weight:500;color:var(--navy);word-break:break-all;user-select:all;-webkit-user-select:all}
+/* 부스 투어 */
+.tour{margin:0 0 16px;background:#fff;border-radius:18px;padding:14px 16px;box-shadow:0 10px 30px rgba(51,39,107,.12);display:grid;gap:10px}
+.tour-top{display:flex;align-items:flex-end;justify-content:space-between;gap:10px}
+.tour-label{display:block;font-size:12px;font-weight:700;color:#8a5cff;letter-spacing:.02em}
+.tour-num{font-size:28px;font-weight:900;color:var(--navy);letter-spacing:-.03em;font-variant-numeric:tabular-nums;line-height:1.1}
+.tour-num small{font-size:16px;font-weight:700;color:var(--muted)}
+.tour-badge{font-size:12px;font-weight:700;color:#fff;background:linear-gradient(100deg,#ff5e7e,#8a5cff 60%,#2aa5f5);padding:6px 11px;border-radius:999px;white-space:nowrap}
+.tour-bar{height:10px;border-radius:999px;background:#ece8f8;overflow:hidden}
+.tour-bar i{display:block;height:100%;width:0;border-radius:999px;background:linear-gradient(90deg,#ff5e7e,#8a5cff 60%,#2aa5f5);transition:width .5s cubic-bezier(.2,.8,.2,1)}
+.tour-foot{display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:12.5px;color:var(--muted)}
+.tour-foot b{color:var(--navy)}
+.tour-reset{border:0;background:none;color:var(--muted);font-size:12px;text-decoration:underline;cursor:pointer;padding:4px;white-space:nowrap}
+.tour-reset.armed{color:var(--pink);font-weight:700}
+.booth.visited{background:#f1ecff;color:#4a3aa8}
+.booth.visited::after{content:"✓";position:absolute;top:-1.1cqw;right:-1.1cqw;width:3.4cqw;height:3.4cqw;border-radius:50%;background:#8a5cff;color:#fff;font-size:2cqw;font-weight:900;display:grid;place-items:center;box-shadow:0 0 0 .4cqw #2b2366}
+.visit-btn{margin-top:16px;width:100%;padding:14px;border-radius:12px;border:0;cursor:pointer;font-weight:800;font-size:16px;color:#fff;
+  background:linear-gradient(100deg,#ff5e7e,#8a5cff 60%,#2aa5f5);box-shadow:0 8px 18px rgba(138,92,255,.3);touch-action:manipulation}
+.visit-btn.done{background:#f1ecff;color:#6b55d6;box-shadow:none}
+.row .vchk{display:inline-grid;place-items:center;width:18px;height:18px;border-radius:50%;background:#8a5cff;color:#fff;font-size:11px;font-weight:900;margin-right:6px;vertical-align:2px}
+.toast{position:fixed;left:50%;bottom:calc(28px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:30;background:rgba(43,35,102,.92);color:#fff;font-weight:700;font-size:15px;padding:12px 20px;border-radius:999px;box-shadow:0 10px 30px rgba(0,0,0,.25);white-space:nowrap;animation:toastIn .3s ease-out}
+@keyframes toastIn{from{transform:translate(-50%,16px);opacity:0}}
+.foot-icons{display:flex;justify-content:center;gap:14px;margin-bottom:12px}
+.ico{width:46px;height:46px;border-radius:50%;border:0;display:grid;place-items:center;background:#fff;color:var(--navy);cursor:pointer;box-shadow:0 6px 16px rgba(43,35,102,.14);touch-action:manipulation;transition:transform .12s}
+.ico:active{transform:scale(.92)}
+@media (hover:hover){.ico:hover{color:#8a5cff}}
+.foot{opacity:1}
+.foot .copy{margin:0;opacity:.8}
+.foot .share-msg{margin:0 0 10px;font-size:13px;opacity:1}
+/* 스캔 */
+.scan-btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:13px;border:0;border-radius:12px;cursor:pointer;font-weight:800;font-size:16px;color:#fff;
+  background:linear-gradient(100deg,#ff5e7e,#8a5cff 60%,#2aa5f5);box-shadow:0 8px 18px rgba(138,92,255,.3);touch-action:manipulation}
+.scan{position:fixed;inset:0;z-index:40;background:#0d0a24;color:#fff}
+.scan video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.scan-ui{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;padding:calc(24px + env(safe-area-inset-top,0px)) 20px calc(24px + env(safe-area-inset-bottom,0px));background:rgba(13,10,36,.35)}
+.scan-title,.scan-err,.scan-manual,.scan-close{position:relative;z-index:1}
+.scan-title{margin:0;font-weight:800;font-size:17px;text-shadow:0 2px 8px rgba(0,0,0,.5)}
+.scan-frame{position:relative;width:min(68vw,280px);aspect-ratio:1;border-radius:18px;box-shadow:0 0 0 100vmax rgba(13,10,36,.45);overflow:hidden}
+.scan-frame i{position:absolute;width:34px;height:34px;border:4px solid #fff;border-radius:6px}
+.scan-frame i:nth-child(1){top:0;left:0;border-right:0;border-bottom:0}
+.scan-frame i:nth-child(2){top:0;right:0;border-left:0;border-bottom:0}
+.scan-frame i:nth-child(3){bottom:0;left:0;border-right:0;border-top:0}
+.scan-frame i:nth-child(4){bottom:0;right:0;border-left:0;border-top:0}
+.scan-line{position:absolute;left:8%;right:8%;height:3px;border-radius:3px;background:linear-gradient(90deg,transparent,#ff5e7e,#8a5cff,#2aa5f5,transparent);animation:scanline 1.8s ease-in-out infinite alternate}
+@keyframes scanline{from{top:8%}to{top:90%}}
+.scan-frame.hit{box-shadow:0 0 0 100vmax rgba(13,10,36,.45),inset 0 0 0 4px #7cf0a0}
+.scan-err{margin:0;max-width:320px;text-align:center;font-size:14px;line-height:1.5;background:rgba(255,77,126,.9);padding:10px 14px;border-radius:12px}
+.scan-manual{display:grid;gap:8px;width:min(100%,320px);text-align:center;font-size:13px;color:rgba(255,255,255,.85)}
+.scan-manual div{display:flex;gap:8px}
+.scan-manual input{flex:1;min-width:0;font:inherit;font-size:18px;font-weight:800;letter-spacing:.2em;text-transform:uppercase;text-align:center;padding:10px;border-radius:10px;border:0;background:rgba(255,255,255,.95);color:var(--navy)}
+.scan-manual button{border:0;border-radius:10px;padding:0 16px;font-weight:800;font-size:15px;background:#8a5cff;color:#fff;cursor:pointer}
+.scan-close{border:1px solid rgba(255,255,255,.6);background:rgba(255,255,255,.12);color:#fff;font-weight:700;font-size:15px;padding:11px 28px;border-radius:999px;cursor:pointer}
+.visit-btn.done{cursor:default}
 </style>
+<script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js"></script>
 </head>
 <body>
 
@@ -204,6 +261,15 @@ button:focus-visible{outline:3px solid var(--pink);outline-offset:2px}
         </dl>
       </div>
     </header>
+    <section class="tour" aria-label="나의 부스 투어">
+      <div class="tour-top">
+        <div><span class="tour-label">나의 부스 투어</span><b class="tour-num"><span id="tourCount">0</span><small> / <span id="tourTotal">0</span></small></b></div>
+        <span class="tour-badge" id="tourBadge">시작해 볼까요?</span>
+      </div>
+      <div class="tour-bar"><i id="tourFill"></i></div>
+      <button type="button" class="scan-btn" id="scanOpen"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8V5a1 1 0 0 1 1-1h3M16 4h3a1 1 0 0 1 1 1v3M20 16v3a1 1 0 0 1-1 1h-3M8 20H5a1 1 0 0 1-1-1v-3"/><path d="M7 12h10"/></svg>부스 QR 스캔하기</button>
+      <div class="tour-foot"><span>부스에 붙은 <b>QR</b>을 찍으면 방문 인증돼요</span><button type="button" class="tour-reset" id="tourReset">기록 지우기</button></div>
+    </section>
     <div class="map" id="map" role="group" aria-label="부스 배치도">
       <h2 class="title">부스 배치도</h2>
       <div class="field"><div class="fl"><span aria-hidden="true">잔디광장</span><p class="hint" id="hint">부스를 누르면 소개가 나와요</p></div></div>
@@ -244,13 +310,42 @@ button:focus-visible{outline:3px solid var(--pink);outline-offset:2px}
       </button>
     </div>
   </section>
-  <footer class="foot">© 덕영고등학교 그래픽SW과</footer>
+  <footer class="foot">
+    <div class="foot-icons">
+      <button type="button" class="ico" id="shareBtn" aria-label="친구에게 공유하기" title="공유하기">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15V3"/><path d="m7 8 5-5 5 5"/><path d="M5 13v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6"/></svg>
+      </button>
+      <a class="ico" href="https://map.naver.com/p/search/%EB%8D%95%EC%98%81%EA%B3%A0%EB%93%B1%ED%95%99%EA%B5%90" target="_blank" rel="noopener" aria-label="오시는 길 (지도 열기)" title="오시는 길">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>
+      </a>
+      <button type="button" class="ico" id="topBtn" aria-label="맨 위로" title="맨 위로">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5"/><path d="m5 12 7-7 7 7"/></svg>
+      </button>
+    </div>
+    <p class="share-msg" id="shareMsg" hidden></p>
+    <p class="copy">© 덕영고등학교 그래픽SW과</p>
+  </footer>
 </div>
 
+<div class="scan" id="scan" hidden role="dialog" aria-modal="true" aria-label="부스 QR 스캔">
+  <video id="scanVideo" playsinline muted></video>
+  <canvas id="scanCanvas" hidden></canvas>
+  <div class="scan-ui">
+    <p class="scan-title">부스 QR을 네모 안에 맞춰 주세요</p>
+    <div class="scan-frame"><i></i><i></i><i></i><i></i><b class="scan-line"></b></div>
+    <p class="scan-err" id="scanErr" hidden></p>
+    <form class="scan-manual" id="scanManual" autocomplete="off">
+      <label for="scanCode">카메라가 안 되면 QR 아래 코드 6자리를 입력하세요</label>
+      <div><input id="scanCode" maxlength="6" placeholder="예: ABC123" autocapitalize="characters" spellcheck="false"><button type="submit">확인</button></div>
+    </form>
+    <button type="button" class="scan-close" id="scanClose">닫기</button>
+  </div>
+</div>
 <div class="scrim" id="scrim" hidden>
   <div class="card" role="dialog" aria-modal="true" aria-labelledby="pTitle">
     <h2 id="pTitle"></h2>
     <div id="pBody" class="items"></div>
+    <button type="button" class="visit-btn" id="visitBtn">✓ 방문 완료</button>
     <div class="nav">
       <button id="prev" type="button">◀ 이전</button>
       <button id="next" type="button">다음 ▶</button>
@@ -355,7 +450,7 @@ const scrim=document.getElementById('scrim'); let cur=-1, lastFocus=null;
 function show(i){
   cur=(i+list.length)%list.length; const b=list[cur];
   btns.forEach(x=>x.classList.remove('on')); btns[cur].classList.add('on');
-  pTitle.textContent=b.name; pBody.replaceChildren();
+  pTitle.textContent=b.name; pBody.replaceChildren(); syncVisitBtn();
   b.items.forEach(([org,theme])=>{
     const it=document.createElement('div'); it.className='item';
     if(org){const o=document.createElement('div'); o.className='org'; o.textContent=org; it.append(o);}
@@ -391,7 +486,7 @@ P1.forEach(({bi,org,theme})=>{
   r.innerHTML='<span class="txt"><span class="t"></span><span class="o"></span></span><span class="go" aria-hidden="true">위치 보기 ›</span>';
   r.querySelector('.t').textContent=theme;
   r.querySelector('.o').textContent=org;
-  r.addEventListener('click',()=>goToBooth(bi));
+  r.dataset.bi=bi; r.addEventListener('click',()=>goToBooth(bi));
   rows1.append(r);
 });
 
@@ -456,6 +551,107 @@ function burst(btn){
     btn.classList.remove('spin'); void btn.offsetWidth; btn.classList.add('spin');
     tip.textContent='초기화했어요'; t=setTimeout(()=>{tip.hidden=true;},1500);
   });})();
+
+/* ===== 공유 ===== */
+(()=>{const btn=document.getElementById('shareBtn'), msg=document.getElementById('shareMsg'); let t=null;
+  const url=location.origin+location.pathname;
+  const say=(text)=>{msg.textContent=text; msg.hidden=false; clearTimeout(t); t=setTimeout(()=>{msg.hidden=true;},4000);};
+  btn.addEventListener('click',async()=>{
+    const data={title:'2026 덕영 RAS 페스타',text:'덕영 RAS 페스타 부스 배치도와 프로그램이에요!',url};
+    if(navigator.share){try{await navigator.share(data); return;}catch(e){if(e&&e.name==='AbortError') return;}}
+    try{await navigator.clipboard.writeText(url); say('링크를 복사했어요. 원하는 곳에 붙여 넣으세요!');}
+    catch(e){say(url);}
+  });})();
+
+/* ===== 나의 부스 투어 (이 폰에만 저장) ===== */
+const TOUR=list.map((b,i)=>i).filter(i=>!list[i].stage&&!list[i].exchange);
+let visited=new Set(); try{visited=new Set(JSON.parse(localStorage.getItem('tour-visited')||'[]'));}catch(e){}
+const saveTour=()=>{try{localStorage.setItem('tour-visited',JSON.stringify([...visited]));}catch(e){}};
+const tourTotal=TOUR.length; document.getElementById('tourTotal').textContent=tourTotal;
+const MILES=[5,10,20,30];
+function badgeText(n){if(n>=tourTotal)return '전 부스 정복!'; if(n>=30)return '거의 다 왔어요'; if(n>=20)return '축제 고수'; if(n>=10)return '열정 탐험가'; if(n>=1)return '투어 중'; return '시작해 볼까요?';}
+function renderTour(){
+  const n=TOUR.filter(i=>visited.has(list[i].name)).length;
+  document.getElementById('tourCount').textContent=n;
+  document.getElementById('tourFill').style.width=(n/tourTotal*100)+'%';
+  document.getElementById('tourBadge').textContent=badgeText(n);
+  TOUR.forEach(i=>btns[i].classList.toggle('visited',visited.has(list[i].name)));
+  document.querySelectorAll('#rows1 .row').forEach(r=>{const v=visited.has(list[+r.dataset.bi].name); const t=r.querySelector('.t'); const c=t.querySelector('.vchk');
+    if(v&&!c){const s=document.createElement('span'); s.className='vchk'; s.textContent='✓'; t.prepend(s);} if(!v&&c) c.remove();});
+  return n;
+}
+function toast(text){document.querySelectorAll('.toast').forEach(t=>t.remove()); const t=document.createElement('div'); t.className='toast'; t.textContent=text; document.body.append(t); setTimeout(()=>t.remove(),2200);}
+function confetti(){
+  if(calm) return; const cx=innerWidth/2, cy=innerHeight/2, C=['#ff5e7e','#8a5cff','#2aa5f5','#ffe24a','#ff7aa2'];
+  for(let k=0;k<36;k++){const e=document.createElement('span'); e.className='fh'; e.textContent=k%3?'■':'●';
+    e.style.left=cx+'px'; e.style.top=cy+'px'; e.style.fontSize=(8+Math.random()*10)+'px'; e.style.color=C[k%C.length];
+    const a=Math.random()*Math.PI*2, d=120+Math.random()*180;
+    e.style.setProperty('--x',Math.cos(a)*d+'px'); e.style.setProperty('--y',(-Math.sin(a)*d+60)+'px');
+    e.style.setProperty('--s','1'); e.style.setProperty('--r',(Math.random()*720-360)+'deg'); e.style.setProperty('--d',(1+Math.random()*.8).toFixed(2)+'s');
+    e.addEventListener('animationend',()=>e.remove()); heartLayer.append(e);}
+}
+const visitBtn=document.getElementById('visitBtn');
+function syncVisitBtn(){const b=list[cur]; const ok=!b.stage&&!b.exchange; visitBtn.hidden=!ok; if(!ok)return;
+  const v=visited.has(b.name); visitBtn.classList.toggle('done',v); visitBtn.textContent=v?'✓ 방문 인증 완료':'📷 QR 스캔으로 방문 인증';}
+function markVisited(name){
+  if(visited.has(name)){toast(name+' 은(는) 이미 인증했어요'); return;}
+  visited.add(name); saveTour(); const n=renderTour();
+  const i=list.findIndex(b=>b.name===name); if(i>=0){btns[i].classList.add('find'); setTimeout(()=>btns[i].classList.remove('find'),2600);}
+  confetti();
+  if(n===tourTotal) toast('전 부스 정복! 스탬프 교환소로 가 보세요');
+  else if(MILES.includes(n)) toast(n+'곳 방문 달성!');
+  else toast(name+' 방문 인증! ('+n+'/'+tourTotal+')');
+}
+visitBtn.addEventListener('click',()=>{if(visited.has(list[cur].name)) return; closeBooth(); openScan();});
+
+/* ===== QR 스캔 인증 ===== */
+const CODE_HASH={"995ea8e7": "체육과", "9640eb29": "스포츠 규칙 연구", "18578492": "사무행정", "75d875a2": "창업 시뮬레이션", "523ff841": "전자상거래 실무", "35b513ea": "모의창업반", "bbe95c46": "육군인사 사령부", "863ab076": "한국사", "57563004": "사회과", "64ecc327": "인성복지부", "cacbae24": "국제교류", "82917437": "중국문화체험", "f61721db": "일본어", "5ca2ac16": "학생자치회", "478902fa": "정보.지속가능 업사이클링", "1465ad8f": "정보처리와 관리", "388be1f3": "수학과", "efe0dc84": "글로벌 시사포럼", "ea556f80": "영어과", "0a5a2258": "과학과", "8a99086e": "교양독서 발표반", "6b5cfe6c": "국어과", "b1577aec": "보건간호과", "7eb0f5bd": "2학년 6반 페이스페인팅", "2f0c9d37": "굿즈 창작반", "14d872ba": "일러스트 창작반", "a9ccc5b7": "그래픽 SW과", "44fd2ccc": "컴퓨터시스템 정비", "0d546920": "공공데이터 활용반", "63f366e5": "메이크 디자인", "690b2f1c": "메이크 웹", "0ee3bb1f": "메이크 게임개발", "cdcb985f": "메이크 정보보안", "319d4ca6": "메이크 인공지능", "5ac7ac89": "창업체험 교육", "cef97f44": "캡스톤 디자인", "e3bd65fe": "STEAM 클럽", "0891391f": "용인 디지털", "54578eef": "AI 디지털", "e29f5abd": "진로진학/ 도서관", "19a9b3e4": "위클래스/ 보건실", "0b23d970": "슬기로운 전기생활", "e0bfecfc": "미술반", "92423907": "생태학교 환경부스"};
+const fnv=s=>{let h=0x811c9dc5; for(const b of new TextEncoder().encode(s)){h^=b; h=Math.imul(h,0x01000193)>>>0;} return h.toString(16).padStart(8,'0');};
+const boothFromCode=c=>CODE_HASH[fnv('RAS|'+String(c).trim().toUpperCase())]||null;
+const codeFromText=t=>{const m=String(t).match(/(?:RAS-|#v-|v-)([A-Z0-9]{6})/i); return m?m[1].toUpperCase():(/^[A-Za-z0-9]{6}$/.test(t.trim())?t.trim().toUpperCase():null);};
+const scanEl=document.getElementById('scan'), video=document.getElementById('scanVideo'), canvas=document.getElementById('scanCanvas'), scanErr=document.getElementById('scanErr');
+let stream=null, raf=0, lastBad=0;
+function scanError(t){scanErr.textContent=t; scanErr.hidden=false;}
+async function openScan(){
+  scanErr.hidden=true; document.getElementById('scanCode').value=''; scanEl.hidden=false;
+  if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){scanError('이 브라우저에서는 카메라를 쓸 수 없어요. 아래에 코드를 입력해 주세요.'); return;}
+  if(typeof jsQR!=='function'){scanError('스캐너를 불러오지 못했어요. 인터넷 연결을 확인하거나 코드를 입력해 주세요.'); return;}
+  try{
+    stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:'environment'},audio:false});
+    video.srcObject=stream; await video.play(); tick();
+  }catch(e){scanError('카메라를 열 수 없어요. 브라우저 설정에서 카메라 권한을 허용하거나, 아래에 코드를 입력해 주세요.');}
+}
+function closeScan(){cancelAnimationFrame(raf); if(stream){stream.getTracks().forEach(t=>t.stop()); stream=null;} video.srcObject=null; scanEl.hidden=true; document.querySelector('.scan-frame').classList.remove('hit');}
+function handleCode(code,fromCamera){
+  const name=code&&boothFromCode(code);
+  if(!name){ if(!fromCamera) scanError('맞지 않는 코드예요. 다시 확인해 주세요.'); else if(Date.now()-lastBad>2000){lastBad=Date.now(); scanError('이 축제 부스의 QR이 아니에요.');} return false;}
+  document.querySelector('.scan-frame').classList.add('hit'); try{navigator.vibrate&&navigator.vibrate(80);}catch(e){}
+  setTimeout(()=>{closeScan(); markVisited(name);},250); return true;
+}
+function tick(){
+  if(!stream) return;
+  if(video.readyState>=2){
+    const w=video.videoWidth, h=video.videoHeight, s=Math.min(w,h), sc=Math.min(1,640/s);
+    canvas.width=Math.round(s*sc); canvas.height=Math.round(s*sc);
+    const ctx=canvas.getContext('2d',{willReadFrequently:true});
+    ctx.drawImage(video,(w-s)/2,(h-s)/2,s,s,0,0,canvas.width,canvas.height);
+    const img=ctx.getImageData(0,0,canvas.width,canvas.height);
+    const r=jsQR(img.data,img.width,img.height,{inversionAttempts:'dontInvert'});
+    if(r&&r.data){const c=codeFromText(r.data); if(c&&handleCode(c,true)) return; else if(!c&&Date.now()-lastBad>2000){lastBad=Date.now(); scanError('이 축제 부스의 QR이 아니에요.');}}
+  }
+  raf=requestAnimationFrame(tick);
+}
+document.getElementById('scanOpen').addEventListener('click',openScan);
+document.getElementById('scanClose').addEventListener('click',closeScan);
+document.getElementById('scanManual').addEventListener('submit',e=>{e.preventDefault(); handleCode(codeFromText(document.getElementById('scanCode').value)||'',false);});
+/* 카메라 앱으로 QR을 찍어 #v-코드 주소로 들어온 경우 */
+(()=>{const c=codeFromText(location.hash); if(c&&/^#v-/i.test(location.hash)){try{history.replaceState(null,'',location.pathname+location.search);}catch(e){} const name=boothFromCode(c); if(name) setTimeout(()=>markVisited(name),400);}})();
+(()=>{const r=document.getElementById('tourReset'); let t=null;
+  r.addEventListener('click',()=>{if(!r.classList.contains('armed')){r.classList.add('armed'); r.textContent='한 번 더 누르면 지워져요'; clearTimeout(t); t=setTimeout(()=>{r.classList.remove('armed'); r.textContent='기록 지우기';},2500); return;}
+    clearTimeout(t); r.classList.remove('armed'); r.textContent='기록 지우기'; visited.clear(); saveTour(); renderTour(); toast('투어 기록을 지웠어요');});})();
+renderTour();
+
+document.getElementById('topBtn').addEventListener('click',()=>window.scrollTo({top:0,behavior:calm?'auto':'smooth'}));
 
 /* ===== 페이지 이동 (주소 #part1, #part2) ===== */
 const pages=['home','part1','part2']; let inApp=false, pending=null;
