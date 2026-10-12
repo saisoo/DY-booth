@@ -179,6 +179,8 @@ button:focus-visible{outline:3px solid var(--pink);outline-offset:2px}
 .note{font-size:13px;letter-spacing:-.01em}
 .foot{margin-top:36px;padding-block:16px 8px;text-align:center;font-size:12px;font-weight:500;letter-spacing:.02em;color:var(--muted);opacity:.8}
 #part2:not([hidden])~.foot{margin-top:-60px}
+#rows2 .row{grid-template-columns:1fr auto;padding-left:18px}
+#rows2 .row.special{padding-block:14px}
 </style>
 </head>
 <body>
@@ -400,8 +402,7 @@ const PROGRAM2 = [
 const rows2=document.getElementById('rows2'); const heartResets=[];
 PROGRAM2.forEach(([name,kind],n)=>{
   const r=document.createElement('div'); r.className='row static'+(kind?'':' special');
-  r.innerHTML='<span class="no"></span><span class="txt"><span class="t"></span></span>';
-  r.querySelector('.no').textContent=n+1;
+  r.innerHTML='<span class="txt"><span class="t"></span></span>';
   const t=r.querySelector('.t'); const m=name.match(/^참가번호 (\d+번)$/);
   if(m){const a=document.createElement('span'); a.className='lbl'; a.textContent='참가번호'; const b2=document.createElement('span'); b2.className='num'; b2.textContent=m[1]; t.append(a,b2);} else t.textContent=name;
   if(kind){const k=document.createElement('span'); k.className='pill'; k.textContent=kind; t.append(k);
