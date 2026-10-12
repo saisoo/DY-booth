@@ -181,6 +181,7 @@ button:focus-visible{outline:3px solid var(--pink);outline-offset:2px}
 #part2:not([hidden])~.foot{margin-top:-60px}
 #rows2 .row{grid-template-columns:1fr auto;padding-left:18px}
 #rows2 .row.special{padding-block:14px}
+#rows1 .row{grid-template-columns:1fr auto;padding-left:18px}
 </style>
 </head>
 <body>
@@ -377,12 +378,14 @@ const PROGRAM1 = [
   ["슬기로운 전기생활",0]
 ];
 const rows1=document.getElementById('rows1');
-PROGRAM1.forEach(([name,k],n)=>{
-  const bi=list.findIndex(b=>b.name===name); if(bi<0) return;
-  const [org,theme]=list[bi].items[k];
+/* 가나다순 정렬 (한글 먼저, 영문은 뒤) */
+const koSort=new Intl.Collator('ko');
+const isHangul=t=>/^[가-힣]/.test(t);
+const P1=PROGRAM1.map(([name,k])=>{const bi=list.findIndex(b=>b.name===name); return bi<0?null:{bi,org:list[bi].items[k][0],theme:list[bi].items[k][1]};}).filter(Boolean)
+  .sort((a,b)=>(isHangul(b.theme)-isHangul(a.theme))||koSort.compare(a.theme,b.theme));
+P1.forEach(({bi,org,theme})=>{
   const r=document.createElement('button'); r.type='button'; r.className='row';
-  r.innerHTML='<span class="no"></span><span class="txt"><span class="t"></span><span class="o"></span></span><span class="go" aria-hidden="true">위치 보기 ›</span>';
-  r.querySelector('.no').textContent=n+1;
+  r.innerHTML='<span class="txt"><span class="t"></span><span class="o"></span></span><span class="go" aria-hidden="true">위치 보기 ›</span>';
   r.querySelector('.t').textContent=theme;
   r.querySelector('.o').textContent=org;
   r.addEventListener('click',()=>goToBooth(bi));
@@ -495,5 +498,3 @@ document.addEventListener('keydown',e=>{
 </script>
 </body>
 </html>
-
-
