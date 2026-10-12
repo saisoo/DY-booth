@@ -118,6 +118,14 @@ button:focus-visible{outline:3px solid var(--pink);outline-offset:2px}
 .heart:active{transform:scale(.88)}
 .heart.pop{animation:hpop .3s ease-out}
 @keyframes hpop{40%{transform:scale(1.25)}}
+#part2{padding-bottom:84px}
+.reset-wrap{position:fixed;right:16px;bottom:calc(20px + env(safe-area-inset-bottom,0px));z-index:15;display:flex;align-items:center;gap:8px}
+.reset-btn{width:48px;height:48px;border-radius:50%;border:1px solid rgba(255,255,255,.5);background:rgba(43,35,102,.55);color:#fff;display:grid;place-items:center;cursor:pointer;
+  -webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);box-shadow:0 6px 18px rgba(43,35,102,.3);touch-action:manipulation}
+.reset-btn.armed{background:rgba(255,77,126,.85)}
+.reset-btn.spin svg{animation:spin .6s ease-out}
+@keyframes spin{to{transform:rotate(360deg)}}
+.reset-tip{background:rgba(43,35,102,.85);color:#fff;font-size:13px;font-weight:700;padding:8px 12px;border-radius:999px;white-space:nowrap}
 #hearts{position:fixed;inset:0;pointer-events:none;z-index:20;overflow:hidden}
 .fh{position:absolute;font-size:24px;line-height:1;will-change:transform,opacity;animation:fly var(--d,1.6s) ease-out forwards}
 @keyframes fly{0%{transform:translate(-50%,-50%) scale(.4);opacity:0}12%{opacity:1;transform:translate(-50%,-70%) scale(1.1)}100%{transform:translate(calc(-50% + var(--x)),calc(-50% - var(--y))) scale(var(--s)) rotate(var(--r));opacity:0}}
@@ -195,6 +203,12 @@ button:focus-visible{outline:3px solid var(--pink);outline-offset:2px}
     </header>
     <div class="rows" id="rows2"></div>
     <p class="note">※ 순번은 상황에 따라 변경될 수 있어요.</p>
+    <div class="reset-wrap">
+      <span class="reset-tip" id="resetTip" hidden>한 번 더 누르면 초기화</span>
+      <button type="button" class="reset-btn" id="resetBtn" aria-label="하트 숫자 초기화">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 12a8 8 0 1 1-2.34-5.66"/><path d="M20 4v5h-5"/></svg>
+      </button>
+    </div>
   </section>
 </div>
 
@@ -354,7 +368,7 @@ const PROGRAM2 = [
   ["참가번호 12번","밴드 공연"],["참가번호 13번","밴드 공연"],
   ["시상식",""]
 ];
-const rows2=document.getElementById('rows2');
+const rows2=document.getElementById('rows2'); const heartResets=[];
 PROGRAM2.forEach(([name,kind],n)=>{
   const r=document.createElement('div'); r.className='row static'+(kind?'':' special');
   r.innerHTML='<span class="no"></span><span class="txt"><span class="t"></span></span>';
@@ -367,6 +381,7 @@ PROGRAM2.forEach(([name,kind],n)=>{
     let cnt=0; try{cnt=+localStorage.getItem(key)||0;}catch(e){}
     c.textContent=cnt||'';
     h.addEventListener('click',()=>{burst(h); cnt++; c.textContent=cnt; try{localStorage.setItem(key,cnt);}catch(e){}});
+    heartResets.push(()=>{cnt=0; c.textContent=''; try{localStorage.removeItem(key);}catch(e){}});
     const w=document.createElement('div'); w.className='hwrap'; w.append(h,c); r.append(w);}
   rows2.append(r);
 });
@@ -394,6 +409,16 @@ function burst(btn){
     heartLayer.append(e);
   }
 }
+
+/* ===== 하트 초기화 (두 번 눌러 확인) ===== */
+(()=>{const btn=document.getElementById('resetBtn'), tip=document.getElementById('resetTip'); let t=null;
+  btn.addEventListener('click',()=>{
+    if(!btn.classList.contains('armed')){btn.classList.add('armed'); tip.hidden=false; tip.textContent='한 번 더 누르면 초기화';
+      clearTimeout(t); t=setTimeout(()=>{btn.classList.remove('armed'); tip.hidden=true;},2500); return;}
+    clearTimeout(t); btn.classList.remove('armed'); heartResets.forEach(fn=>fn());
+    btn.classList.remove('spin'); void btn.offsetWidth; btn.classList.add('spin');
+    tip.textContent='초기화했어요'; t=setTimeout(()=>{tip.hidden=true;},1500);
+  });})();
 
 /* ===== 페이지 이동 (주소 #part1, #part2) ===== */
 const pages=['home','part1','part2']; let inApp=false, pending=null;
