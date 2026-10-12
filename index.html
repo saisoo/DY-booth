@@ -151,6 +151,32 @@ button:focus-visible{outline:3px solid var(--pink);outline-offset:2px}
 @keyframes pop{from{transform:translateY(10px) scale(.97);opacity:0}}
 @keyframes fade{from{opacity:0}}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+/* 프로그램 화면: 배치도와 같은 남색 판 + 흰 칩 */
+.rows{background:linear-gradient(160deg,#3a2c86 0%,#2b2366 100%);border:0;border-radius:20px;padding:12px;gap:8px;box-shadow:0 14px 34px rgba(43,35,102,.28)}
+.row{box-sizing:border-box;background:#fff;border:0;border-radius:12px;padding:12px 12px 12px 6px}
+.row:last-child{border:0}
+.row .no{color:#8a5cff}
+.row .go{color:#8a5cff}
+.row.special{background:linear-gradient(100deg,#ff5e7e,#8a5cff 60%,#2aa5f5)}
+.row.special .t,.row.special .no,.row.static.special:hover .t{color:#fff}
+.row .pill{background:#efeaff;color:#4a3aa8}
+.note{color:var(--muted)}
+.part-btn .tab{background:linear-gradient(160deg,#3a2c86 0%,#2b2366 100%)}
+.part-btn .body{background:#fff;border:0;box-shadow:0 10px 24px rgba(43,35,102,.15)}
+.prog-entry h2{color:var(--navy)}
+/* 프로그램 화면 글꼴 정리 */
+.phead h1{font-size:26px;letter-spacing:-.03em;margin-bottom:6px}
+.phead p{font-size:14px;font-weight:500;letter-spacing:-.01em;opacity:.85}
+.phead .meta{font-size:14px;font-weight:500;font-variant-numeric:tabular-nums;gap:4px 18px}
+.row .no{font-size:15px;font-weight:800;letter-spacing:-.02em}
+.row .t{font-size:15.5px;font-weight:700;letter-spacing:-.025em;line-height:1.45}
+.row .o{font-size:12.5px;font-weight:500;letter-spacing:-.01em;margin-top:2px}
+.row .go{font-size:12.5px;letter-spacing:-.01em}
+.row .pill{font-size:12px;font-weight:700;letter-spacing:-.01em;padding:3px 9px;vertical-align:1px}
+.row .t .lbl{font-weight:500;color:var(--muted);margin-right:3px}
+.row .t .num{font-weight:800;font-variant-numeric:tabular-nums}
+.row.special .t{font-size:16px;font-weight:800;letter-spacing:.02em}
+.note{font-size:13px;letter-spacing:-.01em}
 </style>
 </head>
 <body>
@@ -173,7 +199,7 @@ button:focus-visible{outline:3px solid var(--pink);outline-offset:2px}
       <h2 class="title">부스 배치도</h2>
       <div class="field" aria-hidden="true">잔디광장</div>
     </div>
-    <p class="legend"><span class="lg"><span class="dot" aria-hidden="true"></span>스탬프 받는 곳 · 학생자치회, 그래픽 SW과</span><span class="lg"><span class="sq" aria-hidden="true"></span>스탬프 교환소</span></p>
+    <p class="legend"><span class="lg"><span class="dot" aria-hidden="true"></span>스탬프 받는 곳</span><span class="lg"><span class="sq" aria-hidden="true"></span>스탬프 교환소</span></p>
     <p class="hint" id="hint">부스를 누르면 소개가 나와요</p>
     <div class="prog-entry">
       <h2>프로그램 보기</h2>
@@ -373,7 +399,8 @@ PROGRAM2.forEach(([name,kind],n)=>{
   const r=document.createElement('div'); r.className='row static'+(kind?'':' special');
   r.innerHTML='<span class="no"></span><span class="txt"><span class="t"></span></span>';
   r.querySelector('.no').textContent=n+1;
-  const t=r.querySelector('.t'); t.textContent=name;
+  const t=r.querySelector('.t'); const m=name.match(/^참가번호 (\d+번)$/);
+  if(m){const a=document.createElement('span'); a.className='lbl'; a.textContent='참가번호'; const b2=document.createElement('span'); b2.className='num'; b2.textContent=m[1]; t.append(a,b2);} else t.textContent=name;
   if(kind){const k=document.createElement('span'); k.className='pill'; k.textContent=kind; t.append(k);
     const h=document.createElement('button'); h.type='button'; h.className='heart'; h.textContent='\u2665\uFE0E';
     h.setAttribute('aria-label',name+' 응원하기');
