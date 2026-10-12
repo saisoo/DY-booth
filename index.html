@@ -200,7 +200,26 @@ button:focus-visible{outline:3px solid var(--pink);outline-offset:2px}
 .tour-label{display:block;font-size:12px;font-weight:700;color:#8a5cff;letter-spacing:.02em}
 .tour-num{font-size:28px;font-weight:900;color:var(--navy);letter-spacing:-.03em;font-variant-numeric:tabular-nums;line-height:1.1}
 .tour-num small{font-size:16px;font-weight:700;color:var(--muted)}
-.tour-badge{font-size:12px;font-weight:700;color:#fff;background:linear-gradient(100deg,#ff5e7e,#8a5cff 60%,#2aa5f5);padding:6px 11px;border-radius:999px;white-space:nowrap}
+.tour-badge{display:inline-flex;align-items:center;gap:6px;border:0;cursor:pointer;font-family:inherit;font-size:12.5px;font-weight:700;color:#fff;background:linear-gradient(100deg,#ff5e7e,#8a5cff 60%,#2aa5f5);padding:7px 12px;border-radius:999px;white-space:nowrap;box-shadow:0 6px 14px rgba(138,92,255,.3);touch-action:manipulation;animation:nudge 2.8s ease-in-out infinite}
+.tour-badge:active{transform:scale(.95)}
+@keyframes nudge{0%,86%,100%{transform:rotate(0)}89%{transform:rotate(-6deg)}92%{transform:rotate(6deg)}95%{transform:rotate(-3deg)}}
+.slot-scrim{position:fixed;inset:0;z-index:36;background:rgba(20,14,60,.6);display:grid;place-items:center;padding:16px;animation:fade .15s}
+.slot-card{position:relative;width:min(360px,100%);box-sizing:border-box;background:linear-gradient(160deg,#3a2c86,#2b2366);color:#fff;border-radius:22px;padding:22px 18px 18px;text-align:center;box-shadow:0 24px 60px rgba(0,0,0,.4);animation:pop .2s ease-out}
+.slot-title{margin:0 0 14px;font-weight:800;font-size:16px;letter-spacing:-.01em;color:#c9bfff}
+.slot-window{position:relative;height:76px;overflow:hidden;border-radius:14px;background:#fff;box-shadow:inset 0 0 0 3px #ffe24a,0 0 0 4px rgba(255,226,74,.25)}
+.slot-reel{will-change:transform}
+.slot-reel div{height:76px;display:grid;place-items:center;padding:0 12px;font-weight:900;font-size:22px;letter-spacing:-.03em;color:#2b2366;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.slot-shade{position:absolute;inset:0;pointer-events:none;background:linear-gradient(#fff 0%,rgba(255,255,255,0) 28%,rgba(255,255,255,0) 72%,#fff 100%);opacity:.75}
+.slot-window.done{animation:win .5s ease-out}
+@keyframes win{30%{transform:scale(1.06)}}
+.slot-result{margin-top:14px}
+.slot-theme{margin:0 0 14px;font-size:14px;line-height:1.5;color:rgba(255,255,255,.85);word-break:keep-all}
+.slot-actions{display:flex;gap:8px}
+.slot-actions button{flex:1;border:0;border-radius:12px;padding:13px 8px;font-family:inherit;font-weight:800;font-size:15px;cursor:pointer}
+.slot-again{background:rgba(255,255,255,.14);color:#fff}
+.slot-go{background:linear-gradient(100deg,#ff5e7e,#8a5cff 60%,#2aa5f5);color:#fff}
+.slot-close{position:absolute;top:10px;right:12px;width:32px;height:32px;border:0;border-radius:50%;background:rgba(255,255,255,.12);color:#fff;font-size:14px;cursor:pointer}
+
 .tour-bar{height:10px;border-radius:999px;background:#ece8f8;overflow:hidden}
 .tour-bar i{display:block;height:100%;width:0;border-radius:999px;background:linear-gradient(90deg,#ff5e7e,#8a5cff 60%,#2aa5f5);transition:width .5s cubic-bezier(.2,.8,.2,1)}
 .tour-foot{display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:12.5px;color:var(--muted)}
@@ -277,7 +296,7 @@ button:focus-visible{outline:3px solid var(--pink);outline-offset:2px}
     <section class="tour" aria-label="나의 부스 투어">
       <div class="tour-top">
         <div><span class="tour-label">나의 부스 투어</span><b class="tour-num"><span id="tourCount">0</span><small> / <span id="tourTotal">0</span></small></b></div>
-        <span class="tour-badge" id="tourBadge">시작해 볼까요?</span>
+        <button type="button" class="tour-badge" id="slotBtn" aria-label="안 가 본 부스 추천받기"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 3h5v5"/><path d="M4 20 21 3"/><path d="M21 16v5h-5"/><path d="m15 15 6 6"/><path d="M4 4l5 5"/></svg><span id="tourBadge">시작해 볼까요?</span></button>
       </div>
       <div class="tour-bar"><i id="tourFill"></i></div>
       <button type="button" class="scan-btn" id="scanOpen"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8V5a1 1 0 0 1 1-1h3M16 4h3a1 1 0 0 1 1 1v3M20 16v3a1 1 0 0 1-1 1h-3M8 20H5a1 1 0 0 1-1-1v-3"/><path d="M7 12h10"/></svg>부스 QR 스캔하기</button>
@@ -352,6 +371,20 @@ button:focus-visible{outline:3px solid var(--pink);outline-offset:2px}
       <div><input id="scanCode" size="6" maxlength="6" placeholder="예: ABC123" autocapitalize="characters" spellcheck="false"><button type="submit">확인</button></div>
     </form>
     <button type="button" class="scan-close" id="scanClose">닫기</button>
+  </div>
+</div>
+<div class="slot-scrim" id="slot" hidden role="dialog" aria-modal="true" aria-labelledby="slotTitle">
+  <div class="slot-card">
+    <p class="slot-title" id="slotTitle">오늘의 추천 부스는…</p>
+    <div class="slot-window"><div class="slot-reel" id="slotReel"></div><i class="slot-shade"></i></div>
+    <div class="slot-result" id="slotResult" hidden>
+      <p class="slot-theme" id="slotTheme"></p>
+      <div class="slot-actions">
+        <button type="button" class="slot-again" id="slotAgain">다시 돌리기</button>
+        <button type="button" class="slot-go" id="slotGo">위치 보기</button>
+      </div>
+    </div>
+    <button type="button" class="slot-close" id="slotClose" aria-label="닫기">✕</button>
   </div>
 </div>
 <div class="scrim" id="scrim" hidden>
@@ -476,7 +509,7 @@ function openBooth(i){clearFind(); lastFocus=document.activeElement; show(i); if
 /* 뒤로가기 제스처로 팝업 닫기 */
 function pushOv(name){try{history.pushState({ov:name},'');}catch(e){}}
 const ovIs=name=>{try{return history.state&&history.state.ov===name;}catch(e){return false;}};
-function closeBooth(){if(ovIs('booth')){history.back(); return;} hideBooth();}
+function closeBooth(){const back=ovIs('booth'); hideBooth(); if(back){try{history.back();}catch(e){}}}
 function hideBooth(){scrim.hidden=true; btns.forEach(x=>x.classList.remove('on')); lastFocus&&lastFocus.focus&&lastFocus.focus();}
 /* ===== 1부 프로그램 (연번 순서) =====
    [배치도 표시 이름, 그 칸 안의 몇 번째 팀인지(0부터)] */
@@ -623,6 +656,39 @@ function markVisited(name){
 }
 visitBtn.addEventListener('click',()=>{if(visited.has(list[cur].name)) return; hideBooth(); openScan();});
 
+/* ===== 슬롯머신 부스 추천 ===== */
+(()=>{
+  const el=document.getElementById('slot'), reel=document.getElementById('slotReel'), win=el.querySelector('.slot-window');
+  const res=document.getElementById('slotResult'), theme=document.getElementById('slotTheme'), title=document.getElementById('slotTitle');
+  let pick=-1, spinning=false, H=76;
+  const pool=()=>TOUR.filter(i=>!visited.has(list[i].name));
+  function spin(){
+    const left=pool(); if(!left.length){toast('모든 부스를 다 돌았어요! 스탬프 교환소로 가 보세요'); hide(); return;}
+    spinning=true; res.hidden=true; win.classList.remove('done'); title.textContent='오늘의 추천 부스는…';
+    pick=left[Math.floor(Math.random()*left.length)];
+    const names=[]; for(let k=0;k<34;k++) names.push(list[TOUR[Math.floor(Math.random()*TOUR.length)]].name);
+    names.push(list[pick].name);
+    reel.replaceChildren(...names.map(n=>{const d=document.createElement('div'); d.textContent=n; return d;}));
+    reel.style.transition='none'; reel.style.transform='translateY(0)'; void reel.offsetHeight;
+    const dur=calm?0.01:2.6;
+    reel.style.transition='transform '+dur+'s cubic-bezier(.12,.75,.15,1)';
+    reel.style.transform='translateY(-'+((names.length-1)*H)+'px)';
+    setTimeout(()=>{spinning=false; win.classList.add('done'); try{navigator.vibrate&&navigator.vibrate(60);}catch(e){}
+      title.textContent=left.length===1?'마지막 남은 부스!':'여기 가 보는 건 어때요?';
+      theme.textContent=list[pick].items.map(x=>x[1]).join(' / '); res.hidden=false; document.getElementById('slotGo').focus();},dur*1000+50);
+  }
+  function show(){if(!el.hidden) return; el.hidden=false; pushOv('slot'); spin();}
+  function hide(){el.hidden=true;}
+  function close(){const back=ovIs('slot'); hide(); if(back){try{history.back();}catch(e){}}}
+  document.getElementById('slotBtn').addEventListener('click',show);
+  document.getElementById('slotAgain').addEventListener('click',()=>{if(!spinning) spin();});
+  document.getElementById('slotClose').addEventListener('click',close);
+  el.addEventListener('click',e=>{if(e.target===el&&!spinning) close();});
+  document.getElementById('slotGo').addEventListener('click',()=>{const i=pick; close(); setTimeout(()=>markBooth(i),120);});
+  window.addEventListener('popstate',()=>{if(!el.hidden) hide();});
+  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!el.hidden) close();});
+})();
+
 /* ===== QR 스캔 인증 ===== */
 const CODE_HASH={"995ea8e7": "체육과", "9640eb29": "스포츠 규칙 연구", "18578492": "사무행정", "75d875a2": "창업 시뮬레이션", "523ff841": "전자상거래 실무", "35b513ea": "모의창업반", "bbe95c46": "육군인사 사령부", "863ab076": "한국사", "57563004": "사회과", "64ecc327": "인성복지부", "cacbae24": "국제교류", "82917437": "중국문화체험", "f61721db": "일본어", "5ca2ac16": "학생자치회", "478902fa": "정보.지속가능 업사이클링", "1465ad8f": "정보처리와 관리", "388be1f3": "수학과", "efe0dc84": "글로벌 시사포럼", "ea556f80": "영어과", "0a5a2258": "과학과", "8a99086e": "교양독서 발표반", "6b5cfe6c": "국어과", "b1577aec": "보건간호과", "7eb0f5bd": "2학년 6반 페이스페인팅", "2f0c9d37": "굿즈 창작반", "14d872ba": "일러스트 창작반", "a9ccc5b7": "그래픽 SW과", "44fd2ccc": "컴퓨터시스템 정비", "0d546920": "공공데이터 활용반", "63f366e5": "메이크 디자인", "690b2f1c": "메이크 웹", "0ee3bb1f": "메이크 게임개발", "cdcb985f": "메이크 정보보안", "319d4ca6": "메이크 인공지능", "5ac7ac89": "창업체험 교육", "cef97f44": "캡스톤 디자인", "e3bd65fe": "STEAM 클럽", "0891391f": "용인 디지털", "54578eef": "AI 디지털", "e29f5abd": "진로진학/ 도서관", "19a9b3e4": "위클래스/ 보건실", "0b23d970": "슬기로운 전기생활", "e0bfecfc": "미술반", "92423907": "생태학교 환경부스"};
 const fnv=s=>{let h=0x811c9dc5; for(const b of new TextEncoder().encode(s)){h^=b; h=Math.imul(h,0x01000193)>>>0;} return h.toString(16).padStart(8,'0');};
@@ -641,7 +707,7 @@ async function openScan(){
     video.srcObject=stream; await video.play(); tick();
   }catch(e){scanError('카메라를 열 수 없어요. 브라우저 설정에서 카메라 권한을 허용하거나, 아래에 코드를 입력해 주세요.');}
 }
-function closeScan(){if(ovIs('scan')){history.back(); return;} hideScan();}
+function closeScan(){const back=ovIs('scan'); hideScan(); if(back){try{history.back();}catch(e){}}}
 function hideScan(){cancelAnimationFrame(raf); if(stream){stream.getTracks().forEach(t=>t.stop()); stream=null;} video.srcObject=null; scanEl.hidden=true; document.querySelector('.scan-frame').classList.remove('hit');}
 function handleCode(code,fromCamera){
   const name=code&&boothFromCode(code);
