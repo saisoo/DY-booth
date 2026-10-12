@@ -33,13 +33,14 @@ button:focus-visible{outline:3px solid var(--pink);outline-offset:2px}
    radial-gradient(circle at 2% 42%,var(--pink) 0 5px,transparent 6px),
    radial-gradient(circle at 97% 8%,var(--red) 0 8px,transparent 9px),
    radial-gradient(circle at 98% 40%,var(--navy) 0 7px,transparent 8px)}
-.year{font-weight:900;font-size:22px;color:var(--navy);letter-spacing:.04em}
-.name{font-weight:900;font-size:clamp(34px,10vw,52px);line-height:1.1;margin-top:2px;display:flex;flex-wrap:wrap;justify-content:center;align-items:baseline;gap:0 .3em}
-.name span{-webkit-text-stroke:2px var(--navy);paint-order:stroke fill;text-shadow:3px 3px 0 var(--navy)}
+.year{font-weight:900;font-size:17px;color:var(--navy);letter-spacing:.2em;opacity:.85}
+.name{font-weight:900;font-size:clamp(34px,10.5vw,54px);line-height:1.15;letter-spacing:-.04em;margin-top:4px;display:flex;flex-wrap:wrap;justify-content:center;align-items:baseline;gap:0 .3em}
+.name span{text-shadow:none}
 .dy{color:var(--pink)}
-.name .fe{color:var(--navy);-webkit-text-stroke:0;text-shadow:3px 3px 0 #fff}
+.name .fe{color:var(--navy)}
 .ras i{font-style:normal}
-.ras .r{color:var(--red)} .ras .a{color:var(--lime)} .ras .s{color:var(--rblue)}
+.ras{letter-spacing:-.02em}
+.ras .r{color:var(--red)} .ras .a{color:#9fb514} .ras .s{color:var(--rblue)}
 .ribbon{display:inline-block;margin-top:12px;background:var(--orange);color:var(--navy);font-weight:500;font-size:14px;padding:6px 22px;
   clip-path:polygon(0 0,100% 0,96% 50%,100% 100%,0 100%,4% 50%)}
 .when{margin-top:14px;background:var(--blue);color:#fff;border-radius:14px;padding:12px 14px;font-size:15px;line-height:1.55}
@@ -65,10 +66,14 @@ button:focus-visible{outline:3px solid var(--pink);outline-offset:2px}
 @keyframes ping{0%{box-shadow:0 0 0 0 rgba(225,79,124,.75)}100%{box-shadow:0 0 0 4cqw rgba(225,79,124,0)}}
 .hint.found{color:var(--navy);font-weight:700}
 .hint.found b{color:var(--pink)}
-.stamp{position:absolute;z-index:3;width:7.6cqw;aspect-ratio:1;max-width:100%;border-radius:50%;padding:0;cursor:pointer;
-  display:grid;place-items:center;background:#fff;color:var(--red);border:.5cqw double var(--red);
-  font-weight:900;font-size:2cqw;letter-spacing:-.02em;line-height:1;transform:rotate(-14deg);box-shadow:0 .4cqw 1cqw rgba(30,20,80,.3)}
-.stamp:hover{background:var(--yellow)}
+.stamp{position:absolute;z-index:3;width:7cqw;aspect-ratio:1;border-radius:50%;padding:0;cursor:pointer;
+  display:grid;place-items:center;background:var(--red);color:#fff;border:.35cqw solid #fff;box-shadow:0 0 0 .35cqw var(--red),0 .6cqw 1.2cqw rgba(30,20,80,.35);
+  font-weight:900;font-size:1.65cqw;letter-spacing:-.04em;line-height:1;transform:rotate(-14deg)}
+.stamp:hover{background:var(--pink)}
+.booth.stamp-booth{border:2px solid var(--red);box-shadow:inset 0 0 0 .3cqw rgba(232,69,60,.15)}
+.legend{display:flex;justify-content:center;align-items:center;gap:8px;margin:8px 0 0;font-size:14px;font-weight:700;color:var(--navy)}
+.legend .dot{width:16px;height:16px;border-radius:50%;background:var(--red);box-shadow:0 0 0 2px #fff,0 0 0 4px var(--red)}
+.stamp-note{margin-top:12px;padding:10px 12px;border-radius:12px;background:#fdeceb;color:var(--red);font-weight:700;font-size:14px;line-height:1.5}
 .gate{position:absolute;right:3.5%;top:2.2%;font-weight:700;font-size:2.5cqw;letter-spacing:.2em;padding:.6cqw 1.2cqw .6cqw 1.6cqw;border:1px solid rgba(255,255,255,.75);border-radius:1cqw;background:rgba(255,255,255,.18);color:rgba(255,255,255,.95);pointer-events:none}
 .empty{position:absolute;box-sizing:border-box;border:1px solid var(--navy);background:var(--paper);
   background-image:linear-gradient(to top right,transparent calc(50% - .5px),var(--navy) 50%,transparent calc(50% + .5px))}
@@ -141,6 +146,7 @@ button:focus-visible{outline:3px solid var(--pink);outline-offset:2px}
       <div class="field" aria-hidden="true">운동장</div>
       <div class="gate">정문</div>
     </div>
+    <p class="legend"><span class="dot" aria-hidden="true"></span>스탬프 받는 곳 · 학생자치회</p>
     <p class="hint" id="hint">부스를 누르면 소개가 나와요</p>
     <div class="prog-entry">
       <h2>프로그램 보기</h2>
@@ -268,9 +274,10 @@ const btns=list.map((b,i)=>{
 
 /* 학생자치회 옆 도장 표시 */
 (()=>{const i=list.findIndex(b=>b.name==='학생자치회'); if(i<0)return; const b=list[i];
-  const s=document.createElement('button'); s.type='button'; s.className='stamp'; s.textContent='도장';
+  btns[i].classList.add('stamp-booth');
+  const s=document.createElement('button'); s.type='button'; s.className='stamp'; s.textContent='스탬프';
   s.setAttribute('aria-label','스탬프 찍는 곳: 학생자치회');
-  Object.assign(s.style,{left:pct(b.x+b.w+5,W),top:pct(b.y+b.h/2-22,H)});
+  Object.assign(s.style,{left:pct(b.x+b.w-18,W),top:pct(b.y-16,H)});
   s.addEventListener('click',()=>openBooth(i)); map.appendChild(s);})();
 const scrim=document.getElementById('scrim'); let cur=-1, lastFocus=null;
 function show(i){
@@ -283,8 +290,9 @@ function show(i){
     const t=document.createElement('div'); t.className='theme'; t.textContent=theme; it.append(t);
     pBody.append(it);
   });
+  if(b.name==='학생자치회'){const n=document.createElement('div'); n.className='stamp-note'; n.textContent='부스를 둘러보고 이곳에서 스탬프를 받으세요!'; pBody.append(n);}
 }
-function openBooth(i){lastFocus=document.activeElement; show(i); scrim.hidden=false; document.getElementById('close').focus();}
+function openBooth(i){clearFind(); lastFocus=document.activeElement; show(i); scrim.hidden=false; document.getElementById('close').focus();}
 function closeBooth(){scrim.hidden=true; btns.forEach(x=>x.classList.remove('on')); lastFocus&&lastFocus.focus&&lastFocus.focus();}
 /* ===== 1부 프로그램 (연번 순서) =====
    [배치도 표시 이름, 그 칸 안의 몇 번째 팀인지(0부터)] */
@@ -359,6 +367,8 @@ function route(){
 }
 document.querySelectorAll('[data-go]').forEach(b=>b.addEventListener('click',()=>{inApp=true; location.hash=b.dataset.go;}));
 document.querySelectorAll('.back').forEach(b=>b.addEventListener('click',goHome));
+/* 화면 아무 곳이나 누르면 분홍 위치 표시 해제 */
+document.addEventListener('click',e=>{if(pending===null && !e.target.closest('.row') && document.querySelector('.booth.find')) clearFind();});
 window.addEventListener('hashchange',route);
 route();
 
