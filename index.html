@@ -275,7 +275,7 @@ button:focus-visible{outline:3px solid var(--pink);outline-offset:2px}
       <h2 class="title">부스 배치도</h2>
       <div class="field"><div class="fl"><span aria-hidden="true">잔디광장</span><p class="hint" id="hint">부스를 누르면 소개가 나와요</p></div></div>
     </div>
-    <p class="legend"><span class="lg"><span class="dot" aria-hidden="true"></span>스탬프 받는 곳</span><span class="lg"><span class="sq" aria-hidden="true"></span>스탬프 교환소</span></p>
+    <p class="legend"><span class="lg"><span class="sq" aria-hidden="true"></span>스탬프 교환소</span></p>
     <div class="prog-entry">
       <h2>프로그램 보기</h2>
       <div class="parts">
@@ -438,7 +438,7 @@ const btns=list.map((b,i)=>{
 });
 
 /* 스탬프 받는 곳 (배치도 이름) */
-const STAMP_BOOTHS=['학생자치회','그래픽 SW과'];
+const STAMP_BOOTHS=[]; /* QR 투어에서는 모든 부스가 인증 장소라 따로 표시하지 않아요 */
 STAMP_BOOTHS.forEach(name=>{const i=list.findIndex(b=>b.name===name); if(i<0)return; const b=list[i];
   btns[i].classList.add('stamp-booth');
   const s=document.createElement('button'); s.type='button'; s.className='stamp'; s.textContent='스탬프';
