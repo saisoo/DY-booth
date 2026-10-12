@@ -28,6 +28,7 @@
   --accent:#a3a6ff; --sheet:#1d1f45; --scrim:rgba(0,0,0,.6);
   --title:#fff3c4; --field-ink:#23266f; --theme-c:#eeeefc; color-scheme:dark}
 html,body{height:100%}
+[hidden]{display:none!important}
 body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);padding:16px;box-sizing:border-box}
 .wrap{max-width:640px;margin:0 auto}
 .map{position:relative;width:100%;aspect-ratio:580/822;background:var(--ground);border-radius:6px;container-type:inline-size;overflow:hidden;box-shadow:0 1px 0 var(--line)}
@@ -50,7 +51,7 @@ body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);padd
 .card{background:var(--sheet);color:var(--fg,inherit);width:min(440px,100%);border-radius:16px;padding:22px 22px 18px;box-shadow:0 20px 60px rgba(0,0,0,.3);animation:pop .18s ease-out;box-sizing:border-box}
 .card{color:var(--muted)}
 .loc{display:inline-block;font-size:13px;letter-spacing:.06em;color:var(--accent);border:1px solid currentColor;border-radius:999px;padding:3px 10px}
-.card h2{font-family:var(--display);font-weight:400;font-size:28px;margin:12px 0 10px;color:var(--accent);text-wrap:balance;line-height:1.2}
+.card h2{font-family:var(--display);font-weight:400;font-size:28px;margin:0 0 10px;color:var(--accent);text-wrap:balance;line-height:1.2}
 :root .card h2{color:var(--title-c,var(--accent))}
 .items{display:grid;gap:12px}
 .item{display:grid;gap:4px;padding-top:12px;border-top:1px dashed var(--line)}
@@ -78,7 +79,6 @@ body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);padd
 
 <div class="scrim" id="scrim" hidden>
   <div class="card" role="dialog" aria-modal="true" aria-labelledby="pTitle">
-    <span class="loc" id="pLoc"></span>
     <h2 id="pTitle"></h2>
     <div id="pBody" class="items"></div>
     <div class="nav">
@@ -166,7 +166,7 @@ const btns=list.map((b,i)=>{
   el.type='button'; el.className='booth'+(b.stage?' stage':'')+(b.name.length>8?' small':'');
   el.textContent=b.name;
   Object.assign(el.style,{left:pct(b.x,W),top:pct(b.y,H),width:pct(b.w,W),height:pct(b.h,H)});
-  el.addEventListener('click',()=>open(i));
+  el.addEventListener('click',()=>openBooth(i));
   map.appendChild(el); return el;
 });
 
@@ -174,7 +174,7 @@ const scrim=document.getElementById('scrim'); let cur=-1, lastFocus=null;
 function show(i){
   cur=(i+list.length)%list.length; const b=list[cur];
   btns.forEach(x=>x.classList.remove('on')); btns[cur].classList.add('on');
-  pLoc.textContent=b.loc; pTitle.textContent=b.name; pBody.replaceChildren();
+  pTitle.textContent=b.name; pBody.replaceChildren();
   b.items.forEach(([org,theme])=>{
     const it=document.createElement('div'); it.className='item';
     if(org){const o=document.createElement('div'); o.className='org'; o.textContent=org; it.append(o);}
@@ -182,15 +182,15 @@ function show(i){
     pBody.append(it);
   });
 }
-function open(i){lastFocus=document.activeElement; show(i); scrim.hidden=false; document.getElementById('close').focus();}
-function close(){scrim.hidden=true; btns.forEach(x=>x.classList.remove('on')); lastFocus&&lastFocus.focus&&lastFocus.focus();}
-document.getElementById('close').onclick=close;
+function openBooth(i){lastFocus=document.activeElement; show(i); scrim.hidden=false; document.getElementById('close').focus();}
+function closeBooth(){scrim.hidden=true; btns.forEach(x=>x.classList.remove('on')); lastFocus&&lastFocus.focus&&lastFocus.focus();}
+document.getElementById('close').onclick=closeBooth;
 document.getElementById('prev').onclick=()=>show(cur-1);
 document.getElementById('next').onclick=()=>show(cur+1);
-scrim.addEventListener('click',e=>{if(e.target===scrim)close();});
+scrim.addEventListener('click',e=>{if(e.target===scrim)closeBooth();});
 document.addEventListener('keydown',e=>{
   if(scrim.hidden)return;
-  if(e.key==='Escape')close();
+  if(e.key==='Escape')closeBooth();
   if(e.key==='ArrowLeft')show(cur-1);
   if(e.key==='ArrowRight')show(cur+1);
 });
