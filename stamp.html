@@ -286,6 +286,26 @@ button:focus-visible{outline:3px solid var(--pink);outline-offset:2px}
 .tour-label{font-size:11.5px}
 .scan-btn{padding:11px;font-size:15px}
 .tour-foot{font-size:12px}
+.map-sheet{position:fixed;inset:0;z-index:38;background:rgba(20,14,60,.5);display:flex;align-items:flex-end;justify-content:center;padding:12px 12px calc(12px + env(safe-area-inset-bottom,0px));animation:fade .15s}
+.ms-card{width:min(420px,100%);display:grid;gap:8px;animation:sheetUp .22s ease-out}
+@keyframes sheetUp{from{transform:translateY(30px);opacity:0}}
+.ms-title{margin:0;padding:12px;text-align:center;font-size:13px;font-weight:700;color:var(--muted);background:#fff;border-radius:14px 14px 0 0;margin-bottom:-8px;border-bottom:1px solid #eee}
+.ms-list{display:grid;background:#fff;border-radius:0 0 14px 14px;overflow:hidden}
+.ms-list button{display:flex;align-items:center;gap:12px;padding:14px 18px;border:0;border-top:1px solid #f0eef6;background:#fff;font-family:inherit;font-size:16px;font-weight:700;color:var(--navy);cursor:pointer;text-align:left}
+.ms-list button:first-child{border-top:0}
+.ms-list i{width:30px;height:30px;border-radius:8px;display:grid;place-items:center;font-style:normal;font-weight:900;font-size:15px;color:#fff;flex:none}
+.ms-cancel{padding:14px;border:0;border-radius:14px;background:#fff;font-family:inherit;font-size:16px;font-weight:800;color:var(--navy);cursor:pointer}
+.store-warn{margin:0;padding:9px 12px;border-radius:10px;background:#fff1f3;color:#b0213a;font-size:12.5px;font-weight:500;line-height:1.45;word-break:keep-all}
+.store-warn b{font-weight:800}
+.tour-note{margin:-2px 0 0;font-size:11.5px;color:var(--muted);opacity:.8;word-break:keep-all}
+.tour-label{-webkit-user-select:none;user-select:none;cursor:default}
+.tour-label.armed{color:var(--pink)}
+.tour-note b{font-weight:700;color:var(--navy)}
+.scan-err{white-space:pre-line;word-break:keep-all}
+.tour-note{font-size:min(11.5px,2.45vw)!important;letter-spacing:-.04em;line-height:1.6;opacity:1!important;color:var(--muted)}
+.tour-note .one{display:block;white-space:nowrap;padding-left:1.25em;text-indent:-1.25em}
+.tour-note .one::before{content:"※";display:inline-block;width:1.25em;text-indent:0;color:#8a5cff}
+.tour-note b{font-weight:700}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js"></script>
 </head>
@@ -301,12 +321,13 @@ button:focus-visible{outline:3px solid var(--pink);outline-offset:2px}
     </header>
     <section class="tour" aria-label="나의 부스 투어">
       <div class="tour-top">
-        <div><span class="tour-label">나의 부스 투어</span><b class="tour-num"><span id="tourCount">0</span><small> / <span id="tourTotal">0</span></small></b></div>
+        <div><span class="tour-label" id="tourLabel">나의 부스 투어</span><b class="tour-num"><span id="tourCount">0</span><small> / <span id="tourTotal">0</span></small></b></div>
         <button type="button" class="tour-badge" id="slotBtn" aria-label="안 가 본 부스 추천받기"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 3h5v5"/><path d="M4 20 21 3"/><path d="M21 16v5h-5"/><path d="m15 15 6 6"/><path d="M4 4l5 5"/></svg><span id="tourBadge">시작해 볼까요?</span></button>
       </div>
       <div class="tour-bar"><i id="tourFill"></i></div>
+      <p class="store-warn" id="storeWarn" hidden>이 화면에서는 기록이 저장되지 않아요.<br><b>사파리나 크롬</b>으로 열어 주세요.</p>
       <button type="button" class="scan-btn" id="scanOpen"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8V5a1 1 0 0 1 1-1h3M16 4h3a1 1 0 0 1 1 1v3M20 16v3a1 1 0 0 1-1 1h-3M8 20H5a1 1 0 0 1-1-1v-3"/><path d="M7 12h10"/></svg>부스 QR 스캔하기</button>
-      <div class="tour-foot"><span>부스에 붙은 <b>QR</b>을 찍으면 방문 인증돼요</span><button type="button" class="tour-reset" id="tourReset">기록 지우기</button></div>
+      <p class="tour-note"><span class="one">기록은 처음 연 브라우저에 저장돼요.</span><span class="one"><b>시크릿 모드에서는 탭을 닫으면 기록이 사라지니</b> 일반 모드로 열어 주세요.</span></p>
     </section>
     <div class="map" id="map" role="group" aria-label="부스 배치도">
       <h2 class="title">부스 배치도</h2>
@@ -353,9 +374,9 @@ button:focus-visible{outline:3px solid var(--pink);outline-offset:2px}
       <button type="button" class="ico" id="shareBtn" aria-label="친구에게 공유하기" title="공유하기">
         <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15V3"/><path d="m7 8 5-5 5 5"/><path d="M5 13v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6"/></svg>
       </button>
-      <a class="ico" href="https://map.naver.com/p/search/%EB%8D%95%EC%98%81%EA%B3%A0%EB%93%B1%ED%95%99%EA%B5%90" target="_blank" rel="noopener" aria-label="오시는 길 (지도 열기)" title="오시는 길">
+      <button type="button" class="ico" id="mapBtn" aria-label="오시는 길" title="오시는 길">
         <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>
-      </a>
+      </button>
       <button type="button" class="ico" id="topBtn" aria-label="맨 위로" title="맨 위로">
         <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5"/><path d="m5 12 7-7 7 7"/></svg>
       </button>
@@ -391,6 +412,17 @@ button:focus-visible{outline:3px solid var(--pink);outline-offset:2px}
       </div>
     </div>
     <button type="button" class="slot-close" id="slotClose" aria-label="닫기">✕</button>
+  </div>
+</div>
+<div class="map-sheet" id="mapSheet" hidden role="dialog" aria-modal="true" aria-labelledby="mapTitle">
+  <div class="ms-card">
+    <p class="ms-title" id="mapTitle">어떤 지도로 열까요?</p>
+    <div class="ms-list">
+      <button type="button" data-map="naver"><i style="background:#03c75a">N</i>네이버 지도</button>
+      <button type="button" data-map="kakao"><i style="background:#fee500;color:#191919">K</i>카카오맵</button>
+      <button type="button" data-map="native"><i style="background:#2b2366">⌖</i><span id="nativeLabel">기본 지도</span></button>
+    </div>
+    <button type="button" class="ms-cancel" id="mapCancel">취소</button>
   </div>
 </div>
 <div class="scrim" id="scrim" hidden>
@@ -636,6 +668,10 @@ try{
 try{localStorage.removeItem('tour-visited');}catch(e){}
 const saveTour=()=>{try{localStorage.setItem('ras-tour-v2',JSON.stringify(stamps));}catch(e){}};
 if(tampered){saveTour(); setTimeout(()=>toast('직접 수정된 기록은 인정되지 않아 제외했어요'),600);}
+/* 저장이 막힌 화면(시크릿 모드, 앱 미리보기 등)이면 미리 알려 줘요 */
+const storageOK=(()=>{try{const k='ras-chk';localStorage.setItem(k,'1');const ok=localStorage.getItem(k)==='1';localStorage.removeItem(k);return ok;}catch(e){return false;}})();
+try{navigator.storage&&navigator.storage.persist&&navigator.storage.persist().catch(()=>{});}catch(e){}
+if(!storageOK){const w=document.getElementById('storeWarn'); if(w) w.hidden=false;}
 const COOLDOWN=12000;
 const lastStampAt=()=>stamps.reduce((m,e)=>Math.max(m,e[1]),0);
 function cooldownLeft(){const d=Date.now()-lastStampAt(); return (d>=0&&d<COOLDOWN)?Math.ceil((COOLDOWN-d)/1000):0;}
@@ -667,7 +703,7 @@ function syncVisitBtn(){const b=list[cur]; const ok=!b.stage&&!b.exchange; visit
   const v=visited.has(b.name); visitBtn.classList.toggle('done',v); if(v) visitBtn.textContent='✓ 방문 인증 완료'; else visitBtn.innerHTML='<svg class="cam" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8.5A2.5 2.5 0 0 1 5.5 6H8l1.6-2.2A1.5 1.5 0 0 1 10.8 3h2.4a1.5 1.5 0 0 1 1.2.8L16 6h2.5A2.5 2.5 0 0 1 21 8.5v9a2.5 2.5 0 0 1-2.5 2.5h-13A2.5 2.5 0 0 1 3 17.5z"/><circle cx="12" cy="13" r="3.8"/><circle cx="17.6" cy="9" r=".6" fill="currentColor"/></svg><span>QR 스캔으로 방문 인증</span>';}
 function markVisited(name){
   if(visited.has(name)){toast(name+' 은(는) 이미 인증했어요'); return;}
-  const left=cooldownLeft(); if(left){toast('방금 인증했어요. '+left+'초 뒤에 다음 부스를 인증할 수 있어요'); return;}
+  const left=cooldownLeft(); if(left){toast(left+'초 뒤에 다음 부스를 인증할 수 있어요'); return;}
   const t=Date.now(); visited.add(name); stamps.push([name,t,sign(name,t)]); saveTour(); const n=renderTour();
   const i=list.findIndex(b=>b.name===name); if(i>=0){btns[i].classList.add('just'); setTimeout(()=>btns[i].classList.remove('just'),600);}
   if(!calm){const st=document.createElement('div'); st.className='big-stamp'; document.body.append(st); st.addEventListener('animationend',()=>st.remove());}
@@ -735,26 +771,26 @@ function scanError(t){scanErr.textContent=t; scanErr.hidden=false;}
 async function openScan(){
   accepted=false; checking=false; scanErr.hidden=true; document.getElementById('scanCode').value=''; scanEl.hidden=false;
   if(ovIs('booth')){try{history.replaceState({ov:'scan'},'');}catch(e){}} else pushOv('scan');
-  if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){scanError('이 브라우저에서는 카메라를 쓸 수 없어요. 아래에 코드를 입력해 주세요.'); return;}
-  if(typeof jsQR!=='function'){scanError('스캐너를 불러오지 못했어요. 인터넷 연결을 확인하거나 코드를 입력해 주세요.'); return;}
+  if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){scanError('이 브라우저에서는 카메라를 쓸 수 없어요.\n아래에 코드를 입력해 주세요.'); return;}
+  if(typeof jsQR!=='function'){scanError('스캐너를 불러오지 못했어요.\n인터넷 연결을 확인하거나 코드를 입력해 주세요.'); return;}
   try{
     stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:'environment'},audio:false});
     video.srcObject=stream; await video.play(); tick();
-  }catch(e){scanError('카메라를 열 수 없어요. 브라우저 설정에서 카메라 권한을 허용하거나, 아래에 코드를 입력해 주세요.');}
+  }catch(e){scanError('카메라를 열 수 없어요.\n브라우저 설정에서 카메라 권한을 허용하거나, 아래에 코드를 입력해 주세요.');}
 }
 function closeScan(){const back=ovIs('scan'); hideScan(); if(back){try{history.back();}catch(e){}}}
 function hideScan(){cancelAnimationFrame(raf); if(stream){stream.getTracks().forEach(t=>t.stop()); stream=null;} video.srcObject=null; scanEl.hidden=true; document.querySelector('.scan-frame').classList.remove('hit');}
 let checking=false, accepted=false;
 async function handleCode(code,fromCamera){
   if(checking||accepted) return false;
-  if(!canVerify){scanError('이 브라우저에서는 인증할 수 없어요. 최신 사파리나 크롬으로 열어 주세요.'); return false;}
+  if(!canVerify){scanError('이 브라우저에서는 인증할 수 없어요.\n최신 사파리나 크롬으로 열어 주세요.'); return false;}
   checking=true; let name=null;
   try{ name=code?await boothFromCode(code):null; }catch(e){ name=null; }
   checking=false;
   if(scanEl.hidden) return false;
-  if(!name){ if(!fromCamera) scanError('맞지 않는 코드예요. 다시 확인해 주세요.'); else if(Date.now()-lastBad>2000){lastBad=Date.now(); scanError('이 축제 부스의 QR이 아니에요.');} return false;}
-  if(visited.has(name)){ if(!fromCamera||Date.now()-lastBad>2000){lastBad=Date.now(); scanError(name+' 은(는) 이미 인증했어요. 다른 부스 QR을 찍어 주세요.');} return false;}
-  const left=cooldownLeft(); if(left){ if(!fromCamera||Date.now()-lastBad>1500){lastBad=Date.now(); scanError('방금 인증했어요. '+left+'초 뒤에 다음 부스를 인증할 수 있어요.');} return false;}
+  if(!name){ if(!fromCamera) scanError('맞지 않는 코드예요.\n다시 확인해 주세요.'); else if(Date.now()-lastBad>2000){lastBad=Date.now(); scanError('이 축제 부스의 QR이 아니에요.');} return false;}
+  if(visited.has(name)){ if(!fromCamera||Date.now()-lastBad>2000){lastBad=Date.now(); scanError(name+' 은(는) 이미 인증했어요.\n다른 부스 QR을 찍어 주세요.');} return false;}
+  const left=cooldownLeft(); if(left){ if(!fromCamera||Date.now()-lastBad>1500){lastBad=Date.now(); scanError('방금 인증했어요.\n'+left+'초 뒤에 다음 부스를 인증할 수 있어요.');} return false;}
   accepted=true; scanErr.hidden=true;
   document.querySelector('.scan-frame').classList.add('hit'); try{buzz(80);}catch(e){}
   setTimeout(()=>{closeScan(); markVisited(name);},250); return true;
@@ -777,12 +813,45 @@ document.getElementById('scanClose').addEventListener('click',closeScan);
 document.getElementById('scanManual').addEventListener('submit',e=>{e.preventDefault(); const c=codeFromText(document.getElementById('scanCode').value); if(!c){scanError('코드 6자리를 정확히 입력해 주세요.'); return;} handleCode(c,false);});
 /* 카메라 앱으로 QR을 찍어 #v-코드 주소로 들어온 경우 */
 (()=>{const c=codeFromText(location.hash); if(c&&/^#v-/i.test(location.hash)){try{history.replaceState(null,'',location.pathname+location.search);}catch(e){} if(canVerify) boothFromCode(c).then(name=>{if(name) setTimeout(()=>markVisited(name),400);}).catch(()=>{});}})();
-(()=>{const r=document.getElementById('tourReset'); let t=null;
-  r.addEventListener('click',()=>{if(!r.classList.contains('armed')){r.classList.add('armed'); r.textContent='한 번 더 누르면 지워져요'; clearTimeout(t); t=setTimeout(()=>{r.classList.remove('armed'); r.textContent='기록 지우기';},2500); return;}
-    clearTimeout(t); r.classList.remove('armed'); r.textContent='기록 지우기'; visited.clear(); stamps=[]; saveTour(); renderTour(); toast('투어 기록을 지웠어요');});})();
+/* 숨은 초기화 (선생님 테스트용): '나의 부스 투어' 글자를 빠르게 5번 → 한 번 더 누르면 초기화 */
+(()=>{const l=document.getElementById('tourLabel'), orig=l.textContent; let taps=[], armed=false, t=null;
+  l.addEventListener('click',()=>{
+    if(armed){clearTimeout(t); armed=false; l.textContent=orig; l.classList.remove('armed'); visited.clear(); stamps=[]; saveTour(); renderTour(); toast('투어 기록을 지웠어요'); return;}
+    const now=Date.now(); taps=taps.filter(x=>now-x<2500); taps.push(now);
+    if(taps.length>=5){taps=[]; armed=true; l.textContent='한 번 더 누르면 기록 초기화'; l.classList.add('armed'); clearTimeout(t); t=setTimeout(()=>{armed=false; l.textContent=orig; l.classList.remove('armed');},3000);}
+  });})();
 renderTour();
 
 document.getElementById('topBtn').addEventListener('click',()=>window.scrollTo({top:0,behavior:calm?'auto':'smooth'}));
+
+/* ===== 오시는 길: 지도 앱 바로 열기 ===== */
+(()=>{
+  const Q='용인 덕영고등학교', q=encodeURIComponent(Q);
+  const ios=/iPhone|iPad|iPod/.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
+  document.getElementById('nativeLabel').textContent=ios?'Apple 지도':'기본 지도';
+  const MAPS={
+    naver:{app:'nmap://search?query='+q+'&appname='+encodeURIComponent(location.hostname||'ras.festa'),web:'https://m.map.naver.com/search2/search.naver?query='+q},
+    kakao:{app:'kakaomap://search?q='+q,web:'https://map.kakao.com/link/search/'+q},
+    native:{app:ios?'maps://?q='+q:'geo:0,0?q='+q,web:'https://maps.apple.com/?q='+q}
+  };
+  const sheet=document.getElementById('mapSheet');
+  function hide(){sheet.hidden=true;}
+  function close(){const back=ovIs('map'); hide(); if(back){try{history.back();}catch(e){}}}
+  function open(){sheet.hidden=false; pushOv('map');}
+  function go(key){
+    const m=MAPS[key]; let left=false;
+    const onHide=()=>{if(document.hidden) left=true;};
+    document.addEventListener('visibilitychange',onHide);
+    close();
+    setTimeout(()=>{location.href=m.app;},60);
+    setTimeout(()=>{document.removeEventListener('visibilitychange',onHide); if(!left&&!document.hidden) location.href=m.web;},1600);
+  }
+  document.getElementById('mapBtn').addEventListener('click',open);
+  document.getElementById('mapCancel').addEventListener('click',close);
+  sheet.addEventListener('click',e=>{if(e.target===sheet) close();});
+  sheet.querySelectorAll('[data-map]').forEach(b=>b.addEventListener('click',()=>go(b.dataset.map)));
+  window.addEventListener('popstate',()=>{if(!sheet.hidden) hide();});
+})();
 
 /* ===== 페이지 이동 (주소 #part1, #part2) ===== */
 const pages=['home','part1','part2']; let inApp=false, pending=null;
