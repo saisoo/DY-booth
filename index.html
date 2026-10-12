@@ -236,10 +236,11 @@ button:focus-visible{outline:3px solid var(--pink);outline-offset:2px}
 @keyframes scanline{from{top:8%}to{top:90%}}
 .scan-frame.hit{box-shadow:0 0 0 100vmax rgba(13,10,36,.45),inset 0 0 0 4px #7cf0a0}
 .scan-err{margin:0;max-width:320px;text-align:center;font-size:14px;line-height:1.5;background:rgba(255,77,126,.9);padding:10px 14px;border-radius:12px}
-.scan-manual{display:grid;gap:8px;width:min(100%,320px);text-align:center;font-size:13px;color:rgba(255,255,255,.85)}
-.scan-manual div{display:flex;gap:8px}
-.scan-manual input{flex:1;min-width:0;font:inherit;font-size:18px;font-weight:800;letter-spacing:.2em;text-transform:uppercase;text-align:center;padding:10px;border-radius:10px;border:0;background:rgba(255,255,255,.95);color:var(--navy)}
-.scan-manual button{border:0;border-radius:10px;padding:0 16px;font-weight:800;font-size:15px;background:#8a5cff;color:#fff;cursor:pointer}
+.scan-manual{display:grid;grid-template-columns:minmax(0,1fr);gap:8px;width:min(100%,320px);box-sizing:border-box;text-align:center;font-size:13px;color:rgba(255,255,255,.85)}
+.scan-manual div{display:flex;gap:8px;min-width:0}
+.scan-manual label{word-break:keep-all}
+.scan-manual input{flex:1 1 0;width:0;min-width:0;font:inherit;font-size:18px;font-weight:800;letter-spacing:.2em;text-transform:uppercase;text-align:center;padding:10px;border-radius:10px;border:0;background:rgba(255,255,255,.95);color:var(--navy)}
+.scan-manual button{flex:none;border:0;border-radius:10px;padding:0 16px;font-weight:800;font-size:15px;background:#8a5cff;color:#fff;cursor:pointer}
 .scan-close{border:1px solid rgba(255,255,255,.6);background:rgba(255,255,255,.12);color:#fff;font-weight:700;font-size:15px;padding:11px 28px;border-radius:999px;cursor:pointer}
 .visit-btn.done{cursor:default}
 </style>
@@ -336,7 +337,7 @@ button:focus-visible{outline:3px solid var(--pink);outline-offset:2px}
     <p class="scan-err" id="scanErr" hidden></p>
     <form class="scan-manual" id="scanManual" autocomplete="off">
       <label for="scanCode">카메라가 안 되면 QR 아래 코드 6자리를 입력하세요</label>
-      <div><input id="scanCode" maxlength="6" placeholder="예: ABC123" autocapitalize="characters" spellcheck="false"><button type="submit">확인</button></div>
+      <div><input id="scanCode" size="6" maxlength="6" placeholder="예: ABC123" autocapitalize="characters" spellcheck="false"><button type="submit">확인</button></div>
     </form>
     <button type="button" class="scan-close" id="scanClose">닫기</button>
   </div>
