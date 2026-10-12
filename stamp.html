@@ -62,7 +62,7 @@ button:focus-visible{outline:3px solid var(--pink);outline-offset:2px}
 .booth:focus-visible{outline:3px solid var(--pink);outline-offset:1px;z-index:3}
 .booth.small{font-size:2.15cqw}
 .booth.topcell{font-size:2.05cqw;letter-spacing:-.05em;padding:0}
-.booth.stage{font-size:3.8cqw;font-weight:900;background:linear-gradient(100deg,#ff5e7e,#8a5cff 60%,#2aa5f5);color:#fff}
+.booth.stage{font-size:3.8cqw;font-weight:900;background:#8a5cff;color:#fff;letter-spacing:.1em}
 .booth.stage.on{filter:brightness(1.1)}
 @media (hover:hover){.booth.stage:hover{filter:brightness(1.1)}}
 .booth.find,.booth.find:hover{background:var(--pink);color:#fff;z-index:4;transform:scale(1.12);animation:ping 1.1s ease-out 4}
@@ -306,6 +306,76 @@ button:focus-visible{outline:3px solid var(--pink);outline-offset:2px}
 .tour-note .one{display:block;white-space:nowrap;padding-left:1.25em;text-indent:-1.25em}
 .tour-note .one::before{content:"※";display:inline-block;width:1.25em;text-indent:0;color:#8a5cff}
 .tour-note b{font-weight:700}
+/* 버튼 톤 다운: 그라데이션은 타이틀 RAS에만 */
+.scan-btn{background:linear-gradient(160deg,#3a2c86,#2b2366)!important;box-shadow:0 6px 16px rgba(43,35,102,.22)!important}
+.tour-badge{background:#efeaff!important;color:#5a3fd6!important;box-shadow:none!important}
+.visit-btn{background:linear-gradient(160deg,#3a2c86,#2b2366)!important;box-shadow:0 6px 16px rgba(43,35,102,.22)!important}
+.visit-btn.done{background:#f1ecff!important;color:#6b55d6!important;box-shadow:none!important}
+.slot-go{background:#fff!important;color:#2b2366!important}
+.tour-bar i{background:#8a5cff!important}
+/* 버튼 스타일 D: 팝 스티커 */
+.scan-btn,.visit-btn:not(.done){background:#8a5cff!important;border:2px solid #2b2366!important;box-shadow:4px 4px 0 #2b2366!important;transition:transform .08s,box-shadow .08s}
+.scan-btn:active,.visit-btn:not(.done):active{transform:translate(4px,4px);box-shadow:0 0 0 #2b2366!important}
+.tour-badge{background:#ffe24a!important;color:#2b2366!important;border:2px solid #2b2366!important;box-shadow:2px 2px 0 #2b2366!important;animation:none!important}
+.tour-badge:active{transform:translate(2px,2px);box-shadow:0 0 0 #2b2366!important}
+.visit-btn.done{border:2px solid transparent}
+/* ===== D 팝 스티커 스타일: 프로그램 화면 ===== */
+:root{--pop-ink:#2b2366;--pop-pu:#8a5cff;--pop-ye:#ffe24a}
+/* 첫 화면 1부·2부 버튼 */
+.part-btn{border-radius:14px;border:2px solid var(--pop-ink)!important;box-shadow:4px 4px 0 var(--pop-ink);overflow:hidden;background:#fff;transition:transform .08s,box-shadow .08s}
+.part-btn:active{transform:translate(4px,4px);box-shadow:0 0 0 var(--pop-ink)}
+.part-btn .tab{background:var(--pop-pu)!important;border-radius:0!important;border-bottom:2px solid var(--pop-ink);font-weight:800!important;letter-spacing:.06em}
+.part-btn .body{box-shadow:none!important;border-radius:0!important;color:var(--pop-ink)!important;font-weight:700!important}
+@media (hover:hover){.part-btn:hover .body{background:#fff8d6!important}}
+/* 뒤로가기 */
+.back{background:var(--pop-ye)!important;color:var(--pop-ink)!important;border:2px solid var(--pop-ink)!important;box-shadow:3px 3px 0 var(--pop-ink)!important;font-weight:800!important;transition:transform .08s,box-shadow .08s}
+.back:active{transform:translate(3px,3px);box-shadow:0 0 0 var(--pop-ink)!important}
+/* 상단 제목 박스 */
+.phead{background:var(--pop-pu)!important;border:2px solid var(--pop-ink);box-shadow:4px 4px 0 var(--pop-ink);border-radius:16px}
+.phead .meta b{color:var(--pop-ye)!important}
+.phead p{opacity:.95}
+/* 목록 */
+.rows{border:2px solid var(--pop-ink);box-shadow:4px 4px 0 var(--pop-ink)}
+.row .go{display:inline-flex;align-items:center;padding:5px 10px;border-radius:999px;background:var(--pop-ye);color:var(--pop-ink)!important;border:1.5px solid var(--pop-ink);font-size:12px!important;font-weight:800!important}
+.row.special{background:var(--pop-ye)!important}
+.row.special .t,.row.special .no,.row.static.special:hover .t{color:var(--pop-ink)!important}
+.row .no{color:var(--pop-pu)!important}
+.row .pill{background:#efeaff;color:#4a3aa8;border:1.5px solid #c9bfff}
+/* 하단 아이콘 */
+.ico{border:2px solid var(--pop-ink);box-shadow:3px 3px 0 var(--pop-ink)!important;transition:transform .08s,box-shadow .08s}
+.ico:active{transform:translate(3px,3px)!important;box-shadow:0 0 0 var(--pop-ink)!important}
+.heart{border:2px solid var(--pop-ink)!important;box-shadow:2px 2px 0 var(--pop-ink);background:#ffe8ef!important}
+.heart:active{transform:translate(2px,2px)!important;box-shadow:0 0 0 var(--pop-ink)}
+.hcount{color:var(--pop-ink)!important}
+.hwrap{position:relative;display:block!important;min-width:0!important}
+.hcount{position:absolute;top:-7px;right:-9px;min-width:20px;height:20px;padding:0 5px;box-sizing:border-box;border-radius:999px;background:var(--pop-ink);color:#fff!important;font-size:11px!important;line-height:20px!important;text-align:center;min-height:0!important}
+.hcount:empty{display:none}
+.reset-btn{border:2px solid var(--pop-ink)!important;background:var(--pop-pu)!important;box-shadow:3px 3px 0 var(--pop-ink)!important;-webkit-backdrop-filter:none!important;backdrop-filter:none!important}
+.reset-btn.armed{background:#ff4d7e!important}
+/* ===== D 스타일 마무리 ===== */
+/* 1. 부스 팝업 */
+.card{border:2px solid var(--pop-ink)!important;box-shadow:6px 6px 0 var(--pop-ink)!important;border-radius:18px!important}
+.card h2{color:var(--pop-ink)!important}
+.item{border-top:2px solid #efeaff!important}
+.item .org{color:var(--pop-pu)!important;font-weight:700!important}
+.nav button{border:2px solid var(--pop-ink)!important;box-shadow:3px 3px 0 var(--pop-ink);font-weight:800!important;color:var(--pop-ink);background:#fff;transition:transform .08s,box-shadow .08s}
+.nav button:active{transform:translate(3px,3px);box-shadow:0 0 0 var(--pop-ink)}
+.nav button.close{background:var(--pop-pu)!important;color:#fff!important}
+.stamp-note{background:#fff8d6!important;color:var(--pop-ink)!important;border:1.5px solid var(--pop-ink)}
+/* 2. 스탬프 교환소 */
+.booth.exchange{background:var(--pop-ye)!important;color:var(--pop-ink)!important;border:2px solid var(--pop-ink)!important;box-shadow:.6cqw .6cqw 0 #1a1442!important}
+.booth.exchange.on{background:#fff3a3!important}
+@media (hover:hover){.booth.exchange:hover{background:#fff3a3!important}}
+.legend .sq{background:var(--pop-ye)!important;border:2px solid var(--pop-ink);box-sizing:border-box;border-radius:4px}
+/* 4. 배치도 카드 */
+.map{box-shadow:5px 5px 0 #1a1442!important;border:2px solid var(--pop-ink)}
+/* 4. 스탬프 카드 */
+.tour{border:2px solid var(--pop-ink);box-shadow:4px 4px 0 var(--pop-ink)!important}
+/* 3. ※ 안내 */
+.tour-note{font-size:12px!important;letter-spacing:-.02em!important;line-height:1.55!important}
+.tour-note .one{white-space:normal!important}
+/* 5. 방문한 부스 이름 */
+.booth.visited{color:rgba(43,35,102,.62)!important}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js"></script>
 </head>
@@ -327,7 +397,7 @@ button:focus-visible{outline:3px solid var(--pink);outline-offset:2px}
       <div class="tour-bar"><i id="tourFill"></i></div>
       <p class="store-warn" id="storeWarn" hidden>이 화면에서는 기록이 저장되지 않아요.<br><b>사파리나 크롬</b>으로 열어 주세요.</p>
       <button type="button" class="scan-btn" id="scanOpen"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8V5a1 1 0 0 1 1-1h3M16 4h3a1 1 0 0 1 1 1v3M20 16v3a1 1 0 0 1-1 1h-3M8 20H5a1 1 0 0 1-1-1v-3"/><path d="M7 12h10"/></svg>부스 QR 스캔하기</button>
-      <p class="tour-note"><span class="one">기록은 처음 연 브라우저에 저장돼요.</span><span class="one"><b>시크릿 모드에서는 탭을 닫으면 기록이 사라지니</b> 일반 모드로 열어 주세요.</span></p>
+      <p class="tour-note"><span class="one">기록은 처음 연 브라우저에만 저장돼요.</span><span class="one"><b>시크릿 모드는 탭을 닫으면 기록이 사라져요.</b></span></p>
     </section>
     <div class="map" id="map" role="group" aria-label="부스 배치도">
       <h2 class="title">부스 배치도</h2>
