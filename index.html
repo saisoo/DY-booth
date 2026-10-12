@@ -3,65 +3,114 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>덕영 RAS 페스티벌 부스 배치도</title>
+<title>덕영 RAS 페스타 부스 배치도</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jua&family=Gowun+Dodum&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap">
 <style>
-/* 레이아웃: 원본 배치도(580×822) 비율을 그대로 유지한 지도 위에 부스 버튼을 절대 배치, 누르면 하단 시트/모달 */
+/* 레이아웃: 포스터(하늘색 배경·파란 무대·남보라 라벨·RAS 3색)를 그대로 따온 한 장짜리 안내 페이지. 상단 타이틀 → 배치도 → 1부/2부 카드 */
 :root{
-  --bg:#f3f1fb; --ground:#3b3f9e; --field:#ffcc4d; --stripe:#f7bd2c;
-  --booth:#fffaf0; --booth-hi:#ffe08a; --line:#23276b; --ink:#1c1f55; --muted:#5b5f8f;
-  --accent:#4b4fc4; --sheet:#ffffff; --scrim:rgba(20,22,60,.5);
-  --title:#fff3c4; --field-ink:#2a2e8c; --theme-c:#1c1f55;
-  --display:"Jua","Apple SD Gothic Neo","Malgun Gothic",sans-serif;
-  --body:"Gowun Dodum","Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+  --sky:#c4e6f1; --sky-2:#addcef; --blue:#2a9fdc; --blue-d:#1d84c4; --navy:#33276b;
+  --pink:#e14f7c; --red:#e8453c; --lime:#c3d62e; --rblue:#1f6fc5; --yellow:#ffe24a; --orange:#f4b25e;
+  --peach:#f8e0cb; --peach-2:#f3d2b6; --paper:#ffffff; --ink:#2a2155; --muted:#5f5b86; --pale:#d6eef8;
+  --scrim:rgba(40,30,90,.5);
+  --sans:"Noto Sans KR","Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+  color-scheme:light;
 }
-@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
-  --bg:#11122a; --ground:#2a2d78; --field:#e2b23a; --stripe:#d3a22a;
-  --booth:#f6f1e4; --booth-hi:#ffe08a; --line:#16184a; --ink:#1c1f55; --muted:#a8abd8;
-  --accent:#a3a6ff; --sheet:#1d1f45; --scrim:rgba(0,0,0,.6);
-  --title:#fff3c4; --field-ink:#23266f; --theme-c:#eeeefc; color-scheme:dark}}
-:root[data-theme="dark"]{
-  --bg:#11122a; --ground:#2a2d78; --field:#e2b23a; --stripe:#d3a22a;
-  --booth:#f6f1e4; --booth-hi:#ffe08a; --line:#16184a; --ink:#1c1f55; --muted:#a8abd8;
-  --accent:#a3a6ff; --sheet:#1d1f45; --scrim:rgba(0,0,0,.6);
-  --title:#fff3c4; --field-ink:#23266f; --theme-c:#eeeefc; color-scheme:dark}
-html,body{height:100%}
+html{min-height:100%;background:var(--sky-2)}
+body{min-height:100%}
 [hidden]{display:none!important}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);padding:16px;box-sizing:border-box}
+body{margin:0;background:linear-gradient(var(--sky),var(--sky-2));color:var(--ink);font-family:var(--sans);padding:16px;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 .wrap{max-width:640px;margin:0 auto}
-.map{position:relative;width:100%;aspect-ratio:580/822;background:var(--ground);border-radius:6px;container-type:inline-size;overflow:hidden;box-shadow:0 1px 0 var(--line)}
-.title{position:absolute;left:0;right:0;top:1.8%;text-align:center;font-family:var(--display);font-size:5.2cqw;color:var(--title);margin:0;letter-spacing:.02em}
+button{font-family:var(--sans)}
+button:focus-visible{outline:3px solid var(--pink);outline-offset:2px}
+
+/* 상단 타이틀 */
+.hero{position:relative;text-align:center;padding-block:14px 18px;isolation:isolate}
+.hero::before{content:"";position:absolute;inset:0 -8px;z-index:-1;pointer-events:none;
+  background:
+   radial-gradient(circle at 3% 10%,var(--orange) 0 9px,transparent 10px),
+   radial-gradient(circle at 2% 42%,var(--pink) 0 5px,transparent 6px),
+   radial-gradient(circle at 97% 8%,var(--red) 0 8px,transparent 9px),
+   radial-gradient(circle at 98% 40%,var(--navy) 0 7px,transparent 8px)}
+.year{font-weight:900;font-size:22px;color:var(--navy);letter-spacing:.04em}
+.name{font-weight:900;font-size:clamp(34px,10vw,52px);line-height:1.1;margin-top:2px;display:flex;flex-wrap:wrap;justify-content:center;align-items:baseline;gap:0 .3em}
+.name span{-webkit-text-stroke:2px var(--navy);paint-order:stroke fill;text-shadow:3px 3px 0 var(--navy)}
+.dy{color:var(--pink)}
+.name .fe{color:var(--navy);-webkit-text-stroke:0;text-shadow:3px 3px 0 #fff}
+.ras i{font-style:normal}
+.ras .r{color:var(--red)} .ras .a{color:var(--lime)} .ras .s{color:var(--rblue)}
+.ribbon{display:inline-block;margin-top:12px;background:var(--orange);color:var(--navy);font-weight:500;font-size:14px;padding:6px 22px;
+  clip-path:polygon(0 0,100% 0,96% 50%,100% 100%,0 100%,4% 50%)}
+.when{margin-top:14px;background:var(--blue);color:#fff;border-radius:14px;padding:12px 14px;font-size:15px;line-height:1.55}
+.when b{font-weight:900;font-size:19px}
+.when b em{font-style:normal;color:var(--yellow)}
+
+/* 배치도 */
+.map{position:relative;width:100%;aspect-ratio:580/822;background:var(--blue);border-radius:16px;container-type:inline-size;overflow:hidden;border:3px solid var(--navy);box-sizing:border-box}
+.title{position:absolute;left:0;right:0;top:2.2%;text-align:center;font-weight:900;font-size:5cqw;color:#fff;margin:0;letter-spacing:.04em}
 .field{position:absolute;left:25.3%;top:14.2%;width:49.9%;height:72.3%;
-  background:repeating-linear-gradient(135deg,var(--field) 0 1.6cqw,var(--stripe) 1.6cqw 1.9cqw);
-  display:grid;place-items:center;font-family:var(--display);font-size:10cqw;color:var(--field-ink)}
-.booth{position:absolute;box-sizing:border-box;border:1px solid var(--line);background:var(--booth);color:var(--ink);
-  font-family:var(--display);font-size:2.25cqw;line-height:1.08;padding:0 .4cqw;display:grid;place-items:center;text-align:center;
-  cursor:pointer;word-break:keep-all;transition:background .15s, transform .15s;-webkit-tap-highlight-color:transparent}
-.booth:hover,.booth.on{background:var(--booth-hi);z-index:2;transform:scale(1.04);box-shadow:0 .4cqw 1.2cqw rgba(0,0,0,.18)}
-.booth:focus-visible{outline:3px solid var(--accent);outline-offset:1px;z-index:3}
-.booth.small{font-size:1.95cqw}
-.empty{position:absolute;border:1px solid var(--line);background:var(--booth);
-  background-image:linear-gradient(to top right,transparent calc(50% - .5px),var(--line) 50%,transparent calc(50% + .5px))}
-.stage{font-size:4.2cqw;cursor:pointer}
-.hint{margin:12px 2px 0;color:var(--muted);font-size:14px;text-align:center}
+  background:repeating-linear-gradient(135deg,var(--peach) 0 1.6cqw,var(--peach-2) 1.6cqw 1.9cqw);
+  display:grid;place-items:center;font-weight:900;font-size:9cqw;color:var(--navy);letter-spacing:.06em}
+.booth{position:absolute;box-sizing:border-box;border:1px solid var(--navy);background:var(--paper);color:var(--ink);
+  font-weight:700;font-size:2.1cqw;line-height:1.12;letter-spacing:-.02em;padding:0 .4cqw;display:grid;place-items:center;text-align:center;
+  cursor:pointer;word-break:keep-all;transition:background .15s, transform .15s}
+.booth:hover,.booth.on{background:var(--yellow);z-index:2;transform:scale(1.05);box-shadow:0 .5cqw 1.4cqw rgba(30,20,80,.3)}
+.booth:focus-visible{outline:3px solid var(--pink);outline-offset:1px;z-index:3}
+.booth.small{font-size:1.85cqw}
+.booth.stage{font-size:3.8cqw;font-weight:900;background:var(--navy);color:#fff;border-color:var(--navy)}
+.booth.stage:hover,.booth.stage.on{background:var(--pink);border-color:var(--pink)}
+.empty{position:absolute;border:1px solid var(--navy);background:var(--paper);
+  background-image:linear-gradient(to top right,transparent calc(50% - .5px),var(--navy) 50%,transparent calc(50% + .5px))}
+.hint{margin:10px 2px 0;color:var(--muted);font-size:14px;text-align:center}
+
+/* 프로그램 입구: 포스터의 1부/2부 칸 모양 */
+.prog-entry{margin-top:22px;display:grid;gap:10px}
+.prog-entry h2{font-weight:900;font-size:20px;margin:0;color:var(--navy)}
+.parts{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.part-btn{display:grid;padding:0;border:0;background:none;text-align:center;cursor:pointer;color:var(--ink)}
+.part-btn .tab{background:var(--navy);color:#fff;font-weight:700;font-size:16px;padding:6px;border-radius:10px 10px 0 0}
+.part-btn .body{background:var(--pale);border:2px solid #fff;border-top:0;border-radius:0 0 12px 12px;padding:14px 8px;font-size:14px;line-height:1.5;font-weight:500;transition:background .15s}
+.part-btn:hover .body{background:var(--yellow)}
+.part-btn.soon .body{color:var(--muted)}
+
+/* 프로그램 페이지 */
+.topbar{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;padding-block:8px;margin-top:-8px}
+.back{font-weight:700;font-size:16px;padding:10px 18px 10px 14px;border-radius:999px;border:0;background:var(--navy);color:#fff;cursor:pointer;box-shadow:0 4px 12px rgba(30,20,80,.25)}
+.phead{margin:12px 0 16px;padding:18px;border-radius:16px;background:var(--blue);color:#fff}
+.phead h1{font-weight:900;font-size:28px;margin:0 0 4px}
+.phead p{margin:0;font-size:15px;opacity:.92}
+.phead .meta{display:flex;flex-wrap:wrap;gap:4px 16px;margin-top:10px;font-size:15px}
+.phead .meta b{font-weight:700;color:var(--yellow);margin-right:4px}
+.rows{display:grid;background:var(--paper);border-radius:16px;padding:4px 14px;border:2px solid var(--navy)}
+.row{display:grid;grid-template-columns:2.2em 1fr auto;gap:12px;align-items:center;text-align:left;width:100%;padding:13px 0;border:0;border-bottom:1px solid #e3e1ee;background:transparent;color:inherit;cursor:pointer}
+.row:last-child{border-bottom:0}
+.row:hover .t{color:var(--pink)}
+.row .no{font-weight:900;font-size:16px;color:var(--pink);font-variant-numeric:tabular-nums;text-align:right}
+.row .txt{min-width:0;display:grid;gap:2px}
+.row .t{font-weight:700;font-size:16px;line-height:1.45;color:var(--ink);word-break:keep-all}
+.row .o{font-size:13px;color:var(--muted)}
+.row .go{color:var(--muted);font-size:20px}
+.row.static{cursor:default;grid-template-columns:2.2em 1fr}
+.row.static:hover .t{color:var(--ink)}
+.row .pill{display:inline-block;margin-left:8px;padding:2px 10px;border-radius:999px;background:var(--pale);color:var(--navy);font-size:13px;font-weight:700;vertical-align:2px}
+.row.special .t{color:var(--navy);font-weight:900}
+.row.special{background:linear-gradient(90deg,color-mix(in srgb,var(--yellow) 45%,transparent),transparent)}
+.note{margin:10px 4px 0;font-size:14px;color:var(--muted)}
+.soon-box{padding:40px 20px;text-align:center;background:var(--paper);border:2px dashed var(--navy);border-radius:16px;color:var(--muted);font-size:16px;line-height:1.6}
+.soon-box b{display:block;font-weight:900;font-size:22px;color:var(--navy);margin-bottom:4px}
+
 /* 팝업 */
 .scrim{position:fixed;inset:0;background:var(--scrim);display:grid;place-items:center;padding:16px;z-index:10;animation:fade .15s}
-.card{background:var(--sheet);color:var(--fg,inherit);width:min(440px,100%);border-radius:16px;padding:22px 22px 18px;box-shadow:0 20px 60px rgba(0,0,0,.3);animation:pop .18s ease-out;box-sizing:border-box}
-.card{color:var(--muted)}
-.loc{display:inline-block;font-size:13px;letter-spacing:.06em;color:var(--accent);border:1px solid currentColor;border-radius:999px;padding:3px 10px}
-.card h2{font-family:var(--display);font-weight:400;font-size:28px;margin:0 0 10px;color:var(--accent);text-wrap:balance;line-height:1.2}
-:root .card h2{color:var(--title-c,var(--accent))}
+.card{background:var(--paper);color:var(--muted);width:min(440px,100%);border-radius:18px;padding:22px 22px 18px;border:3px solid var(--navy);box-shadow:0 20px 60px rgba(30,20,80,.35);animation:pop .18s ease-out;box-sizing:border-box}
+.card h2{font-weight:900;font-size:26px;margin:0 0 10px;color:var(--navy);text-wrap:balance;line-height:1.25;letter-spacing:-.01em}
 .items{display:grid;gap:12px}
-.item{display:grid;gap:4px;padding-top:12px;border-top:1px dashed var(--line)}
-.item .org{font-size:13px;letter-spacing:.02em;color:var(--muted)}
-.item .theme{font-family:var(--display);font-size:19px;line-height:1.45;color:var(--title-c,inherit);word-break:keep-all}
-:root .item .theme{color:var(--theme-c)}
+.item{display:grid;gap:4px;padding-top:12px;border-top:2px dotted var(--sky-2)}
+.item .org{font-size:13px;font-weight:500;color:var(--pink)}
+.item .theme{font-weight:700;font-size:18px;line-height:1.5;color:var(--ink);word-break:keep-all}
 .nav{display:flex;gap:8px;margin-top:18px}
-.nav button{flex:1;font-family:var(--display);font-size:16px;padding:12px 8px;border-radius:10px;border:1px solid var(--line);background:transparent;color:inherit;cursor:pointer}
-.nav button.close{background:var(--accent);border-color:var(--accent);color:var(--sheet)}
-.nav button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.nav button{flex:1;font-weight:700;font-size:15px;padding:12px 8px;border-radius:12px;border:2px solid var(--navy);background:var(--paper);color:var(--navy);cursor:pointer}
+.nav button.close{background:var(--navy);color:#fff}
 @keyframes pop{from{transform:translateY(10px) scale(.97);opacity:0}}
 @keyframes fade{from{opacity:0}}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
@@ -70,11 +119,47 @@ body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);padd
 <body>
 
 <div class="wrap">
-  <div class="map" id="map" role="group" aria-label="부스 배치도">
-    <h1 class="title">덕영 RAS 페스티벌 부스 배치도</h1>
-    <div class="field" aria-hidden="true">운동장</div>
-  </div>
-  <p class="hint">부스를 누르면 소개가 나와요</p>
+  <section id="home">
+    <header class="hero">
+      <div class="year">2026</div>
+      <div class="name"><span class="dy">덕영</span><span class="ras"><i class="r">R</i><i class="a">A</i><i class="s">S</i></span><span class="fe">페스타</span></div>
+      <div class="ribbon">울림 그리고 감동이 있는 덕영 RAS페스타</div>
+      <div class="when"><b>2026. <em>10. 23.</em>(금)</b> 10:00~16:00<br>덕영고등학교 운동장 및 덕영관 3층 체육관</div>
+    </header>
+    <div class="map" id="map" role="group" aria-label="부스 배치도">
+      <h2 class="title">부스 배치도</h2>
+      <div class="field" aria-hidden="true">운동장</div>
+    </div>
+    <p class="hint">부스를 누르면 소개가 나와요</p>
+    <div class="prog-entry">
+      <h2>프로그램 보기</h2>
+      <div class="parts">
+        <button type="button" class="part-btn" data-go="part1"><span class="tab">1부</span><span class="body">부스 전시·체험<br>10:00~15:00</span></button>
+        <button type="button" class="part-btn" data-go="part2"><span class="tab">2부</span><span class="body">공연마당<br>14:00~16:00</span></button>
+      </div>
+    </div>
+  </section>
+
+  <section id="part1" hidden>
+    <div class="topbar"><button type="button" class="back">← 뒤로가기</button></div>
+    <header class="phead">
+      <h1>1부 프로그램</h1>
+      <p>덕영 RAS페스타 전시 및 체험</p>
+      <div class="meta"><span><b>시간</b> 10:00~15:00</span><span><b>장소</b> 교내 운동장 부스</span></div>
+    </header>
+    <div class="rows" id="rows1"></div>
+  </section>
+
+  <section id="part2" hidden>
+    <div class="topbar"><button type="button" class="back">← 뒤로가기</button></div>
+    <header class="phead">
+      <h1>2부 프로그램</h1>
+      <p>덕영 RAS페스타 공연마당</p>
+      <div class="meta"><span><b>시간</b> 14:00~16:00</span><span><b>장소</b> 덕영관 3층 체육관</span></div>
+    </header>
+    <div class="rows" id="rows2"></div>
+    <p class="note">※ 순번은 상황에 따라 변경될 수 있어요.</p>
+  </section>
 </div>
 
 <div class="scrim" id="scrim" hidden>
@@ -184,6 +269,69 @@ function show(i){
 }
 function openBooth(i){lastFocus=document.activeElement; show(i); scrim.hidden=false; document.getElementById('close').focus();}
 function closeBooth(){scrim.hidden=true; btns.forEach(x=>x.classList.remove('on')); lastFocus&&lastFocus.focus&&lastFocus.focus();}
+/* ===== 1부 프로그램 (연번 순서) =====
+   [배치도 표시 이름, 그 칸 안의 몇 번째 팀인지(0부터)] */
+const PROGRAM1 = [
+  ["공공데이터 활용반",0],["중국문화체험",0],["국제교류",0],["정보처리와 관리",0],["정보.지속가능 업사이클링",0],
+  ["교양독서 발표반",0],["창업 시뮬레이션",0],["모의창업반",0],["진로진학/ 도서관",0],["컴퓨터시스템 정비",0],
+  ["컴퓨터시스템 정비",1],["육군인사 사령부",0],["한국사",0],["수학과",0],["체육과",0],
+  ["보건간호과",0],["사회과",0],["국어과",0],["사무행정",0],["정보.지속가능 업사이클링",1],
+  ["일본어",0],["스포츠 규칙 연구",0],["영어과",0],["미술반",0],["글로벌 시사포럼",0],
+  ["위클래스/ 보건실",0],["일러스트 창작반",0],["과학과",0],["굿즈 창작반",0],["AI 디지털",0],
+  ["용인 디지털",0],["STEAM 클럽",0],["캡스톤 디자인",0],["창업체험 교육",0],["메이크 인공지능",0],
+  ["메이크 정보보안",0],["메이크 게임개발",0],["메이크 웹",0],["메이크 디자인",0],["학생자치회",0],
+  ["인성복지부",0],["생태학교 환경부스",0],["그래픽 SW과",0],["전자상거래 실무",0],["2학년 6반 페이스페인팅",0],
+  ["슬기로운 전기생활",0]
+];
+const rows1=document.getElementById('rows1');
+PROGRAM1.forEach(([name,k],n)=>{
+  const bi=list.findIndex(b=>b.name===name); if(bi<0) return;
+  const [org,theme]=list[bi].items[k];
+  const r=document.createElement('button'); r.type='button'; r.className='row';
+  r.innerHTML='<span class="no"></span><span class="txt"><span class="t"></span><span class="o"></span></span><span class="go" aria-hidden="true">›</span>';
+  r.querySelector('.no').textContent=n+1;
+  r.querySelector('.t').textContent=theme;
+  r.querySelector('.o').textContent=org;
+  r.addEventListener('click',()=>openBooth(bi));
+  rows1.append(r);
+});
+
+/* ===== 2부 공연마당 =====
+   [표시 이름, 공연 부문(없으면 "")] */
+const PROGRAM2 = [
+  ["개회사",""],
+  ["참가번호 1번","노래"],["참가번호 2번","랩"],["참가번호 3번","기타 연주 및 노래"],
+  ["참가번호 4번","노래"],["참가번호 5번","노래"],["참가번호 6번","노래"],["참가번호 7번","노래"],
+  ["참가번호 8번","노래"],["참가번호 9번","노래"],["참가번호 10번","노래"],["참가번호 11번","댄스"],
+  ["참가번호 12번","밴드 공연"],["참가번호 13번","밴드 공연"],
+  ["시상식",""]
+];
+const rows2=document.getElementById('rows2');
+PROGRAM2.forEach(([name,kind],n)=>{
+  const r=document.createElement('div'); r.className='row static'+(kind?'':' special');
+  r.innerHTML='<span class="no"></span><span class="txt"><span class="t"></span></span>';
+  r.querySelector('.no').textContent=n+1;
+  const t=r.querySelector('.t'); t.textContent=name;
+  if(kind){const k=document.createElement('span'); k.className='pill'; k.textContent=kind; t.append(k);}
+  rows2.append(r);
+});
+
+/* ===== 페이지 이동 (주소 #part1, #part2) ===== */
+const pages=['home','part1','part2']; let inApp=false;
+function route(){
+  const id=pages.includes(location.hash.slice(1))?location.hash.slice(1):'home';
+  if(!scrim.hidden) closeBooth();
+  pages.forEach(p=>document.getElementById(p).hidden=(p!==id));
+  window.scrollTo(0,0);
+}
+document.querySelectorAll('[data-go]').forEach(b=>b.addEventListener('click',()=>{inApp=true; location.hash=b.dataset.go;}));
+document.querySelectorAll('.back').forEach(b=>b.addEventListener('click',()=>{
+  if(inApp){inApp=false; history.back();}
+  else {try{history.replaceState(null,'',location.pathname+location.search);}catch(e){location.hash='';} route();}
+}));
+window.addEventListener('hashchange',route);
+route();
+
 document.getElementById('close').onclick=closeBooth;
 document.getElementById('prev').onclick=()=>show(cur-1);
 document.getElementById('next').onclick=()=>show(cur+1);
