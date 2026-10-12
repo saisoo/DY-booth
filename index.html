@@ -460,8 +460,12 @@ function show(i){
   });
   if(STAMP_BOOTHS.includes(b.name)){const n=document.createElement('div'); n.className='stamp-note'; n.textContent='부스를 둘러보고 이곳에서 스탬프를 받으세요!'; pBody.append(n);}
 }
-function openBooth(i){clearFind(); lastFocus=document.activeElement; show(i); scrim.hidden=false; document.getElementById('close').focus();}
-function closeBooth(){scrim.hidden=true; btns.forEach(x=>x.classList.remove('on')); lastFocus&&lastFocus.focus&&lastFocus.focus();}
+function openBooth(i){clearFind(); lastFocus=document.activeElement; show(i); if(scrim.hidden){scrim.hidden=false; pushOv('booth');} document.getElementById('close').focus();}
+/* 뒤로가기 제스처로 팝업 닫기 */
+function pushOv(name){try{history.pushState({ov:name},'');}catch(e){}}
+const ovIs=name=>{try{return history.state&&history.state.ov===name;}catch(e){return false;}};
+function closeBooth(){if(ovIs('booth')){history.back(); return;} hideBooth();}
+function hideBooth(){scrim.hidden=true; btns.forEach(x=>x.classList.remove('on')); lastFocus&&lastFocus.focus&&lastFocus.focus();}
 /* ===== 1부 프로그램 (연번 순서) =====
    [배치도 표시 이름, 그 칸 안의 몇 번째 팀인지(0부터)] */
 const PROGRAM1 = [
@@ -603,7 +607,7 @@ function markVisited(name){
   else if(MILES.includes(n)) toast(n+'곳 방문 달성!');
   else toast(name+' 방문 인증! ('+n+'/'+tourTotal+')');
 }
-visitBtn.addEventListener('click',()=>{if(visited.has(list[cur].name)) return; closeBooth(); openScan();});
+visitBtn.addEventListener('click',()=>{if(visited.has(list[cur].name)) return; hideBooth(); openScan();});
 
 /* ===== QR 스캔 인증 ===== */
 const CODE_HASH={"995ea8e7": "체육과", "9640eb29": "스포츠 규칙 연구", "18578492": "사무행정", "75d875a2": "창업 시뮬레이션", "523ff841": "전자상거래 실무", "35b513ea": "모의창업반", "bbe95c46": "육군인사 사령부", "863ab076": "한국사", "57563004": "사회과", "64ecc327": "인성복지부", "cacbae24": "국제교류", "82917437": "중국문화체험", "f61721db": "일본어", "5ca2ac16": "학생자치회", "478902fa": "정보.지속가능 업사이클링", "1465ad8f": "정보처리와 관리", "388be1f3": "수학과", "efe0dc84": "글로벌 시사포럼", "ea556f80": "영어과", "0a5a2258": "과학과", "8a99086e": "교양독서 발표반", "6b5cfe6c": "국어과", "b1577aec": "보건간호과", "7eb0f5bd": "2학년 6반 페이스페인팅", "2f0c9d37": "굿즈 창작반", "14d872ba": "일러스트 창작반", "a9ccc5b7": "그래픽 SW과", "44fd2ccc": "컴퓨터시스템 정비", "0d546920": "공공데이터 활용반", "63f366e5": "메이크 디자인", "690b2f1c": "메이크 웹", "0ee3bb1f": "메이크 게임개발", "cdcb985f": "메이크 정보보안", "319d4ca6": "메이크 인공지능", "5ac7ac89": "창업체험 교육", "cef97f44": "캡스톤 디자인", "e3bd65fe": "STEAM 클럽", "0891391f": "용인 디지털", "54578eef": "AI 디지털", "e29f5abd": "진로진학/ 도서관", "19a9b3e4": "위클래스/ 보건실", "0b23d970": "슬기로운 전기생활", "e0bfecfc": "미술반", "92423907": "생태학교 환경부스"};
@@ -615,6 +619,7 @@ let stream=null, raf=0, lastBad=0;
 function scanError(t){scanErr.textContent=t; scanErr.hidden=false;}
 async function openScan(){
   scanErr.hidden=true; document.getElementById('scanCode').value=''; scanEl.hidden=false;
+  if(ovIs('booth')){try{history.replaceState({ov:'scan'},'');}catch(e){}} else pushOv('scan');
   if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){scanError('이 브라우저에서는 카메라를 쓸 수 없어요. 아래에 코드를 입력해 주세요.'); return;}
   if(typeof jsQR!=='function'){scanError('스캐너를 불러오지 못했어요. 인터넷 연결을 확인하거나 코드를 입력해 주세요.'); return;}
   try{
@@ -622,7 +627,8 @@ async function openScan(){
     video.srcObject=stream; await video.play(); tick();
   }catch(e){scanError('카메라를 열 수 없어요. 브라우저 설정에서 카메라 권한을 허용하거나, 아래에 코드를 입력해 주세요.');}
 }
-function closeScan(){cancelAnimationFrame(raf); if(stream){stream.getTracks().forEach(t=>t.stop()); stream=null;} video.srcObject=null; scanEl.hidden=true; document.querySelector('.scan-frame').classList.remove('hit');}
+function closeScan(){if(ovIs('scan')){history.back(); return;} hideScan();}
+function hideScan(){cancelAnimationFrame(raf); if(stream){stream.getTracks().forEach(t=>t.stop()); stream=null;} video.srcObject=null; scanEl.hidden=true; document.querySelector('.scan-frame').classList.remove('hit');}
 function handleCode(code,fromCamera){
   const name=code&&boothFromCode(code);
   if(!name){ if(!fromCamera) scanError('맞지 않는 코드예요. 다시 확인해 주세요.'); else if(Date.now()-lastBad>2000){lastBad=Date.now(); scanError('이 축제 부스의 QR이 아니에요.');} return false;}
@@ -672,7 +678,7 @@ function goHome(){
 function goToBooth(i){pending=i; goHome();}
 function route(){
   const id=pages.includes(location.hash.slice(1))?location.hash.slice(1):'home';
-  if(!scrim.hidden) closeBooth();
+  if(!scrim.hidden) hideBooth();
   pages.forEach(p=>document.getElementById(p).hidden=(p!==id));
   window.scrollTo(0,0);
   if(id==='home' && pending!==null){markBooth(pending); pending=null;}
@@ -682,6 +688,7 @@ document.querySelectorAll('[data-go]').forEach(b=>b.addEventListener('click',()=
 document.querySelectorAll('.back').forEach(b=>b.addEventListener('click',goHome));
 /* 화면 아무 곳이나 누르면 분홍 위치 표시 해제 */
 document.addEventListener('click',e=>{if(pending===null && !e.target.closest('.row') && document.querySelector('.booth.find')) clearFind();});
+window.addEventListener('popstate',()=>{if(!scanEl.hidden) hideScan(); if(!scrim.hidden) hideBooth();});
 window.addEventListener('hashchange',route);
 route();
 
