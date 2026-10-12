@@ -53,13 +53,13 @@ button:focus-visible{outline:3px solid var(--pink);outline-offset:2px}
   border:1px dashed rgba(255,255,255,.28);box-sizing:border-box;border-radius:1.2cqw;
   display:grid;place-items:center;font-weight:900;font-size:4.6cqw;color:rgba(255,255,255,.4);letter-spacing:.12em}
 .booth{position:absolute;box-sizing:border-box;border:0;border-radius:.9cqw;background:var(--paper);color:var(--ink);
-  font-weight:700;font-size:2.2cqw;line-height:1.12;letter-spacing:-.02em;padding:0 .4cqw;display:grid;place-items:center;text-align:center;
+  font-weight:700;font-size:2.35cqw;line-height:1.12;letter-spacing:-.02em;padding:0 .4cqw;display:grid;place-items:center;text-align:center;
   cursor:pointer;word-break:keep-all;transition:background .15s, transform .15s}
 .booth.on{background:var(--yellow);z-index:2;transform:scale(1.05);box-shadow:0 .5cqw 1.4cqw rgba(0,0,0,.35)}
 @media (hover:hover){.booth:hover{background:var(--yellow);z-index:2;transform:scale(1.05);box-shadow:0 .5cqw 1.4cqw rgba(0,0,0,.35)}}
 .booth:focus-visible{outline:3px solid var(--pink);outline-offset:1px;z-index:3}
-.booth.small{font-size:1.95cqw}
-.booth.topcell{font-size:1.85cqw;letter-spacing:-.05em;padding:0}
+.booth.small{font-size:2.15cqw}
+.booth.topcell{font-size:2.05cqw;letter-spacing:-.05em;padding:0}
 .booth.stage{font-size:3.8cqw;font-weight:900;background:linear-gradient(100deg,#ff5e7e,#8a5cff 60%,#2aa5f5);color:#fff}
 .booth.stage.on{filter:brightness(1.1)}
 @media (hover:hover){.booth.stage:hover{filter:brightness(1.1)}}
@@ -69,7 +69,7 @@ button:focus-visible{outline:3px solid var(--pink);outline-offset:2px}
 .hint.found b{color:var(--pink)}
 .stamp{position:absolute;z-index:3;width:7cqw;aspect-ratio:1;border-radius:50%;padding:0;cursor:pointer;
   display:grid;place-items:center;background:var(--red);color:#fff;border:.35cqw solid #fff;box-shadow:0 0 0 .35cqw var(--red),0 .6cqw 1.2cqw rgba(30,20,80,.35);
-  font-weight:900;font-size:1.65cqw;letter-spacing:-.04em;line-height:1;transform:rotate(-14deg)}
+  font-weight:900;font-size:1.8cqw;letter-spacing:-.04em;line-height:1;transform:rotate(-14deg)}
 @media (hover:hover){.stamp:hover{background:var(--pink)}}
 .booth.exchange{background:var(--red);color:#fff;border:2px solid #fff;font-size:2.5cqw;font-weight:900;line-height:1.08;padding:0;white-space:pre-line;border-width:2px;box-shadow:0 .5cqw 1.2cqw rgba(30,20,80,.3);letter-spacing:0;border-radius:.6cqw}
 .booth.exchange.on{background:var(--pink);transform:scale(1.06)}
@@ -81,7 +81,7 @@ button:focus-visible{outline:3px solid var(--pink);outline-offset:2px}
 .legend .dot{width:16px;height:16px;border-radius:50%;background:var(--red);box-shadow:0 0 0 2px #fff,0 0 0 4px var(--red)}
 .stamp-note{margin-top:12px;padding:10px 12px;border-radius:12px;background:#fdeceb;color:var(--red);font-weight:700;font-size:14px;line-height:1.5}
 .gate{position:absolute;right:3.5%;top:2.2%;font-weight:700;font-size:2.5cqw;letter-spacing:.2em;padding:.6cqw 1.2cqw .6cqw 1.6cqw;border:1px solid rgba(255,255,255,.75);border-radius:1cqw;background:rgba(255,255,255,.18);color:rgba(255,255,255,.95);pointer-events:none}
-.empty{position:absolute;box-sizing:border-box;border:1.5px solid rgba(255,255,255,.75);border-radius:.9cqw;background:rgba(255,255,255,.12);color:#fff;display:grid;place-items:center;font-weight:700;font-size:2.3cqw;letter-spacing:.15em;pointer-events:none}
+.empty{position:absolute;box-sizing:border-box;border:1.5px solid rgba(255,255,255,.75);border-radius:.9cqw;background:rgba(255,255,255,.12);color:#fff;display:grid;place-items:center;font-weight:700;font-size:2.5cqw;letter-spacing:.15em;pointer-events:none}
 .hint{margin:10px 2px 0;color:var(--muted);font-size:14px;text-align:center}
 
 /* 프로그램 입구: 포스터의 1부/2부 칸 모양 */
@@ -182,6 +182,10 @@ button:focus-visible{outline:3px solid var(--pink);outline-offset:2px}
 #rows2 .row{grid-template-columns:1fr auto;padding-left:18px}
 #rows2 .row.special{padding-block:14px}
 #rows1 .row{grid-template-columns:1fr auto;padding-left:18px}
+.field .fl{display:grid;justify-items:center;gap:1.6cqw;padding-inline:3cqw;text-align:center}
+.field .hint{margin:0;font-size:2.6cqw;font-weight:500;letter-spacing:-.01em;line-height:1.5;color:rgba(255,255,255,.6);word-break:keep-all}
+.field .hint.found{color:#fff;font-weight:700}
+.field .hint.found b{color:var(--yellow)}
 </style>
 </head>
 <body>
@@ -202,10 +206,9 @@ button:focus-visible{outline:3px solid var(--pink);outline-offset:2px}
     </header>
     <div class="map" id="map" role="group" aria-label="부스 배치도">
       <h2 class="title">부스 배치도</h2>
-      <div class="field" aria-hidden="true">잔디광장</div>
+      <div class="field"><div class="fl"><span aria-hidden="true">잔디광장</span><p class="hint" id="hint">부스를 누르면 소개가 나와요</p></div></div>
     </div>
     <p class="legend"><span class="lg"><span class="dot" aria-hidden="true"></span>스탬프 받는 곳</span><span class="lg"><span class="sq" aria-hidden="true"></span>스탬프 교환소</span></p>
-    <p class="hint" id="hint">부스를 누르면 소개가 나와요</p>
     <div class="prog-entry">
       <h2>프로그램 보기</h2>
       <div class="parts">
@@ -331,7 +334,7 @@ map.appendChild(empty);
 
 const btns=list.map((b,i)=>{
   const el=document.createElement('button');
-  el.type='button'; el.className='booth'+(b.stage?' stage':'')+(b.exchange?' exchange':'')+(b.top?' topcell':'')+(b.name.length>8?' small':'');
+  el.type='button'; el.className='booth'+(b.stage?' stage':'')+(b.exchange?' exchange':'')+(b.top?' topcell':'')+(b.name.length>10?' small':'');
   el.textContent=b.exchange?'스\n탬\n프\n\n교\n환\n소':b.name;
   const g=b.exchange?0:1.6; Object.assign(el.style,{left:pct(b.x+g,W),top:pct(b.y+g,H),width:pct(b.w-2*g,W),height:pct(b.h-2*g,H)});
   el.addEventListener('click',()=>openBooth(i));
@@ -462,7 +465,7 @@ function markBooth(i){
   clearFind(); btns[i].classList.add('find');
   hint.className='hint found'; hint.replaceChildren();
   const b=document.createElement('b'); b.textContent=list[i].name;
-  hint.append(b,' 부스 위치예요. 누르면 소개가 나와요');
+  hint.append(b,' 부스 위치예요.',document.createElement('br'),'누르면 소개가 나와요');
   setTimeout(()=>btns[i].scrollIntoView({block:'center',behavior:'smooth'}),80);
 }
 function goHome(){
