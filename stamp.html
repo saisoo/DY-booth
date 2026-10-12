@@ -1,0 +1,526 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>덕영 RAS 페스타 부스 배치도</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap">
+<style>
+/* 레이아웃: 포스터(하늘색 배경·파란 무대·남보라 라벨·RAS 3색)를 그대로 따온 한 장짜리 안내 페이지. 상단 타이틀 → 배치도 → 1부/2부 카드 */
+:root{
+  --sky:#c4e6f1; --sky-2:#addcef; --blue:#2a9fdc; --blue-d:#1d84c4; --navy:#33276b;
+  --pink:#e14f7c; --red:#e8453c; --lime:#c3d62e; --rblue:#1f6fc5; --yellow:#ffe24a; --orange:#f4b25e;
+  --peach:#f8e0cb; --peach-2:#f3d2b6; --paper:#ffffff; --ink:#2a2155; --muted:#5f5b86; --pale:#d6eef8;
+  --scrim:rgba(40,30,90,.5);
+  --sans:"Noto Sans KR","Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+  color-scheme:light;
+}
+html{min-height:100%;background:var(--sky-2)}
+body{min-height:100%}
+[hidden]{display:none!important}
+body{margin:0;background:linear-gradient(var(--sky),var(--sky-2));color:var(--ink);font-family:var(--sans);padding:16px;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+.wrap{max-width:640px;margin:0 auto}
+button{font-family:var(--sans)}
+button:focus-visible{outline:3px solid var(--pink);outline-offset:2px}
+
+/* 상단 타이틀 */
+.hero{text-align:center;padding-block:18px 20px;display:grid;justify-items:center;gap:10px}
+.eyebrow{display:flex;align-items:center;gap:10px;font-weight:700;font-size:13px;letter-spacing:.35em;color:var(--navy);opacity:.75}
+.eyebrow::before,.eyebrow::after{content:"";width:28px;height:1.5px;background:currentColor;border-radius:2px}
+.name{margin:0;font-weight:900;font-size:clamp(34px,10.5vw,54px);line-height:1.1;letter-spacing:-.04em;display:flex;flex-wrap:wrap;justify-content:center;gap:0 .28em}
+.name span{color:var(--navy)}
+.name .ras{letter-spacing:-.02em;background:linear-gradient(100deg,#ff5e7e 0%,#8a5cff 55%,#2aa5f5 100%);-webkit-background-clip:text;background-clip:text;color:transparent;padding-right:.04em}
+.ras i{font-style:normal}
+.tri{width:64px;height:4px;border-radius:2px;background:linear-gradient(90deg,#ff5e7e,#8a5cff,#2aa5f5)}
+.tri i{display:none}
+.tagline{margin:0;font-size:15px;font-weight:500;color:var(--muted);letter-spacing:-.01em}
+.info{margin-top:8px;width:100%;box-sizing:border-box;display:grid;grid-template-columns:auto 1fr;gap:14px;align-items:center;text-align:left;
+  background:var(--paper);border-radius:18px;padding:12px;box-shadow:0 10px 30px rgba(51,39,107,.12)}
+.date{background:linear-gradient(135deg,#3a2c86,#2b2366);color:#fff;border-radius:12px;padding:12px 14px;display:grid;justify-items:center;gap:2px}
+.date b{font-weight:900;font-size:28px;line-height:1;color:#fff;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.date span{font-size:12px;font-weight:700;letter-spacing:.12em;color:#c9bfff}
+.info dl{margin:0;display:grid;gap:8px;min-width:0}
+.info dl div{display:grid;grid-template-columns:2.6em 1fr;gap:6px;align-items:baseline}
+.info dt{font-size:13px;font-weight:700;color:#8a5cff}
+.info dd{margin:0;font-size:15px;font-weight:500;color:var(--ink);line-height:1.45;word-break:keep-all}
+/* 배치도 */
+.map{position:relative;width:100%;aspect-ratio:580/822;background:linear-gradient(160deg,#3a2c86 0%,#2b2366 100%);border-radius:20px;container-type:inline-size;overflow:visible;box-sizing:border-box;box-shadow:0 14px 34px rgba(43,35,102,.28)}
+.title{position:absolute;left:0;right:0;top:2.2%;text-align:center;font-weight:900;font-size:5cqw;color:#fff;margin:0;letter-spacing:.04em}
+.field{position:absolute;left:25.3%;top:14.2%;width:49.9%;height:72.3%;
+  background:repeating-linear-gradient(135deg,rgba(255,255,255,.06) 0 1.6cqw,rgba(255,255,255,.02) 1.6cqw 3.2cqw);
+  border:1px dashed rgba(255,255,255,.28);box-sizing:border-box;border-radius:1.2cqw;
+  display:grid;place-items:center;font-weight:900;font-size:4.6cqw;color:rgba(255,255,255,.4);letter-spacing:.12em}
+.booth{position:absolute;box-sizing:border-box;border:0;border-radius:.9cqw;background:var(--paper);color:var(--ink);
+  font-weight:700;font-size:2.35cqw;line-height:1.12;letter-spacing:-.02em;padding:0 .4cqw;display:grid;place-items:center;text-align:center;
+  cursor:pointer;word-break:keep-all;transition:background .15s, transform .15s}
+.booth.on{background:var(--yellow);z-index:2;transform:scale(1.05);box-shadow:0 .5cqw 1.4cqw rgba(0,0,0,.35)}
+@media (hover:hover){.booth:hover{background:var(--yellow);z-index:2;transform:scale(1.05);box-shadow:0 .5cqw 1.4cqw rgba(0,0,0,.35)}}
+.booth:focus-visible{outline:3px solid var(--pink);outline-offset:1px;z-index:3}
+.booth.small{font-size:2.15cqw}
+.booth.topcell{font-size:2.05cqw;letter-spacing:-.05em;padding:0}
+.booth.stage{font-size:3.8cqw;font-weight:900;background:linear-gradient(100deg,#ff5e7e,#8a5cff 60%,#2aa5f5);color:#fff}
+.booth.stage.on{filter:brightness(1.1)}
+@media (hover:hover){.booth.stage:hover{filter:brightness(1.1)}}
+.booth.find,.booth.find:hover{background:var(--pink);color:#fff;z-index:4;transform:scale(1.12);animation:ping 1.1s ease-out 4}
+@keyframes ping{0%{box-shadow:0 0 0 0 rgba(225,79,124,.75)}100%{box-shadow:0 0 0 4cqw rgba(225,79,124,0)}}
+.hint.found{color:var(--navy);font-weight:700}
+.hint.found b{color:var(--pink)}
+.stamp{position:absolute;z-index:3;width:7cqw;aspect-ratio:1;border-radius:50%;padding:0;cursor:pointer;
+  display:grid;place-items:center;background:var(--red);color:#fff;border:.35cqw solid #fff;box-shadow:0 0 0 .35cqw var(--red),0 .6cqw 1.2cqw rgba(30,20,80,.35);
+  font-weight:900;font-size:1.8cqw;letter-spacing:-.04em;line-height:1;transform:rotate(-14deg)}
+@media (hover:hover){.stamp:hover{background:var(--pink)}}
+.booth.exchange{background:var(--red);color:#fff;border:2px solid #fff;font-size:2.5cqw;font-weight:900;line-height:1.08;padding:0;white-space:pre-line;border-width:2px;box-shadow:0 .5cqw 1.2cqw rgba(30,20,80,.3);letter-spacing:0;border-radius:.6cqw}
+.booth.exchange.on{background:var(--pink);transform:scale(1.06)}
+@media (hover:hover){.booth.exchange:hover{background:var(--pink);transform:scale(1.06)}}
+.legend .sq{width:14px;height:14px;border-radius:3px;background:var(--red)}
+.legend .lg{display:inline-flex;align-items:center;gap:8px;white-space:nowrap}
+.booth.stamp-booth{box-shadow:inset 0 0 0 .45cqw var(--red)}
+.legend{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:6px 16px;margin:8px 0 0;font-size:14px;font-weight:700;color:var(--navy)}
+.legend .dot{width:16px;height:16px;border-radius:50%;background:var(--red);box-shadow:0 0 0 2px #fff,0 0 0 4px var(--red)}
+.stamp-note{margin-top:12px;padding:10px 12px;border-radius:12px;background:#fdeceb;color:var(--red);font-weight:700;font-size:14px;line-height:1.5}
+.gate{position:absolute;right:3.5%;top:2.2%;font-weight:700;font-size:2.5cqw;letter-spacing:.2em;padding:.6cqw 1.2cqw .6cqw 1.6cqw;border:1px solid rgba(255,255,255,.75);border-radius:1cqw;background:rgba(255,255,255,.18);color:rgba(255,255,255,.95);pointer-events:none}
+.empty{position:absolute;box-sizing:border-box;border:1.5px solid rgba(255,255,255,.75);border-radius:.9cqw;background:rgba(255,255,255,.12);color:#fff;display:grid;place-items:center;font-weight:700;font-size:2.5cqw;letter-spacing:0;pointer-events:none}
+.empty span{display:inline-flex;align-items:center;gap:.6cqw;line-height:1}
+.empty svg{width:2.2cqw;height:2.2cqw}
+.hint{margin:10px 2px 0;color:var(--muted);font-size:14px;text-align:center}
+
+/* 프로그램 입구: 포스터의 1부/2부 칸 모양 */
+.prog-entry{margin-top:22px;display:grid;gap:10px}
+.prog-entry h2{font-weight:900;font-size:20px;margin:0;color:var(--navy)}
+.parts{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.part-btn{display:grid;padding:0;border:0;background:none;text-align:center;cursor:pointer;color:var(--ink)}
+.part-btn .tab{background:var(--navy);color:#fff;font-weight:700;font-size:16px;padding:6px;border-radius:10px 10px 0 0}
+.part-btn .body{background:var(--pale);border:2px solid #fff;border-top:0;border-radius:0 0 12px 12px;padding:14px 8px;font-size:14px;line-height:1.5;font-weight:500;transition:background .15s}
+@media (hover:hover){.part-btn:hover .body{background:var(--yellow)}}
+.part-btn.soon .body{color:var(--muted)}
+
+/* 프로그램 페이지 */
+.topbar{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;padding-block:8px;margin-top:-8px}
+.back{font-weight:700;font-size:16px;padding:10px 18px 10px 14px;border-radius:999px;border:0;background:var(--navy);color:#fff;cursor:pointer;box-shadow:0 4px 12px rgba(30,20,80,.25)}
+.phead{margin:12px 0 16px;padding:18px;border-radius:16px;background:linear-gradient(160deg,#3a2c86 0%,#2b2366 100%);color:#fff}
+.phead h1{font-weight:900;font-size:28px;margin:0 0 4px}
+.phead p{margin:0;font-size:15px;opacity:.92}
+.phead .meta{display:flex;flex-wrap:wrap;gap:4px 16px;margin-top:10px;font-size:15px}
+.phead .meta b{font-weight:700;color:#c9bfff;margin-right:4px}
+.rows{display:grid;background:var(--paper);border-radius:16px;padding:4px 14px;border:2px solid var(--navy)}
+.row{display:grid;grid-template-columns:2.2em 1fr auto;gap:12px;align-items:center;text-align:left;width:100%;padding:13px 0;border:0;border-bottom:1px solid #e3e1ee;background:transparent;color:inherit;cursor:pointer}
+.row:last-child{border-bottom:0}
+@media (hover:hover){.row:hover .t{color:var(--pink)}}
+.row .no{font-weight:900;font-size:16px;color:var(--pink);font-variant-numeric:tabular-nums;text-align:right}
+.row .txt{min-width:0;display:grid;gap:2px}
+.row .t{font-weight:700;font-size:16px;line-height:1.45;color:var(--ink);word-break:keep-all}
+.row .o{font-size:13px;color:var(--muted)}
+.row .go{color:var(--blue-d);font-size:13px;font-weight:700;white-space:nowrap}
+.row.static{cursor:default;grid-template-columns:2.2em 1fr auto}
+.hwrap{display:grid;justify-items:center;gap:2px;min-width:40px}
+.hcount{font-size:11px;font-weight:700;color:#ff4d7e;font-variant-numeric:tabular-nums;line-height:1;min-height:11px}
+.heart{width:36px;height:36px;border-radius:50%;border:0;background:#ffe8ef;color:#ff4d7e;font-size:18px;line-height:1;cursor:pointer;display:grid;place-items:center;touch-action:manipulation;-webkit-user-select:none;user-select:none;transition:transform .12s}
+.heart:active{transform:scale(.88)}
+.heart.pop{animation:hpop .3s ease-out}
+@keyframes hpop{40%{transform:scale(1.25)}}
+
+.reset-wrap{position:fixed;right:16px;bottom:calc(20px + env(safe-area-inset-bottom,0px));z-index:15;display:flex;align-items:center;gap:8px}
+.reset-btn{width:48px;height:48px;border-radius:50%;border:1px solid rgba(255,255,255,.5);background:rgba(43,35,102,.55);color:#fff;display:grid;place-items:center;cursor:pointer;
+  -webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);box-shadow:0 6px 18px rgba(43,35,102,.3);touch-action:manipulation}
+.reset-btn.armed{background:rgba(255,77,126,.85)}
+.reset-btn.spin svg{animation:spin .6s ease-out}
+@keyframes spin{to{transform:rotate(360deg)}}
+.reset-tip{background:rgba(43,35,102,.85);color:#fff;font-size:13px;font-weight:700;padding:8px 12px;border-radius:999px;white-space:nowrap}
+#hearts{position:fixed;inset:0;pointer-events:none;z-index:20;overflow:hidden}
+.fh{position:absolute;font-size:24px;line-height:1;will-change:transform,opacity;animation:fly var(--d,1.6s) ease-out forwards}
+@keyframes fly{0%{transform:translate(-50%,-50%) scale(.4);opacity:0}12%{opacity:1;transform:translate(-50%,-70%) scale(1.1)}100%{transform:translate(calc(-50% + var(--x)),calc(-50% - var(--y))) scale(var(--s)) rotate(var(--r));opacity:0}}
+.row.static:hover .t{color:var(--ink)}
+.row .pill{display:inline-block;margin-left:8px;padding:2px 10px;border-radius:999px;background:var(--pale);color:var(--navy);font-size:13px;font-weight:700;vertical-align:2px}
+.row.special .t{color:var(--navy);font-weight:900}
+.row.special{background:linear-gradient(90deg,color-mix(in srgb,var(--yellow) 45%,transparent),transparent)}
+.note{margin:10px 4px 0;font-size:14px;color:var(--muted)}
+.soon-box{padding:40px 20px;text-align:center;background:var(--paper);border:2px dashed var(--navy);border-radius:16px;color:var(--muted);font-size:16px;line-height:1.6}
+.soon-box b{display:block;font-weight:900;font-size:22px;color:var(--navy);margin-bottom:4px}
+
+/* 팝업 */
+.scrim{position:fixed;inset:0;background:var(--scrim);display:grid;place-items:center;padding:16px;z-index:10;animation:fade .15s}
+.card{background:var(--paper);color:var(--muted);width:min(440px,100%);border-radius:18px;padding:22px 22px 18px;border:3px solid var(--navy);box-shadow:0 20px 60px rgba(30,20,80,.35);animation:pop .18s ease-out;box-sizing:border-box}
+.card h2{font-weight:900;font-size:26px;margin:0 0 10px;color:var(--navy);text-wrap:balance;line-height:1.25;letter-spacing:-.01em}
+.items{display:grid;gap:12px}
+.item{display:grid;gap:4px;padding-top:12px;border-top:2px dotted var(--sky-2)}
+.item .org{font-size:13px;font-weight:500;color:var(--pink)}
+.item .theme{font-weight:700;font-size:18px;line-height:1.5;color:var(--ink);word-break:keep-all}
+.nav{display:flex;gap:8px;margin-top:18px}
+.nav button{flex:1;font-weight:700;font-size:15px;padding:12px 8px;border-radius:12px;border:2px solid var(--navy);background:var(--paper);color:var(--navy);cursor:pointer}
+.nav button.close{background:var(--navy);color:#fff}
+@keyframes pop{from{transform:translateY(10px) scale(.97);opacity:0}}
+@keyframes fade{from{opacity:0}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+/* 프로그램 화면: 배치도와 같은 남색 판 + 흰 칩 */
+.rows{background:linear-gradient(160deg,#3a2c86 0%,#2b2366 100%);border:0;border-radius:20px;padding:12px;gap:8px;box-shadow:0 14px 34px rgba(43,35,102,.28)}
+.row{box-sizing:border-box;background:#fff;border:0;border-radius:12px;padding:12px 12px 12px 6px}
+.row:last-child{border:0}
+.row .no{color:#8a5cff}
+.row .go{color:#8a5cff}
+.row.special{background:linear-gradient(100deg,#ff5e7e,#8a5cff 60%,#2aa5f5)}
+.row.special .t,.row.special .no,.row.static.special:hover .t{color:#fff}
+.row .pill{background:#efeaff;color:#4a3aa8}
+.note{color:var(--muted)}
+.part-btn .tab{background:linear-gradient(160deg,#3a2c86 0%,#2b2366 100%)}
+.part-btn .body{background:#fff;border:0;box-shadow:0 10px 24px rgba(43,35,102,.15)}
+.prog-entry h2{color:var(--navy)}
+/* 프로그램 화면 글꼴 정리 */
+.phead h1{font-size:26px;letter-spacing:-.03em;margin-bottom:6px}
+.phead p{font-size:14px;font-weight:500;letter-spacing:-.01em;opacity:.85}
+.phead .meta{font-size:14px;font-weight:500;font-variant-numeric:tabular-nums;gap:4px 18px}
+.row .no{font-size:15px;font-weight:800;letter-spacing:-.02em}
+.row .t{font-size:15.5px;font-weight:700;letter-spacing:-.025em;line-height:1.45}
+.row .o{font-size:12.5px;font-weight:500;letter-spacing:-.01em;margin-top:2px}
+.row .go{font-size:12.5px;letter-spacing:-.01em}
+.row .pill{font-size:12px;font-weight:700;letter-spacing:-.01em;padding:3px 9px;vertical-align:1px}
+.row .t .lbl{font-weight:500;color:var(--muted);margin-right:3px}
+.row .t .num{font-weight:800;font-variant-numeric:tabular-nums}
+.row.special .t{font-size:16px;font-weight:800;letter-spacing:.02em}
+.note{font-size:13px;letter-spacing:-.01em}
+.foot{margin-top:36px;padding-block:16px 8px;text-align:center;font-size:12px;font-weight:500;letter-spacing:.02em;color:var(--muted);opacity:.8}
+#part2:not([hidden])~.foot{margin-top:-60px}
+#rows2 .row{grid-template-columns:1fr;padding-left:18px}
+#rows2 .row.special{padding-block:14px}
+#rows1 .row{grid-template-columns:1fr auto;padding-left:18px}
+.field .fl{display:grid;justify-items:center;gap:1.6cqw;padding-inline:3cqw;text-align:center}
+.field .hint{margin:0;font-size:2.6cqw;font-weight:500;letter-spacing:-.01em;line-height:1.5;color:rgba(255,255,255,.6);word-break:keep-all}
+.field .hint.found{color:#fff;font-weight:700}
+.field .hint.found b{color:var(--yellow)}
+.share-btn{margin-top:4px;display:inline-flex;align-items:center;gap:8px;padding:11px 20px;border-radius:999px;border:0;cursor:pointer;
+  background:linear-gradient(100deg,#ff5e7e,#8a5cff 60%,#2aa5f5);color:#fff;font-weight:700;font-size:15px;letter-spacing:-.01em;box-shadow:0 8px 20px rgba(138,92,255,.3);touch-action:manipulation}
+.share-btn:active{transform:scale(.97)}
+.share-msg{margin:0;font-size:13px;font-weight:500;color:var(--navy);word-break:break-all;user-select:all;-webkit-user-select:all}
+.foot-icons{display:flex;justify-content:center;gap:14px;margin-bottom:12px}
+.ico{width:46px;height:46px;border-radius:50%;border:0;display:grid;place-items:center;background:#fff;color:var(--navy);cursor:pointer;box-shadow:0 6px 16px rgba(43,35,102,.14);touch-action:manipulation;transition:transform .12s}
+.ico:active{transform:scale(.92)}
+@media (hover:hover){.ico:hover{color:#8a5cff}}
+.foot{opacity:1}
+.foot .copy{margin:0;opacity:.8}
+.foot .share-msg{margin:0 0 10px;font-size:13px;opacity:1}
+.hero{padding-block:8px 14px;gap:6px}
+.name{font-size:clamp(30px,9vw,46px)}
+.tagline{font-size:13.5px}
+.meta-line{margin:4px 0 0;display:flex;flex-wrap:nowrap;white-space:nowrap;max-width:100%;box-sizing:border-box;letter-spacing:-.02em;justify-content:center;align-items:center;gap:4px 8px;font-size:12.5px;font-weight:500;color:var(--navy);
+  background:rgba(255,255,255,.6);border-radius:999px;padding:7px 14px;font-variant-numeric:tabular-nums}
+.meta-line b{font-weight:800;color:#8a5cff}
+.meta-line i{width:3px;height:3px;border-radius:50%;background:currentColor;opacity:.4}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <section id="home">
+    <header class="hero">
+      <div class="eyebrow">2026</div>
+      <h1 class="name"><span class="dy">덕영</span><span class="ras"><i class="r">R</i><i class="a">A</i><i class="s">S</i></span><span class="fe">페스타</span></h1>
+      <p class="tagline">울림 그리고 감동이 있는 덕영 RAS페스타</p>
+      <p class="meta-line"><b>10.23 금</b><i></i>10:00–16:00<i></i>운동장 · 덕영관 체육관</p>
+    </header>
+    <div class="map" id="map" role="group" aria-label="부스 배치도">
+      <h2 class="title">부스 배치도</h2>
+      <div class="field"><div class="fl"><span aria-hidden="true">잔디광장</span><p class="hint" id="hint">부스를 누르면 소개가 나와요</p></div></div>
+    </div>
+    <p class="legend"><span class="lg"><span class="sq" aria-hidden="true"></span>스탬프 교환소</span></p>
+    <div class="prog-entry">
+      <h2>프로그램 보기</h2>
+      <div class="parts">
+        <button type="button" class="part-btn" data-go="part1"><span class="tab">1부</span><span class="body">부스 전시·체험<br>10:00~15:00</span></button>
+        <button type="button" class="part-btn" data-go="part2"><span class="tab">2부</span><span class="body">공연마당<br>14:00~16:00</span></button>
+      </div>
+    </div>
+  </section>
+
+  <section id="part1" hidden>
+    <div class="topbar"><button type="button" class="back">← 뒤로가기</button></div>
+    <header class="phead">
+      <h1>1부 프로그램</h1>
+      <p>덕영 RAS페스타 전시 및 체험</p>
+      <div class="meta"><span><b>시간</b> 10:00~15:00</span><span><b>장소</b> 교내 운동장 부스</span></div>
+    </header>
+    <div class="rows" id="rows1"></div>
+  </section>
+
+  <section id="part2" hidden>
+    <div class="topbar"><button type="button" class="back">← 뒤로가기</button></div>
+    <header class="phead">
+      <h1>2부 프로그램</h1>
+      <p>덕영 RAS페스타 공연마당</p>
+      <div class="meta"><span><b>시간</b> 14:00~16:00</span><span><b>장소</b> 덕영관 3층 체육관</span></div>
+    </header>
+    <div class="rows" id="rows2"></div>
+    <p class="note">※ 순번은 상황에 따라 변경될 수 있어요.</p>
+  </section>
+  <footer class="foot">
+    <div class="foot-icons">
+      <button type="button" class="ico" id="shareBtn" aria-label="친구에게 공유하기" title="공유하기">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15V3"/><path d="m7 8 5-5 5 5"/><path d="M5 13v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6"/></svg>
+      </button>
+      <a class="ico" href="https://map.naver.com/p/search/%EB%8D%95%EC%98%81%EA%B3%A0%EB%93%B1%ED%95%99%EA%B5%90" target="_blank" rel="noopener" aria-label="오시는 길 (지도 열기)" title="오시는 길">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>
+      </a>
+      <button type="button" class="ico" id="topBtn" aria-label="맨 위로" title="맨 위로">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5"/><path d="m5 12 7-7 7 7"/></svg>
+      </button>
+    </div>
+    <p class="share-msg" id="shareMsg" hidden></p>
+    <p class="copy">© 덕영고등학교 그래픽SW과</p>
+  </footer>
+</div>
+
+<div class="scrim" id="scrim" hidden>
+  <div class="card" role="dialog" aria-modal="true" aria-labelledby="pTitle">
+    <h2 id="pTitle"></h2>
+    <div id="pBody" class="items"></div>
+    <div class="nav">
+      <button id="prev" type="button">◀ 이전</button>
+      <button id="next" type="button">다음 ▶</button>
+      <button id="close" type="button" class="close">닫기</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ===== 부스 정보: 여기 내용만 고치면 됩니다 =====
+   ["배치도 표시 이름", [["운영(학과·교과·동아리)", "전시 및 체험 주제"], ...]]
+   한 칸을 여러 팀이 함께 쓰면 [운영, 주제]를 여러 개 넣으세요. */
+const TOP = [
+  ["체육과",[["체육과","체육동아리 활동사진 전시, 골프퍼팅 체험, 다트 체험"]]],
+  ["스포츠 규칙 연구",[["스포츠 규칙 연구","여러 가지 스포츠 종목의 규칙을 알아보고 표현하기"]]],
+  ["사무행정",[["사무 행정","문서로 배우는 행정업무"]]],
+  ["창업 시뮬레이션",[["창업시뮬레이션반","배우는 경영회계, 도전하는 창업! 비즈쿨"]]],
+  ["전자상거래 실무",[["전자상거래실무 (사이버 마켓반)","나도야! 쇼핑몰 사장님"]]],
+  ["모의창업반",[["모의 창업반","손으로 만드는 세상"]]],
+  ["육군인사 사령부",[["육군 인사사령부","대한민국 육군"]]]
+];
+const LEFT = [
+  ["한국사",[["한국사","네 컷으로 읽는 조선의 사화"]]],
+  ["사회과",[["사회과","우리가 그린 정주환경 이야기"]]],
+  ["인성복지부",[["인성복지부","찾아가는 문화다양성(다문화) 체험"]]],
+  ["국제교류",[["국제교류","용인 국제교류 선도학교"]]],
+  ["중국문화체험",[["중국문화체험","중국 제기차기, 마작 게임, 중국 의상 입고 사진 촬영"]]],
+  ["일본어",[["일본어","한일 국제문화교류와 일본 소자본 창업 탐구"]]],
+  ["학생자치회",[["학생자치회","부스 방문 확인 스탬프 찍어주기, 퀴즈 등 (학생 체험으로 운영)"]]],
+  ["정보.지속가능 업사이클링",[["정보","코드로 피어난 예술, 디지털 세상을 그리다!!!"],["지속가능한 업사이클링","버려진 것들의 두 번째 삶"]]],
+  ["정보처리와 관리",[["정보처리와 관리","환경 관련 프레젠테이션 만들기"]]],
+  ["수학과",[["수학과","스도쿠 풀기 / 논리 퍼즐"]]],
+  ["글로벌 시사포럼",[["글로벌 시사포럼반","국제 사회 관련 이슈 기사(영어/한국어) 전시"]]],
+  ["영어과",[["영어과","Happy Halloween"]]],
+  ["과학과",[["과학과","원소기호를 이용한 나만의 단어·문장 만들기, 생명과학 수업 결과물 전시"]]],
+  ["교양독서 발표반",[["교양독서발표반","명문장 헌터스 - 책 속에 숨어 있는 명문장!"]]],
+  ["국어과",[["국어과","세상을 읽고, 생각을 담다"]]],
+  ["보건간호과",[["보건간호과","보건간호 프로젝트 결과물 전시, 활력징후 및 하임리히법 체험, 임산부 체험"]]]
+];
+const RIGHT = [
+  ["2학년 6반 페이스페인팅",[["2학년 6반","페이스 페인팅"]]],
+  ["굿즈 창작반",[["굿즈창작반","굿즈 전시 및 캐리커처, 팔찌 제작 체험"]]],
+  ["일러스트 창작반",[["시각의 서재 (그래픽SW 전공 동아리)","페이지를 넘기면 시작되는 우리들의 세계"]]],
+  ["그래픽 SW과",[["그래픽SW과","디지털 드로잉 체험 및 전시"]]],
+  ["컴퓨터시스템 정비",[["컴퓨터 시스템 일반","Logisim 프로그램을 이용한 논리회로 설계"],["컴퓨터 정비","PC 정비반"]]],
+  ["공공데이터 활용반",[["공공데이터 활용반","공공데이터 활용 홈페이지 전시"]]],
+  ["메이크 디자인",[["메이크디자인","Make@design"]]],
+  ["메이크 웹",[["메이크웹","OUR WEB"]]],
+  ["메이크 게임개발",[["메이크게임개발","개발 게임 체험하기"]]],
+  ["메이크 정보보안",[["메이크정보보안","해킹, 어디까지 알고 있니?"]]],
+  ["메이크 인공지능",[["메이크인공지능","AI Factory"]]],
+  ["창업체험 교육",[["창업체험교육","덕영의 창업"]]],
+  ["캡스톤 디자인",[["캡스톤 디자인","DY VISION"]]],
+  ["STEAM 클럽",[["STEAM클럽","메이크 전동차"]]],
+  ["용인 디지털",[["용인 디지털교육 실천학교","용인 디지털교육 실천학교"]]],
+  ["AI 디지털",[["AI디지털 활용 선도학교","AI디지털 활용 선도학교"]]]
+];
+const BOTTOM = [
+  ["진로진학/ 도서관",[["진로진학부 × 도서관 공동 주관","책에서 질문을 찾고, 탐구로 답하다 - 독서 기반 진로 주제탐구보고서 우수작 및 독서 포트폴리오 대회 우수작"]]],
+  ["위클래스/ 보건실",[["위클래스, 보건실","마음을 잇는 생명존중 덕영마을"]]],
+  ["슬기로운 전기생활",[["슬기로운 전기생활","슬기로운 전기생활"]]],
+  ["미술반",[["미술반 (동아리)","환경미술 전시회, 칠보공예 전시 및 체험 (반지·키링 만들기)"]]],
+  ["생태학교 환경부스",[["생태학교 환경부스","천연세제 나눔, 손거울·배지·메모홀더 제작"]]]
+];
+const STAGE = ["구령대",[["","축제 무대"]]];
+
+/* ===== 배치 (원본 580×822 기준 좌표) ===== */
+const W=580,H=822, list=[];
+const add=(d,x,y,w,h,area,n)=>list.push({name:d[0],items:d[1],x,y,w,h,loc:`${area} ${n}번`});
+TOP.forEach((d,i)=>{add(d,27+i*66,70,66,37,"위쪽",i+1); list[list.length-1].top=true;});
+LEFT.forEach((d,i)=>add(d,28,117+i*37.1,111,37.1,"왼쪽",i+1));
+RIGHT.forEach((d,i)=>add(d,444,117+i*37.1,111,37.1,"오른쪽",i+1));
+BOTTOM.forEach((d,i)=>add(d,86+i*82,718,82,38,"아래쪽",i+1));
+add(["스탬프 교환소",[["","스탬프를 모아 이곳에서 교환하세요!"]]],566,676,24,124,"오른쪽",17); list[list.length-1].exchange=true;
+add(STAGE,405,768,150,47,"무대",1); list[list.length-1].stage=true;
+
+const map=document.getElementById('map'), pct=(v,t)=>(v/t*100)+'%';
+const empty=document.createElement('div'); empty.className='empty'; empty.innerHTML='<span>정문<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7"/><path d="M8 7h9v9"/></svg></span>';
+Object.assign(empty.style,{left:pct(27+7*66+1.6,W),top:pct(71.6,H),width:pct(62.8,W),height:pct(33.8,H)});
+map.appendChild(empty);
+
+const btns=list.map((b,i)=>{
+  const el=document.createElement('button');
+  el.type='button'; el.className='booth'+(b.stage?' stage':'')+(b.exchange?' exchange':'')+(b.top?' topcell':'')+(b.name.length>10?' small':'');
+  el.textContent=b.exchange?'스\n탬\n프\n\n교\n환\n소':b.name;
+  const g=b.exchange?0:1.6; Object.assign(el.style,{left:pct(b.x+g,W),top:pct(b.y+g,H),width:pct(b.w-2*g,W),height:pct(b.h-2*g,H)});
+  el.addEventListener('click',()=>openBooth(i));
+  map.appendChild(el); return el;
+});
+
+/* 스탬프 받는 곳 (배치도 이름) */
+const STAMP_BOOTHS=[];
+STAMP_BOOTHS.forEach(name=>{const i=list.findIndex(b=>b.name===name); if(i<0)return; const b=list[i];
+  btns[i].classList.add('stamp-booth');
+  const s=document.createElement('button'); s.type='button'; s.className='stamp'; s.textContent='스탬프';
+  s.setAttribute('aria-label','스탬프 받는 곳: '+name);
+  const onRight=b.x>W/2;
+  Object.assign(s.style,{left:pct(onRight?b.x-22:b.x+b.w-18,W),top:pct(b.y-16,H)});
+  if(onRight) s.style.transform='rotate(12deg)';
+  s.addEventListener('click',()=>openBooth(i)); map.appendChild(s);});
+const scrim=document.getElementById('scrim'); let cur=-1, lastFocus=null;
+function show(i){
+  cur=(i+list.length)%list.length; const b=list[cur];
+  btns.forEach(x=>x.classList.remove('on')); btns[cur].classList.add('on');
+  pTitle.textContent=b.name; pBody.replaceChildren();
+  b.items.forEach(([org,theme])=>{
+    const it=document.createElement('div'); it.className='item';
+    if(org){const o=document.createElement('div'); o.className='org'; o.textContent=org; it.append(o);}
+    const t=document.createElement('div'); t.className='theme'; t.textContent=theme; it.append(t);
+    pBody.append(it);
+  });
+  if(STAMP_BOOTHS.includes(b.name)){const n=document.createElement('div'); n.className='stamp-note'; n.textContent='부스를 둘러보고 이곳에서 스탬프를 받으세요!'; pBody.append(n);}
+}
+function openBooth(i){clearFind(); lastFocus=document.activeElement; show(i); if(scrim.hidden){scrim.hidden=false; pushOv('booth');} document.getElementById('close').focus();}
+/* 뒤로가기 제스처로 팝업 닫기 */
+function pushOv(name){try{history.pushState({ov:name},'');}catch(e){}}
+const ovIs=name=>{try{return history.state&&history.state.ov===name;}catch(e){return false;}};
+function closeBooth(){const back=ovIs('booth'); hideBooth(); if(back){try{history.back();}catch(e){}}}
+function hideBooth(){scrim.hidden=true; btns.forEach(x=>x.classList.remove('on')); lastFocus&&lastFocus.focus&&lastFocus.focus();}
+/* ===== 1부 프로그램 (연번 순서) =====
+   [배치도 표시 이름, 그 칸 안의 몇 번째 팀인지(0부터)] */
+const PROGRAM1 = [
+  ["공공데이터 활용반",0],["중국문화체험",0],["국제교류",0],["정보처리와 관리",0],["정보.지속가능 업사이클링",0],
+  ["교양독서 발표반",0],["창업 시뮬레이션",0],["모의창업반",0],["진로진학/ 도서관",0],["컴퓨터시스템 정비",0],
+  ["컴퓨터시스템 정비",1],["육군인사 사령부",0],["한국사",0],["수학과",0],["체육과",0],
+  ["보건간호과",0],["사회과",0],["국어과",0],["사무행정",0],["정보.지속가능 업사이클링",1],
+  ["일본어",0],["스포츠 규칙 연구",0],["영어과",0],["미술반",0],["글로벌 시사포럼",0],
+  ["위클래스/ 보건실",0],["일러스트 창작반",0],["과학과",0],["굿즈 창작반",0],["AI 디지털",0],
+  ["용인 디지털",0],["STEAM 클럽",0],["캡스톤 디자인",0],["창업체험 교육",0],["메이크 인공지능",0],
+  ["메이크 정보보안",0],["메이크 게임개발",0],["메이크 웹",0],["메이크 디자인",0],["학생자치회",0],
+  ["인성복지부",0],["생태학교 환경부스",0],["그래픽 SW과",0],["전자상거래 실무",0],["2학년 6반 페이스페인팅",0],
+  ["슬기로운 전기생활",0]
+];
+const rows1=document.getElementById('rows1');
+/* 가나다순 정렬 (한글 먼저, 영문은 뒤) */
+const koSort=new Intl.Collator('ko');
+const isHangul=t=>/^[가-힣]/.test(t);
+const P1=PROGRAM1.map(([name,k])=>{const bi=list.findIndex(b=>b.name===name); return bi<0?null:{bi,org:list[bi].items[k][0],theme:list[bi].items[k][1]};}).filter(Boolean)
+  .sort((a,b)=>(isHangul(b.theme)-isHangul(a.theme))||koSort.compare(a.theme,b.theme));
+P1.forEach(({bi,org,theme})=>{
+  const r=document.createElement('button'); r.type='button'; r.className='row';
+  r.innerHTML='<span class="txt"><span class="t"></span><span class="o"></span></span><span class="go" aria-hidden="true">위치 보기 ›</span>';
+  r.querySelector('.t').textContent=theme;
+  r.querySelector('.o').textContent=org;
+  r.addEventListener('click',()=>goToBooth(bi));
+  rows1.append(r);
+});
+
+/* ===== 2부 공연마당 =====
+   [표시 이름, 공연 부문(없으면 "")] */
+const PROGRAM2 = [
+  ["개회사",""],
+  ["참가번호 1번","노래"],["참가번호 2번","랩"],["참가번호 3번","기타 연주 및 노래"],
+  ["참가번호 4번","노래"],["참가번호 5번","노래"],["참가번호 6번","노래"],["참가번호 7번","노래"],
+  ["참가번호 8번","노래"],["참가번호 9번","노래"],["참가번호 10번","노래"],["참가번호 11번","댄스"],
+  ["참가번호 12번","밴드 공연"],["참가번호 13번","밴드 공연"],
+  ["시상식",""]
+];
+const rows2=document.getElementById('rows2'); const heartResets=[];
+PROGRAM2.forEach(([name,kind],n)=>{
+  const r=document.createElement('div'); r.className='row static'+(kind?'':' special');
+  r.innerHTML='<span class="txt"><span class="t"></span></span>';
+  const t=r.querySelector('.t'); const m=name.match(/^참가번호 (\d+번)$/);
+  if(m){const a=document.createElement('span'); a.className='lbl'; a.textContent='참가번호'; const b2=document.createElement('span'); b2.className='num'; b2.textContent=m[1]; t.append(a,b2);} else t.textContent=name;
+  if(kind){const k=document.createElement('span'); k.className='pill'; k.textContent=kind; t.append(k);}
+  rows2.append(r);
+});
+
+/* ===== 하트 응원 효과 ===== */
+const heartLayer=document.createElement('div'); heartLayer.id='hearts'; document.body.append(heartLayer);
+const HC=['#ff4d7e','#ff7aa2','#a66bff','#5aa9ff','#ff5e7e'];
+const calm=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+function burst(btn){
+  btn.classList.remove('pop'); void btn.offsetWidth; btn.classList.add('pop');
+  if(calm) return;
+  const r=btn.getBoundingClientRect(), n=3+Math.floor(Math.random()*3);
+  for(let k=0;k<n;k++){
+    if(heartLayer.childElementCount>60) break;
+    const e=document.createElement('span'); e.className='fh'; e.textContent='\u2665\uFE0E';
+    e.style.left=(r.left+r.width/2)+'px'; e.style.top=(r.top+r.height/2)+'px';
+    e.style.color=HC[Math.floor(Math.random()*HC.length)];
+    e.style.setProperty('--x',(Math.random()*120-80)+'px');
+    e.style.setProperty('--y',(140+Math.random()*180)+'px');
+    e.style.setProperty('--s',(0.8+Math.random()*0.9).toFixed(2));
+    e.style.setProperty('--r',(Math.random()*60-30)+'deg');
+    e.style.setProperty('--d',(1.2+Math.random()*0.8).toFixed(2)+'s');
+    e.style.animationDelay=(k*60)+'ms';
+    e.addEventListener('animationend',()=>e.remove());
+    heartLayer.append(e);
+  }
+}
+
+
+/* ===== 공유 ===== */
+(()=>{const btn=document.getElementById('shareBtn'), msg=document.getElementById('shareMsg'); let t=null;
+  const url=location.origin+location.pathname;
+  const say=(text)=>{msg.textContent=text; msg.hidden=false; clearTimeout(t); t=setTimeout(()=>{msg.hidden=true;},4000);};
+  btn.addEventListener('click',async()=>{
+    const data={title:'2026 덕영 RAS 페스타',text:'덕영 RAS 페스타 부스 배치도와 프로그램이에요!',url};
+    if(navigator.share){try{await navigator.share(data); return;}catch(e){if(e&&e.name==='AbortError') return;}}
+    try{await navigator.clipboard.writeText(url); say('링크를 복사했어요. 원하는 곳에 붙여 넣으세요!');}
+    catch(e){say(url);}
+  });})();
+
+document.getElementById('topBtn').addEventListener('click',()=>window.scrollTo({top:0,behavior:calm?'auto':'smooth'}));
+
+/* ===== 페이지 이동 (주소 #part1, #part2) ===== */
+const pages=['home','part1','part2']; let inApp=false, pending=null;
+const hint=document.getElementById('hint');
+function clearFind(){btns.forEach(x=>x.classList.remove('find')); hint.className='hint'; hint.textContent='부스를 누르면 소개가 나와요';}
+function markBooth(i){
+  clearFind(); btns[i].classList.add('find');
+  hint.className='hint found'; hint.replaceChildren();
+  const b=document.createElement('b'); b.textContent=list[i].name;
+  hint.append(b,' 부스 위치예요.',document.createElement('br'),'누르면 소개가 나와요');
+  setTimeout(()=>btns[i].scrollIntoView({block:'center',behavior:'smooth'}),80);
+}
+function goHome(){
+  if(inApp){inApp=false; history.back();}
+  else {try{history.replaceState(null,'',location.pathname+location.search);}catch(e){location.hash='';} route();}
+}
+function goToBooth(i){pending=i; goHome();}
+function route(){
+  const id=pages.includes(location.hash.slice(1))?location.hash.slice(1):'home';
+  if(!scrim.hidden) hideBooth();
+  pages.forEach(p=>document.getElementById(p).hidden=(p!==id));
+  window.scrollTo(0,0);
+  if(id==='home' && pending!==null){markBooth(pending); pending=null;}
+  else if(id!=='home') clearFind();
+}
+document.querySelectorAll('[data-go]').forEach(b=>b.addEventListener('click',()=>{inApp=true; location.hash=b.dataset.go;}));
+document.querySelectorAll('.back').forEach(b=>b.addEventListener('click',goHome));
+/* 화면 아무 곳이나 누르면 분홍 위치 표시 해제 */
+document.addEventListener('click',e=>{if(pending===null && !e.target.closest('.row') && document.querySelector('.booth.find')) clearFind();});
+window.addEventListener('popstate',()=>{if(!scrim.hidden) hideBooth();});
+window.addEventListener('hashchange',route);
+route();
+
+document.getElementById('close').onclick=closeBooth;
+document.getElementById('prev').onclick=()=>show(cur-1);
+document.getElementById('next').onclick=()=>show(cur+1);
+scrim.addEventListener('click',e=>{if(e.target===scrim)closeBooth();});
+document.addEventListener('keydown',e=>{
+  if(scrim.hidden)return;
+  if(e.key==='Escape')closeBooth();
+  if(e.key==='ArrowLeft')show(cur-1);
+  if(e.key==='ArrowRight')show(cur+1);
+});
+</script>
+</body>
+</html>
