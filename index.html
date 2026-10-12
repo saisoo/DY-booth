@@ -620,9 +620,25 @@ function burst(btn){
   });})();
 
 /* ===== 나의 부스 투어 (이 폰에만 저장) ===== */
+function buzz(p){try{if(navigator.vibrate&&(!navigator.userActivation||navigator.userActivation.hasBeenActive)) navigator.vibrate(p);}catch(e){}}
 const TOUR=list.map((b,i)=>i).filter(i=>!list[i].stage&&!list[i].exchange);
-let visited=new Set(); try{visited=new Set(JSON.parse(localStorage.getItem('tour-visited')||'[]'));}catch(e){}
-const saveTour=()=>{try{localStorage.setItem('tour-visited',JSON.stringify([...visited]));}catch(e){}};
+/* 기록은 서명과 함께 저장해서, 직접 고친 기록은 인정하지 않아요 */
+const _k=['dy','ras','26','✦','tour'].map((x,i)=>x+i).join('');
+const _h=s=>{let a=0x811c9dc5,b=0x9e3779b1; for(const c of new TextEncoder().encode(s)){a^=c; a=Math.imul(a,0x01000193)>>>0; b=Math.imul(b^c,0x85ebca6b)>>>0; b=(b<<13|b>>>19)>>>0;} return (a.toString(36)+b.toString(36));};
+let devId=''; try{devId=localStorage.getItem('ras-dev')||''; if(!devId){devId=Math.random().toString(36).slice(2,10); localStorage.setItem('ras-dev',devId);}}catch(e){devId='x';}
+const sign=(n,t)=>_h(_k+'|'+devId+'|'+n+'|'+t);
+let visited=new Set(), stamps=[], tampered=false;
+try{
+  const raw=JSON.parse(localStorage.getItem('ras-tour-v2')||'[]');
+  if(Array.isArray(raw)) raw.forEach(e=>{ if(Array.isArray(e)&&e.length===3&&typeof e[0]==='string'&&typeof e[1]==='number'&&e[2]===sign(e[0],e[1])&&TOUR.some(i=>list[i].name===e[0])&&!visited.has(e[0])){visited.add(e[0]); stamps.push(e);} else tampered=true; });
+  else tampered=true;
+}catch(e){ tampered=!!(function(){try{return localStorage.getItem('ras-tour-v2');}catch(_){return null;}})(); }
+try{localStorage.removeItem('tour-visited');}catch(e){}
+const saveTour=()=>{try{localStorage.setItem('ras-tour-v2',JSON.stringify(stamps));}catch(e){}};
+if(tampered){saveTour(); setTimeout(()=>toast('직접 수정된 기록은 인정되지 않아 제외했어요'),600);}
+const COOLDOWN=12000;
+const lastStampAt=()=>stamps.reduce((m,e)=>Math.max(m,e[1]),0);
+function cooldownLeft(){const d=Date.now()-lastStampAt(); return (d>=0&&d<COOLDOWN)?Math.ceil((COOLDOWN-d)/1000):0;}
 const tourTotal=TOUR.length; document.getElementById('tourTotal').textContent=tourTotal;
 const MILES=[5,10,20,30];
 function badgeText(n){if(n>=tourTotal)return '전 부스 정복!'; if(n>=30)return '거의 다 왔어요'; if(n>=20)return '축제 고수'; if(n>=10)return '열정 탐험가'; if(n>=1)return '투어 중'; return '시작해 볼까요?';}
@@ -651,10 +667,11 @@ function syncVisitBtn(){const b=list[cur]; const ok=!b.stage&&!b.exchange; visit
   const v=visited.has(b.name); visitBtn.classList.toggle('done',v); if(v) visitBtn.textContent='✓ 방문 인증 완료'; else visitBtn.innerHTML='<svg class="cam" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8.5A2.5 2.5 0 0 1 5.5 6H8l1.6-2.2A1.5 1.5 0 0 1 10.8 3h2.4a1.5 1.5 0 0 1 1.2.8L16 6h2.5A2.5 2.5 0 0 1 21 8.5v9a2.5 2.5 0 0 1-2.5 2.5h-13A2.5 2.5 0 0 1 3 17.5z"/><circle cx="12" cy="13" r="3.8"/><circle cx="17.6" cy="9" r=".6" fill="currentColor"/></svg><span>QR 스캔으로 방문 인증</span>';}
 function markVisited(name){
   if(visited.has(name)){toast(name+' 은(는) 이미 인증했어요'); return;}
-  visited.add(name); saveTour(); const n=renderTour();
+  const left=cooldownLeft(); if(left){toast('방금 인증했어요. '+left+'초 뒤에 다음 부스를 인증할 수 있어요'); return;}
+  const t=Date.now(); visited.add(name); stamps.push([name,t,sign(name,t)]); saveTour(); const n=renderTour();
   const i=list.findIndex(b=>b.name===name); if(i>=0){btns[i].classList.add('just'); setTimeout(()=>btns[i].classList.remove('just'),600);}
   if(!calm){const st=document.createElement('div'); st.className='big-stamp'; document.body.append(st); st.addEventListener('animationend',()=>st.remove());}
-  try{navigator.vibrate&&navigator.vibrate([0,330,60]);}catch(e){}
+  try{buzz([0,330,60]);}catch(e){}
   setTimeout(confetti,330);
   if(n===tourTotal) toast('전 부스 정복! 스탬프 교환소로 가 보세요');
   else if(MILES.includes(n)) toast(n+'곳 방문 달성!');
@@ -679,7 +696,7 @@ visitBtn.addEventListener('click',()=>{if(visited.has(list[cur].name)) return; h
     const dur=calm?0.01:2.6;
     reel.style.transition='transform '+dur+'s cubic-bezier(.12,.75,.15,1)';
     reel.style.transform='translateY(-'+((names.length-1)*H)+'px)';
-    setTimeout(()=>{spinning=false; win.classList.add('done'); try{navigator.vibrate&&navigator.vibrate(60);}catch(e){}
+    setTimeout(()=>{spinning=false; win.classList.add('done'); try{buzz(60);}catch(e){}
       title.textContent=left.length===1?'마지막 남은 부스!':'여기 가 보는 건 어때요?';
       theme.textContent=list[pick].items.map(x=>x[1]).join(' / '); res.hidden=false; document.getElementById('slotGo').focus();},dur*1000+50);
   }
@@ -696,15 +713,27 @@ visitBtn.addEventListener('click',()=>{if(visited.has(list[cur].name)) return; h
 })();
 
 /* ===== QR 스캔 인증 ===== */
-const CODE_HASH={"995ea8e7": "체육과", "9640eb29": "스포츠 규칙 연구", "18578492": "사무행정", "75d875a2": "창업 시뮬레이션", "523ff841": "전자상거래 실무", "35b513ea": "모의창업반", "bbe95c46": "육군인사 사령부", "863ab076": "한국사", "57563004": "사회과", "64ecc327": "인성복지부", "cacbae24": "국제교류", "82917437": "중국문화체험", "f61721db": "일본어", "5ca2ac16": "학생자치회", "478902fa": "정보.지속가능 업사이클링", "1465ad8f": "정보처리와 관리", "388be1f3": "수학과", "efe0dc84": "글로벌 시사포럼", "ea556f80": "영어과", "0a5a2258": "과학과", "8a99086e": "교양독서 발표반", "6b5cfe6c": "국어과", "b1577aec": "보건간호과", "7eb0f5bd": "2학년 6반 페이스페인팅", "2f0c9d37": "굿즈 창작반", "14d872ba": "일러스트 창작반", "a9ccc5b7": "그래픽 SW과", "44fd2ccc": "컴퓨터시스템 정비", "0d546920": "공공데이터 활용반", "63f366e5": "메이크 디자인", "690b2f1c": "메이크 웹", "0ee3bb1f": "메이크 게임개발", "cdcb985f": "메이크 정보보안", "319d4ca6": "메이크 인공지능", "5ac7ac89": "창업체험 교육", "cef97f44": "캡스톤 디자인", "e3bd65fe": "STEAM 클럽", "0891391f": "용인 디지털", "54578eef": "AI 디지털", "e29f5abd": "진로진학/ 도서관", "19a9b3e4": "위클래스/ 보건실", "0b23d970": "슬기로운 전기생활", "e0bfecfc": "미술반", "92423907": "생태학교 환경부스"};
-const fnv=s=>{let h=0x811c9dc5; for(const b of new TextEncoder().encode(s)){h^=b; h=Math.imul(h,0x01000193)>>>0;} return h.toString(16).padStart(8,'0');};
-const boothFromCode=c=>CODE_HASH[fnv('RAS|'+String(c).trim().toUpperCase())]||null;
+const _T='GHaKCac8FsrlqZAcXAwGwyq/Q0Fdob7eFBq++KaO3H14nBY1cAGgQsFOQR7x47oxWMYQw1t8rGKTNL0ZWP1RHmHOs+a/jOQlfkPratlm3YZf0iG9kYPOv/nXgTQ8M6A0DQQkrwvVS2Wthb6TIhayGY5Qb2Pe9u1XykKdps41lHZBYlKUDhptrKBLBGHf33enUQf1i+Hl4s1R2BpjtTA6tk+yp9zBkZaY096itHC9cME1dFF+olWZzr+dVXeezjqtQ4l6r9hqUw1lFBDX/1shs9LaWh0cVRLymkDdBr0ma9+e+7dnxhmEqmbhT51+kGeofcnYmpgyKULbEY5GRTTlWGrrFxATdZAtW1/M73btpHlLoEiS1HoqmFAAoIPA2enkYHSTge2/V1KfhxyhlK9wjUSrLfuVv67kWppPMTkNG92MF6yf6Ri8kAU58fEQld3Z6hlfBOTGfeIIX7/1ANmR4qJh8cC+r/xB5yqVdqCbReWlM03W4hCwfSkIeJdcpKQHGO1iigrhw2M9T9uY';
+const _TB=Uint8Array.from(atob(_T),c=>c.charCodeAt(0));
+const _codeCache=new Map();
+const canVerify=!!(window.crypto&&crypto.subtle&&window.TextEncoder);
+async function boothFromCode(c){
+  c=String(c||'').trim().toUpperCase(); if(!/^[A-Z0-9]{6}$/.test(c)) return null;
+  if(_codeCache.has(c)) return _codeCache.get(c);
+  const enc=new TextEncoder();
+  const key=await crypto.subtle.importKey('raw',enc.encode('RAS-'+c),'PBKDF2',false,['deriveBits']);
+  const k=new Uint8Array(await crypto.subtle.deriveBits({name:'PBKDF2',hash:'SHA-256',salt:enc.encode('DY-RAS-2026|booth'),iterations:100000},key,128));
+  let name=null;
+  for(let o=0;o+9<=_TB.length;o+=9){let ok=true; for(let q=0;q<8;q++) if(_TB[o+q]!==k[q]){ok=false;break;}
+    if(ok){const pos=_TB[o+8]^k[8]; if(pos<TOUR.length) name=list[TOUR[pos]].name; break;}}
+  _codeCache.set(c,name); return name;
+}
 const codeFromText=t=>{const m=String(t).match(/(?:RAS-|#v-|v-)([A-Z0-9]{6})/i); return m?m[1].toUpperCase():(/^[A-Za-z0-9]{6}$/.test(t.trim())?t.trim().toUpperCase():null);};
 const scanEl=document.getElementById('scan'), video=document.getElementById('scanVideo'), canvas=document.getElementById('scanCanvas'), scanErr=document.getElementById('scanErr');
 let stream=null, raf=0, lastBad=0;
 function scanError(t){scanErr.textContent=t; scanErr.hidden=false;}
 async function openScan(){
-  scanErr.hidden=true; document.getElementById('scanCode').value=''; scanEl.hidden=false;
+  accepted=false; checking=false; scanErr.hidden=true; document.getElementById('scanCode').value=''; scanEl.hidden=false;
   if(ovIs('booth')){try{history.replaceState({ov:'scan'},'');}catch(e){}} else pushOv('scan');
   if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){scanError('이 브라우저에서는 카메라를 쓸 수 없어요. 아래에 코드를 입력해 주세요.'); return;}
   if(typeof jsQR!=='function'){scanError('스캐너를 불러오지 못했어요. 인터넷 연결을 확인하거나 코드를 입력해 주세요.'); return;}
@@ -715,14 +744,23 @@ async function openScan(){
 }
 function closeScan(){const back=ovIs('scan'); hideScan(); if(back){try{history.back();}catch(e){}}}
 function hideScan(){cancelAnimationFrame(raf); if(stream){stream.getTracks().forEach(t=>t.stop()); stream=null;} video.srcObject=null; scanEl.hidden=true; document.querySelector('.scan-frame').classList.remove('hit');}
-function handleCode(code,fromCamera){
-  const name=code&&boothFromCode(code);
+let checking=false, accepted=false;
+async function handleCode(code,fromCamera){
+  if(checking||accepted) return false;
+  if(!canVerify){scanError('이 브라우저에서는 인증할 수 없어요. 최신 사파리나 크롬으로 열어 주세요.'); return false;}
+  checking=true; let name=null;
+  try{ name=code?await boothFromCode(code):null; }catch(e){ name=null; }
+  checking=false;
+  if(scanEl.hidden) return false;
   if(!name){ if(!fromCamera) scanError('맞지 않는 코드예요. 다시 확인해 주세요.'); else if(Date.now()-lastBad>2000){lastBad=Date.now(); scanError('이 축제 부스의 QR이 아니에요.');} return false;}
-  document.querySelector('.scan-frame').classList.add('hit'); try{navigator.vibrate&&navigator.vibrate(80);}catch(e){}
+  if(visited.has(name)){ if(!fromCamera||Date.now()-lastBad>2000){lastBad=Date.now(); scanError(name+' 은(는) 이미 인증했어요. 다른 부스 QR을 찍어 주세요.');} return false;}
+  const left=cooldownLeft(); if(left){ if(!fromCamera||Date.now()-lastBad>1500){lastBad=Date.now(); scanError('방금 인증했어요. '+left+'초 뒤에 다음 부스를 인증할 수 있어요.');} return false;}
+  accepted=true; scanErr.hidden=true;
+  document.querySelector('.scan-frame').classList.add('hit'); try{buzz(80);}catch(e){}
   setTimeout(()=>{closeScan(); markVisited(name);},250); return true;
 }
 function tick(){
-  if(!stream) return;
+  if(!stream||accepted) return;
   if(video.readyState>=2){
     const w=video.videoWidth, h=video.videoHeight, s=Math.min(w,h), sc=Math.min(1,640/s);
     canvas.width=Math.round(s*sc); canvas.height=Math.round(s*sc);
@@ -730,18 +768,18 @@ function tick(){
     ctx.drawImage(video,(w-s)/2,(h-s)/2,s,s,0,0,canvas.width,canvas.height);
     const img=ctx.getImageData(0,0,canvas.width,canvas.height);
     const r=jsQR(img.data,img.width,img.height,{inversionAttempts:'dontInvert'});
-    if(r&&r.data){const c=codeFromText(r.data); if(c&&handleCode(c,true)) return; else if(!c&&Date.now()-lastBad>2000){lastBad=Date.now(); scanError('이 축제 부스의 QR이 아니에요.');}}
+    if(r&&r.data&&!checking){const c=codeFromText(r.data); if(c) handleCode(c,true); else if(Date.now()-lastBad>2000){lastBad=Date.now(); scanError('이 축제 부스의 QR이 아니에요.');}}
   }
   raf=requestAnimationFrame(tick);
 }
 document.getElementById('scanOpen').addEventListener('click',openScan);
 document.getElementById('scanClose').addEventListener('click',closeScan);
-document.getElementById('scanManual').addEventListener('submit',e=>{e.preventDefault(); handleCode(codeFromText(document.getElementById('scanCode').value)||'',false);});
+document.getElementById('scanManual').addEventListener('submit',e=>{e.preventDefault(); const c=codeFromText(document.getElementById('scanCode').value); if(!c){scanError('코드 6자리를 정확히 입력해 주세요.'); return;} handleCode(c,false);});
 /* 카메라 앱으로 QR을 찍어 #v-코드 주소로 들어온 경우 */
-(()=>{const c=codeFromText(location.hash); if(c&&/^#v-/i.test(location.hash)){try{history.replaceState(null,'',location.pathname+location.search);}catch(e){} const name=boothFromCode(c); if(name) setTimeout(()=>markVisited(name),400);}})();
+(()=>{const c=codeFromText(location.hash); if(c&&/^#v-/i.test(location.hash)){try{history.replaceState(null,'',location.pathname+location.search);}catch(e){} if(canVerify) boothFromCode(c).then(name=>{if(name) setTimeout(()=>markVisited(name),400);}).catch(()=>{});}})();
 (()=>{const r=document.getElementById('tourReset'); let t=null;
   r.addEventListener('click',()=>{if(!r.classList.contains('armed')){r.classList.add('armed'); r.textContent='한 번 더 누르면 지워져요'; clearTimeout(t); t=setTimeout(()=>{r.classList.remove('armed'); r.textContent='기록 지우기';},2500); return;}
-    clearTimeout(t); r.classList.remove('armed'); r.textContent='기록 지우기'; visited.clear(); saveTour(); renderTour(); toast('투어 기록을 지웠어요');});})();
+    clearTimeout(t); r.classList.remove('armed'); r.textContent='기록 지우기'; visited.clear(); stamps=[]; saveTour(); renderTour(); toast('투어 기록을 지웠어요');});})();
 renderTour();
 
 document.getElementById('topBtn').addEventListener('click',()=>window.scrollTo({top:0,behavior:calm?'auto':'smooth'}));
