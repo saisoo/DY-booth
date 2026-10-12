@@ -274,6 +274,18 @@ button:focus-visible{outline:3px solid var(--pink);outline-offset:2px}
 .visit-btn.done{cursor:default}
 .visit-btn{display:flex;align-items:center;justify-content:center;gap:8px}
 .visit-btn .cam{width:22px;height:22px;flex:none}
+.hero{padding-block:8px 14px;gap:6px}
+.name{font-size:clamp(30px,9vw,46px)}
+.tagline{font-size:13.5px}
+.meta-line{margin:4px 0 0;display:flex;flex-wrap:nowrap;white-space:nowrap;max-width:100%;box-sizing:border-box;letter-spacing:-.02em;justify-content:center;align-items:center;gap:4px 8px;font-size:12.5px;font-weight:500;color:var(--navy);
+  background:rgba(255,255,255,.6);border-radius:999px;padding:7px 14px;font-variant-numeric:tabular-nums}
+.meta-line b{font-weight:800;color:#8a5cff}
+.meta-line i{width:3px;height:3px;border-radius:50%;background:currentColor;opacity:.4}
+.tour{padding:12px 14px;gap:8px;margin-bottom:12px}
+.tour-num{font-size:24px}
+.tour-label{font-size:11.5px}
+.scan-btn{padding:11px;font-size:15px}
+.tour-foot{font-size:12px}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js"></script>
 </head>
@@ -285,13 +297,7 @@ button:focus-visible{outline:3px solid var(--pink);outline-offset:2px}
       <div class="eyebrow">2026</div>
       <h1 class="name"><span class="dy">덕영</span><span class="ras"><i class="r">R</i><i class="a">A</i><i class="s">S</i></span><span class="fe">페스타</span></h1>
       <p class="tagline">울림 그리고 감동이 있는 덕영 RAS페스타</p>
-      <div class="info">
-        <div class="date"><b>10.23</b><span>FRI · 금요일</span></div>
-        <dl>
-          <div><dt>시간</dt><dd>10:00 ~ 16:00</dd></div>
-          <div><dt>장소</dt><dd>덕영고등학교 운동장<br>덕영관 3층 체육관</dd></div>
-        </dl>
-      </div>
+      <p class="meta-line"><b>10.23 금</b><i></i>10:00–16:00<i></i>운동장 · 덕영관 체육관</p>
     </header>
     <section class="tour" aria-label="나의 부스 투어">
       <div class="tour-top">
