@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>덕영 RAS 페스티벌 부스 배치도</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jua&family=Gowun+Dodum&display=swap">
+<style>
+/* 레이아웃: 원본 배치도(580×822) 비율을 그대로 유지한 지도 위에 부스 버튼을 절대 배치, 누르면 하단 시트/모달 */
+:root{
+  --bg:#f3f1fb; --ground:#3b3f9e; --field:#ffcc4d; --stripe:#f7bd2c;
+  --booth:#fffaf0; --booth-hi:#ffe08a; --line:#23276b; --ink:#1c1f55; --muted:#5b5f8f;
+  --accent:#4b4fc4; --sheet:#ffffff; --scrim:rgba(20,22,60,.5);
+  --title:#fff3c4; --field-ink:#2a2e8c; --theme-c:#1c1f55;
+  --display:"Jua","Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+  --body:"Gowun Dodum","Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#11122a; --ground:#2a2d78; --field:#e2b23a; --stripe:#d3a22a;
+  --booth:#f6f1e4; --booth-hi:#ffe08a; --line:#16184a; --ink:#1c1f55; --muted:#a8abd8;
+  --accent:#a3a6ff; --sheet:#1d1f45; --scrim:rgba(0,0,0,.6);
+  --title:#fff3c4; --field-ink:#23266f; --theme-c:#eeeefc; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#11122a; --ground:#2a2d78; --field:#e2b23a; --stripe:#d3a22a;
+  --booth:#f6f1e4; --booth-hi:#ffe08a; --line:#16184a; --ink:#1c1f55; --muted:#a8abd8;
+  --accent:#a3a6ff; --sheet:#1d1f45; --scrim:rgba(0,0,0,.6);
+  --title:#fff3c4; --field-ink:#23266f; --theme-c:#eeeefc; color-scheme:dark}
+html,body{height:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);padding:16px;box-sizing:border-box}
+.wrap{max-width:640px;margin:0 auto}
+.map{position:relative;width:100%;aspect-ratio:580/822;background:var(--ground);border-radius:6px;container-type:inline-size;overflow:hidden;box-shadow:0 1px 0 var(--line)}
+.title{position:absolute;left:0;right:0;top:1.8%;text-align:center;font-family:var(--display);font-size:5.2cqw;color:var(--title);margin:0;letter-spacing:.02em}
+.field{position:absolute;left:25.3%;top:14.2%;width:49.9%;height:72.3%;
+  background:repeating-linear-gradient(135deg,var(--field) 0 1.6cqw,var(--stripe) 1.6cqw 1.9cqw);
+  display:grid;place-items:center;font-family:var(--display);font-size:10cqw;color:var(--field-ink)}
+.booth{position:absolute;box-sizing:border-box;border:1px solid var(--line);background:var(--booth);color:var(--ink);
+  font-family:var(--display);font-size:2.25cqw;line-height:1.08;padding:0 .4cqw;display:grid;place-items:center;text-align:center;
+  cursor:pointer;word-break:keep-all;transition:background .15s, transform .15s;-webkit-tap-highlight-color:transparent}
+.booth:hover,.booth.on{background:var(--booth-hi);z-index:2;transform:scale(1.04);box-shadow:0 .4cqw 1.2cqw rgba(0,0,0,.18)}
+.booth:focus-visible{outline:3px solid var(--accent);outline-offset:1px;z-index:3}
+.booth.small{font-size:1.95cqw}
+.empty{position:absolute;border:1px solid var(--line);background:var(--booth);
+  background-image:linear-gradient(to top right,transparent calc(50% - .5px),var(--line) 50%,transparent calc(50% + .5px))}
+.stage{font-size:4.2cqw;cursor:pointer}
+.hint{margin:12px 2px 0;color:var(--muted);font-size:14px;text-align:center}
+/* 팝업 */
+.scrim{position:fixed;inset:0;background:var(--scrim);display:grid;place-items:center;padding:16px;z-index:10;animation:fade .15s}
+.card{background:var(--sheet);color:var(--fg,inherit);width:min(440px,100%);border-radius:16px;padding:22px 22px 18px;box-shadow:0 20px 60px rgba(0,0,0,.3);animation:pop .18s ease-out;box-sizing:border-box}
+.card{color:var(--muted)}
+.loc{display:inline-block;font-size:13px;letter-spacing:.06em;color:var(--accent);border:1px solid currentColor;border-radius:999px;padding:3px 10px}
+.card h2{font-family:var(--display);font-weight:400;font-size:28px;margin:12px 0 10px;color:var(--accent);text-wrap:balance;line-height:1.2}
+:root .card h2{color:var(--title-c,var(--accent))}
+.items{display:grid;gap:12px}
+.item{display:grid;gap:4px;padding-top:12px;border-top:1px dashed var(--line)}
+.item .org{font-size:13px;letter-spacing:.02em;color:var(--muted)}
+.item .theme{font-family:var(--display);font-size:19px;line-height:1.45;color:var(--title-c,inherit);word-break:keep-all}
+:root .item .theme{color:var(--theme-c)}
+.nav{display:flex;gap:8px;margin-top:18px}
+.nav button{flex:1;font-family:var(--display);font-size:16px;padding:12px 8px;border-radius:10px;border:1px solid var(--line);background:transparent;color:inherit;cursor:pointer}
+.nav button.close{background:var(--accent);border-color:var(--accent);color:var(--sheet)}
+.nav button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+@keyframes pop{from{transform:translateY(10px) scale(.97);opacity:0}}
+@keyframes fade{from{opacity:0}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <div class="map" id="map" role="group" aria-label="부스 배치도">
+    <h1 class="title">덕영 RAS 페스티벌 부스 배치도</h1>
+    <div class="field" aria-hidden="true">운동장</div>
+  </div>
+  <p class="hint">부스를 누르면 소개가 나와요</p>
+</div>
+
+<div class="scrim" id="scrim" hidden>
+  <div class="card" role="dialog" aria-modal="true" aria-labelledby="pTitle">
+    <span class="loc" id="pLoc"></span>
+    <h2 id="pTitle"></h2>
+    <div id="pBody" class="items"></div>
+    <div class="nav">
+      <button id="prev" type="button">◀ 이전</button>
+      <button id="next" type="button">다음 ▶</button>
+      <button id="close" type="button" class="close">닫기</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ===== 부스 정보: 여기 내용만 고치면 됩니다 =====
+   ["배치도 표시 이름", [["운영(학과·교과·동아리)", "전시 및 체험 주제"], ...]]
+   한 칸을 여러 팀이 함께 쓰면 [운영, 주제]를 여러 개 넣으세요. */
+const TOP = [
+  ["체육과",[["체육과","체육동아리 활동사진 전시, 골프퍼팅 체험, 다트 체험"]]],
+  ["스포츠 규칙 연구",[["스포츠 규칙 연구","여러 가지 스포츠 종목의 규칙을 알아보고 표현하기"]]],
+  ["사무행정",[["사무 행정","문서로 배우는 행정업무"]]],
+  ["창업 시뮬레이션",[["창업시뮬레이션반","배우는 경영회계, 도전하는 창업! 비즈쿨"]]],
+  ["전자상거래 실무",[["전자상거래실무 (사이버 마켓반)","나도야! 쇼핑몰 사장님"]]],
+  ["모의창업반",[["모의 창업반","손으로 만드는 세상"]]],
+  ["육군인사 사령부",[["육군 인사사령부","대한민국 육군"]]]
+];
+const LEFT = [
+  ["한국사",[["한국사","네 컷으로 읽는 조선의 사화"]]],
+  ["사회과",[["사회과","우리가 그린 정주환경 이야기"]]],
+  ["인성복지부",[["인성복지부","찾아가는 문화다양성(다문화) 체험"]]],
+  ["국제교류",[["국제교류","용인 국제교류 선도학교"]]],
+  ["중국문화체험",[["중국문화체험","중국 제기차기, 마작 게임, 중국 의상 입고 사진 촬영"]]],
+  ["일본어",[["일본어","한일 국제문화교류와 일본 소자본 창업 탐구"]]],
+  ["학생자치회",[["학생자치회","부스 방문 확인 스탬프 찍어주기, 퀴즈 등 (학생 체험으로 운영)"]]],
+  ["정보.지속가능 업사이클링",[["정보","코드로 피어난 예술, 디지털 세상을 그리다!!!"],["지속가능한 업사이클링","버려진 것들의 두 번째 삶"]]],
+  ["정보처리와 관리",[["정보처리와 관리","환경 관련 프레젠테이션 만들기"]]],
+  ["수학과",[["수학과","스도쿠 풀기 / 논리 퍼즐"]]],
+  ["글로벌 시사포럼",[["글로벌 시사포럼반","국제 사회 관련 이슈 기사(영어/한국어) 전시"]]],
+  ["영어과",[["영어과","Happy Halloween"]]],
+  ["과학과",[["과학과","원소기호를 이용한 나만의 단어·문장 만들기, 생명과학 수업 결과물 전시"]]],
+  ["교양독서 발표반",[["교양독서발표반","명문장 헌터스 - 책 속에 숨어 있는 명문장!"]]],
+  ["국어과",[["국어과","세상을 읽고, 생각을 담다"]]],
+  ["보건간호과",[["보건간호과","보건간호 프로젝트 결과물 전시, 활력징후 및 하임리히법 체험, 임산부 체험"]]]
+];
+const RIGHT = [
+  ["2학년 6반 페이스페인팅",[["2학년 6반","페이스 페인팅"]]],
+  ["굿즈 창작반",[["굿즈창작반","굿즈 전시 및 캐리커처, 팔찌 제작 체험"]]],
+  ["일러스트 창작반",[["시각의 서재 (그래픽SW 전공 동아리)","페이지를 넘기면 시작되는 우리들의 세계"]]],
+  ["그래픽 SW과",[["그래픽SW과","디지털 드로잉 체험 및 전시"]]],
+  ["컴퓨터시스템 정비",[["컴퓨터 시스템 일반","Logisim 프로그램을 이용한 논리회로 설계"],["컴퓨터 정비","PC 정비반"]]],
+  ["공공데이터 활용반",[["공공데이터 활용반","공공데이터 활용 홈페이지 전시"]]],
+  ["메이크 디자인",[["메이크디자인","Make@design"]]],
+  ["메이크 웹",[["메이크웹","OUR WEB"]]],
+  ["메이크 게임개발",[["메이크게임개발","개발 게임 체험하기"]]],
+  ["메이크 정보보안",[["메이크정보보안","해킹, 어디까지 알고 있니?"]]],
+  ["메이크 인공지능",[["메이크인공지능","AI Factory"]]],
+  ["창업체험 교육",[["창업체험교육","덕영의 창업"]]],
+  ["캡스톤 디자인",[["캡스톤 디자인","DY VISION"]]],
+  ["STEAM 클럽",[["STEAM클럽","메이크 전동차"]]],
+  ["용인 디지털",[["용인 디지털교육 실천학교","용인 디지털교육 실천학교"]]],
+  ["AI 디지털",[["AI디지털 활용 선도학교","AI디지털 활용 선도학교"]]]
+];
+const BOTTOM = [
+  ["진로진학/ 도서관",[["진로진학부 × 도서관 공동 주관","책에서 질문을 찾고, 탐구로 답하다 - 독서 기반 진로 주제탐구보고서 우수작 및 독서 포트폴리오 대회 우수작"]]],
+  ["위클래스/ 보건실",[["위클래스, 보건실","마음을 잇는 생명존중 덕영마을"]]],
+  ["슬기로운 전기생활",[["슬기로운 전기생활","슬기로운 전기생활"]]],
+  ["미술반",[["미술반 (동아리)","환경미술 전시회, 칠보공예 전시 및 체험 (반지·키링 만들기)"]]],
+  ["생태학교 환경부스",[["생태학교 환경부스","천연세제 나눔, 손거울·배지·메모홀더 제작"]]]
+];
+const STAGE = ["구령대",[["","축제 무대"]]];
+
+/* ===== 배치 (원본 580×822 기준 좌표) ===== */
+const W=580,H=822, list=[];
+const add=(d,x,y,w,h,area,n)=>list.push({name:d[0],items:d[1],x,y,w,h,loc:`${area} ${n}번`});
+TOP.forEach((d,i)=>add(d,27+i*66,70,66,37,"위쪽",i+1));
+LEFT.forEach((d,i)=>add(d,28,117+i*37.1,111,37.1,"왼쪽",i+1));
+RIGHT.forEach((d,i)=>add(d,444,117+i*37.1,111,37.1,"오른쪽",i+1));
+BOTTOM.forEach((d,i)=>add(d,86+i*82,718,82,38,"아래쪽",i+1));
+add(STAGE,405,768,150,47,"무대",1); list[list.length-1].stage=true;
+
+const map=document.getElementById('map'), pct=(v,t)=>(v/t*100)+'%';
+const empty=document.createElement('div'); empty.className='empty';
+Object.assign(empty.style,{left:pct(27+7*66,W),top:pct(70,H),width:pct(66,W),height:pct(37,H)});
+map.appendChild(empty);
+
+const btns=list.map((b,i)=>{
+  const el=document.createElement('button');
+  el.type='button'; el.className='booth'+(b.stage?' stage':'')+(b.name.length>8?' small':'');
+  el.textContent=b.name;
+  Object.assign(el.style,{left:pct(b.x,W),top:pct(b.y,H),width:pct(b.w,W),height:pct(b.h,H)});
+  el.addEventListener('click',()=>open(i));
+  map.appendChild(el); return el;
+});
+
+const scrim=document.getElementById('scrim'); let cur=-1, lastFocus=null;
+function show(i){
+  cur=(i+list.length)%list.length; const b=list[cur];
+  btns.forEach(x=>x.classList.remove('on')); btns[cur].classList.add('on');
+  pLoc.textContent=b.loc; pTitle.textContent=b.name; pBody.replaceChildren();
+  b.items.forEach(([org,theme])=>{
+    const it=document.createElement('div'); it.className='item';
+    if(org){const o=document.createElement('div'); o.className='org'; o.textContent=org; it.append(o);}
+    const t=document.createElement('div'); t.className='theme'; t.textContent=theme; it.append(t);
+    pBody.append(it);
+  });
+}
+function open(i){lastFocus=document.activeElement; show(i); scrim.hidden=false; document.getElementById('close').focus();}
+function close(){scrim.hidden=true; btns.forEach(x=>x.classList.remove('on')); lastFocus&&lastFocus.focus&&lastFocus.focus();}
+document.getElementById('close').onclick=close;
+document.getElementById('prev').onclick=()=>show(cur-1);
+document.getElementById('next').onclick=()=>show(cur+1);
+scrim.addEventListener('click',e=>{if(e.target===scrim)close();});
+document.addEventListener('keydown',e=>{
+  if(scrim.hidden)return;
+  if(e.key==='Escape')close();
+  if(e.key==='ArrowLeft')show(cur-1);
+  if(e.key==='ArrowRight')show(cur+1);
+});
+</script>
+</body>
+</html>
