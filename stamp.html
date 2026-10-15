@@ -451,15 +451,19 @@ body:not(.registered) .row .vchk{display:none}
 .reg-card input{width:100%;box-sizing:border-box}
 #tchStep1,#tchStep2{display:grid;gap:8px}
 .tch-pin{letter-spacing:.35em!important;padding-left:.35em!important}
-/* 체험 부스: 칸 오른쪽 가운데 분홍 점 */
-.booth.exp::before{content:""!important;display:block!important;position:absolute!important;top:50%!important;right:.55cqw!important;left:auto!important;bottom:auto!important;
-  width:1.2cqw!important;height:1.2cqw!important;flex:none;border:0!important;border-radius:50%!important;background:#ff4d7e!important;transform:translateY(-50%);box-sizing:border-box!important;z-index:3}
-.legend .hrt{background:#ff4d7e!important;color:transparent!important;border:0!important;width:10px!important;height:10px!important;border-radius:50%!important}
-.sb-cell.exp::before{content:""!important;position:absolute;top:50%!important;right:6px!important;width:6px;height:6px;border-radius:50%;background:#ff4d7e;transform:translateY(-50%);font-size:0}
-.sb-cell.exp{padding-right:12px}
-.booth.exp{padding:0 2cqw 0 .2cqw;letter-spacing:-.06em}
-.booth.topcell.exp{padding:0 1.7cqw 0 0;letter-spacing:-.08em;font-size:1.95cqw}
-.booth.topcell.exp::before{right:.35cqw!important;width:1cqw!important;height:1cqw!important}
+/* 체험 부스: 칸 오른쪽 위 모서리 분홍 점 */
+.map .booth.tight{letter-spacing:-.07em}
+.booth.exp::before{content:""!important;display:block!important;position:absolute!important;top:0!important;right:0!important;left:auto!important;bottom:auto!important;
+  width:3cqw!important;height:3cqw!important;border:0!important;border-radius:0!important;background:radial-gradient(circle .55cqw at calc(100% - 1.05cqw) 1.05cqw,#ff4d7e calc(100% - .5px),rgba(255,77,126,0) 100%)!important;transform:none!important;box-sizing:border-box!important;z-index:3;pointer-events:none}
+.legend .hrt{background:#ff4d7e!important;color:transparent!important;border:0!important;width:8px!important;height:8px!important;border-radius:50%!important;font-size:0!important}
+.sb-cell.exp::before{content:""!important;position:absolute;top:5px!important;right:5px!important;width:5px;height:5px;border-radius:50%;background:#ff4d7e;transform:none;font-size:0}
+/* 배치도 글자 배열 */
+.map .booth{white-space:pre-line}
+.field{left:27.65%!important;width:45.2%!important}
+.booth.topcell{font-size:1.98cqw}
+.map .booth{line-height:1.08}
+.map .booth.small{font-size:2.25cqw}
+.empty{font-size:2.2cqw!important;white-space:nowrap}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js"></script>
 </head>
@@ -692,23 +696,27 @@ const STAGE = ["구령대",[["","축제 무대"]]];
 /* ===== 배치 (원본 580×822 기준 좌표) ===== */
 const W=580,H=822, list=[];
 const add=(d,x,y,w,h,area,n)=>list.push({name:d[0],items:d[1],x,y,w,h,loc:`${area} ${n}번`});
-TOP.forEach((d,i)=>{add(d,27+i*66,70,66,37,"위쪽",i+1); list[list.length-1].top=true;});
-LEFT.forEach((d,i)=>add(d,28,117+i*37.1,111,37.1,"왼쪽",i+1));
-RIGHT.forEach((d,i)=>add(d,444,117+i*37.1,111,37.1,"오른쪽",i+1));
+const GW=52, TW=(528-GW)/7; /* 정문 칸을 좁히고 위쪽 부스 칸을 넓혀요 */
+TOP.forEach((d,i)=>{add(d,27+i*TW,70,TW,37,"위쪽",i+1); list[list.length-1].top=true;});
+LEFT.forEach((d,i)=>add(d,28,117+i*37.1,125,37.1,"왼쪽",i+1));
+RIGHT.forEach((d,i)=>add(d,430,117+i*37.1,125,37.1,"오른쪽",i+1));
 BOTTOM.forEach((d,i)=>add(d,86+i*82,718,82,38,"아래쪽",i+1));
 add(["스탬프 교환소",[["","스탬프를 모아 이곳에서 교환하세요!"]]],566,676,24,124,"오른쪽",17); list[list.length-1].exchange=true;
 add(STAGE,405,768,150,47,"무대",1); list[list.length-1].stage=true;
 
+/* 배치도 칸 안에서 줄 나누는 위치 (이름은 그대로, 보이는 줄바꿈만) */
+const LABEL={"스포츠 규칙 연구":"스포츠\n규칙 연구","창업 시뮬레이션":"창업\n시뮬레이션","전자상거래 실무":"전자상거래\n실무","모의창업반":"모의\n창업반","육군인사 사령부":"육군인사\n사령부","컴퓨터시스템 정비":"컴퓨터시스템\n정비","공공데이터 활용반":"공공데이터\n활용반","정보.지속가능 업사이클링":"정보.지속가능\n업사이클링","2학년 6반 페이스페인팅":"2학년 6반\n페이스페인팅","진로진학/ 도서관":"진로진학/\n도서관","위클래스/ 보건실":"위클래스/\n보건실","슬기로운 전기생활":"슬기로운\n전기생활","생태학교 환경부스":"생태학교\n환경부스"};
 const map=document.getElementById('map'), pct=(v,t)=>(v/t*100)+'%';
 const empty=document.createElement('div'); empty.className='empty'; empty.innerHTML='<span>정문<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7"/><path d="M8 7h9v9"/></svg></span>';
-Object.assign(empty.style,{left:pct(27+7*66+1.6,W),top:pct(71.6,H),width:pct(62.8,W),height:pct(33.8,H)});
+Object.assign(empty.style,{left:pct(27+7*TW+1.6,W),top:pct(71.6,H),width:pct(GW-3.2,W),height:pct(33.8,H)});
 map.appendChild(empty);
 
 const btns=list.map((b,i)=>{
   const el=document.createElement('button');
   el.type='button'; el.className='booth'+(b.stage?' stage':'')+(b.exchange?' exchange':'')+(b.top?' topcell':'')+(b.name.length>10?' small':'');
-  el.textContent=b.exchange?'스\n탬\n프\n\n교\n환\n소':b.name;
+  el.textContent=b.exchange?'스\n탬\n프\n\n교\n환\n소':(LABEL[b.name]||b.name);
   const g=b.exchange?0:1.6; Object.assign(el.style,{left:pct(b.x+g,W),top:pct(b.y+g,H),width:pct(b.w-2*g,W),height:pct(b.h-2*g,H)});
+  if(b.name==="위클래스/ 보건실") el.classList.add('tight'); /* 점과 글자가 붙지 않게 */
   el.addEventListener('click',()=>openBooth(i));
   map.appendChild(el); return el;
 });
@@ -732,7 +740,7 @@ const scrim=document.getElementById('scrim'); let cur=-1, lastFocus=null;
 function show(i){
   cur=(i+list.length)%list.length; const b=list[cur];
   btns.forEach(x=>x.classList.remove('on')); btns[cur].classList.add('on');
-  pTitle.textContent=b.name; if(b.exp){const tg=document.createElement('span'); tg.className='exp-tag'; tg.textContent='♥ 체험'; pTitle.append(' ',tg);} pBody.replaceChildren(); syncVisitBtn();
+  pTitle.textContent=b.name; if(b.exp){const tg=document.createElement('span'); tg.className='exp-tag'; tg.textContent='체험 부스'; pTitle.append(' ',tg);} pBody.replaceChildren(); syncVisitBtn();
   b.items.forEach(([org,theme])=>{
     const it=document.createElement('div'); it.className='item';
     if(org){const o=document.createElement('div'); o.className='org'; o.textContent=org; it.append(o);}
