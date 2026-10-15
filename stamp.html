@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>RAS 페스타 스캔 테스트</title>
+<title>덕영 RAS 페스타 부스 배치도</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap">
@@ -376,6 +376,81 @@ button:focus-visible{outline:3px solid var(--pink);outline-offset:2px}
 .tour-note .one{white-space:normal!important}
 /* 5. 방문한 부스 이름 */
 .booth.visited{color:rgba(43,35,102,.62)!important}
+/* ===== 페이지 분할: 배치도 / 스탬프 투어 ===== */
+body:not(.registered) .booth.visited{background:#fff!important;color:var(--ink)!important;box-shadow:none!important}
+body:not(.registered) .booth.visited::after{display:none}
+body:not(.registered) .row .vchk{display:none}
+.field .fl{gap:2cqw!important}
+.tour-start{margin-top:1.5cqw;display:inline-flex;align-items:center;gap:1.6cqw;padding:2.6cqw 4.4cqw;border-radius:999px;border:2px solid var(--pop-ink);background:var(--pop-ye);color:var(--pop-ink);
+  font-family:inherit;font-weight:900;font-size:4.2cqw;letter-spacing:-.02em;box-shadow:.9cqw .9cqw 0 var(--pop-ink);cursor:pointer;touch-action:manipulation;transition:transform .08s,box-shadow .08s;animation:nudge 3s ease-in-out infinite}
+.tour-start svg{width:5cqw;height:5cqw}
+.tour-start:active{transform:translate(.9cqw,.9cqw);box-shadow:0 0 0 var(--pop-ink);animation:none}
+.tour-exit{margin-top:1cqw;border:0;background:rgba(255,255,255,.14);color:#fff;font-family:inherit;font-weight:700;font-size:3cqw;padding:1.8cqw 3.6cqw;border-radius:999px;cursor:pointer}
+.tour-who{display:flex}
+.who-chip{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:800;color:var(--pop-ink);background:#efeaff;border-radius:999px;padding:4px 10px;font-variant-numeric:tabular-nums}
+.who-chip::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--pop-pu)}
+.reg-scrim{position:fixed;inset:0;z-index:37;background:rgba(20,14,60,.55);display:grid;place-items:center;padding:16px;animation:fade .15s}
+.reg-card{width:min(380px,100%);box-sizing:border-box;background:#fff;border:2px solid var(--pop-ink);box-shadow:6px 6px 0 var(--pop-ink);border-radius:18px;padding:22px 20px 18px;display:grid;gap:6px;animation:pop .2s ease-out}
+.reg-card h2{margin:0;font-size:22px;font-weight:900;color:var(--pop-ink);letter-spacing:-.02em}
+.reg-sub{margin:0 0 8px;font-size:13px;color:var(--muted)}
+.reg-card label{font-size:13px;font-weight:800;color:var(--pop-pu);margin-top:6px}
+.reg-card input{font:inherit;font-size:17px;font-weight:700;color:var(--pop-ink);padding:12px 14px;border-radius:12px;border:2px solid var(--pop-ink);background:#fff;outline:none;min-width:0}
+.reg-card input:focus{box-shadow:3px 3px 0 var(--pop-pu)}
+.reg-card input::placeholder{color:#b8b4cf;font-weight:500;font-size:14px}
+.reg-err{margin:6px 0 0;padding:9px 12px;border-radius:10px;background:#fff1f3;color:#b0213a;font-size:13px;font-weight:700;white-space:pre-line;word-break:keep-all}
+.reg-warn{margin:8px 0 2px;font-size:12px;line-height:1.6;color:var(--muted);word-break:keep-all}
+.reg-actions{display:flex;gap:8px;margin-top:8px}
+.reg-actions button{font-family:inherit;font-weight:800;font-size:15px;padding:13px 8px;border-radius:12px;border:2px solid var(--pop-ink);box-shadow:3px 3px 0 var(--pop-ink);cursor:pointer;transition:transform .08s,box-shadow .08s}
+.reg-actions button:active{transform:translate(3px,3px);box-shadow:0 0 0 var(--pop-ink)}
+.reg-cancel{flex:1;background:#fff;color:var(--pop-ink)}
+.reg-ok{flex:2;background:var(--pop-pu);color:#fff}
+.tour-who{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap;padding-bottom:8px;border-bottom:2px solid #efeaff}
+.who-name{font-size:20px;font-weight:900;color:var(--pop-ink);letter-spacing:-.02em}
+.who-name::after{content:" 학생";font-size:14px;font-weight:700;color:var(--muted)}
+.who-sid{font-size:13px;font-weight:700;color:var(--pop-pu);font-variant-numeric:tabular-nums}
+/* ===== 스탬프 투어 페이지 ===== */
+#tour .tour{margin-top:4px}
+.sboard{margin-top:16px;background:#fff;border:2px solid var(--pop-ink);box-shadow:4px 4px 0 var(--pop-ink);border-radius:18px;padding:14px 14px 12px}
+.sb-head{display:flex;align-items:baseline;justify-content:space-between;gap:8px;margin-bottom:12px}
+.sb-head h2{margin:0;font-size:17px;font-weight:900;color:var(--pop-ink);letter-spacing:-.02em}
+.sb-left{font-size:12.5px;font-weight:800;color:var(--pop-pu)}
+.sb-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:7px}
+.sb-cell{position:relative;min-height:58px;padding:6px 4px;border-radius:10px;border:1.5px dashed #c9bfff;background:#faf8ff;color:var(--pop-ink);
+  font-family:inherit;font-size:11px;font-weight:700;line-height:1.25;letter-spacing:-.04em;word-break:keep-all;display:grid;place-items:center;text-align:center;cursor:pointer;overflow:hidden}
+.sb-cell span{position:relative;z-index:1}
+.sb-cell.on{border:2px solid #e3263f;background:#fff4f6;color:rgba(43,35,102,.55)}
+.sb-cell.on::after{content:"";position:absolute;left:50%;top:50%;width:46px;height:46px;transform:translate(-50%,-50%) rotate(var(--rot,-12deg));background:var(--stamp-mini) center/contain no-repeat;z-index:2;pointer-events:none}
+.sb-cell.just::after{animation:thunk .45s cubic-bezier(.2,1.6,.4,1)}
+.sb-hint{margin:10px 0 0;font-size:12px;color:var(--muted);text-align:center}
+.to-map{display:inline-flex;align-items:center;gap:4px}
+@media (min-width:520px){.sb-grid{grid-template-columns:repeat(5,minmax(0,1fr))}}
+.map-link{display:block;margin:10px auto 0;border:0;background:none;font-family:inherit;font-size:14px;font-weight:800;color:var(--pop-pu);text-decoration:underline;text-underline-offset:3px;cursor:pointer;padding:4px}
+.tch-pin{text-align:center;font-size:24px!important;letter-spacing:.5em;padding-left:.5em!important}
+.tch-who{margin:4px 0 2px;font-size:17px;font-weight:900;color:var(--pop-ink)}
+.reg-ok.danger{background:#ff4d7e!important}
+.tour-who{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;touch-action:manipulation}
+/* 체험 부스 하트 */
+.booth.exp::before{content:"\2665\FE0E";position:absolute;top:-1.7cqw;right:-1.5cqw;width:3cqw;height:3cqw;border-radius:50%;background:#ff4d7e;color:#fff;
+  font-size:1.8cqw;line-height:3cqw;text-align:center;border:.3cqw solid var(--pop-ink,#2b2366);z-index:4;pointer-events:none;box-sizing:content-box}
+.legend .hrt{display:inline-grid;place-items:center;width:18px;height:18px;border-radius:50%;background:#ff4d7e;color:#fff;font-size:11px;border:2px solid var(--pop-ink,#2b2366);box-sizing:border-box}
+.exp-tag{display:inline-block;vertical-align:5px;font-size:12px;font-weight:800;color:#fff;background:#ff4d7e;border:1.5px solid var(--pop-ink,#2b2366);border-radius:999px;padding:2px 8px;letter-spacing:0}
+.sb-cell.exp::before{content:"\2665\FE0E";position:absolute;top:3px;right:4px;font-size:11px;color:#ff4d7e;z-index:3}
+/* 잔디광장 정렬: 버튼 → 잔디광장 → 안내 */
+.field .fl{display:flex!important;flex-direction:column;align-items:center;justify-content:center;gap:1.4cqw!important;width:100%;padding-inline:3cqw;box-sizing:border-box}
+.tour-start{margin:0 0 2.4cqw!important}
+.fl-name{line-height:1}
+.field .hint{margin:0!important;text-align:center}
+/* 등록 창: 키보드가 닫힐 때 창이 움직여 버튼을 놓치지 않게 위쪽 정렬 */
+#reg{place-items:start center!important;padding-top:calc(48px + env(safe-area-inset-top,0px))!important;overflow-y:auto}
+#reg .reg-card{margin-bottom:24px}
+.reg-card.shake{animation:shake .35s}
+@keyframes shake{20%{transform:translateX(-6px)}40%{transform:translateX(6px)}60%{transform:translateX(-4px)}80%{transform:translateX(4px)}}
+/* 교사 확인 창 레이아웃 */
+.reg-card{grid-template-columns:minmax(0,1fr)}
+.reg-card>*{min-width:0}
+.reg-card input{width:100%;box-sizing:border-box}
+#tchStep1,#tchStep2{display:grid;gap:8px}
+.tch-pin{letter-spacing:.35em!important;padding-left:.35em!important}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js"></script>
 </head>
@@ -389,7 +464,24 @@ button:focus-visible{outline:3px solid var(--pink);outline-offset:2px}
       <p class="tagline">울림 그리고 감동이 있는 덕영 RAS페스타</p>
       <p class="meta-line"><b>10.23 금</b><i></i>10:00–16:00<i></i>운동장 · 덕영관 체육관</p>
     </header>
+    <div class="map" id="map" role="group" aria-label="부스 배치도">
+      <h2 class="title">부스 배치도</h2>
+      <div class="field"><div class="fl"><button type="button" class="tour-start" id="tourStart"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M8.5 12.5l2.4 2.4 4.8-5.2"/></svg><span id="tourStartLabel">스탬프 투어</span></button><span class="fl-name" aria-hidden="true">잔디광장</span><p class="hint" id="hint">부스를 누르면 소개가 나와요</p></div></div>
+    </div>
+    <p class="legend"><span class="lg"><span class="hrt" aria-hidden="true">♥</span>체험 부스</span><span class="lg"><span class="sq" aria-hidden="true"></span>스탬프 교환소</span></p>
+    <div class="prog-entry">
+      <h2>프로그램 보기</h2>
+      <div class="parts">
+        <button type="button" class="part-btn" data-go="part1"><span class="tab">1부</span><span class="body">부스 전시·체험<br>10:00~15:00</span></button>
+        <button type="button" class="part-btn" data-go="part2"><span class="tab">2부</span><span class="body">공연마당<br>14:00~16:00</span></button>
+      </div>
+    </div>
+  </section>
+
+  <section id="tour" hidden>
+    <div class="topbar"><button type="button" class="back to-map">← 부스 배치도</button></div>
     <section class="tour" aria-label="나의 부스 투어">
+      <div class="tour-who"><span class="who-name" id="whoName"></span><span class="who-sid" id="whoSid"></span></div>
       <div class="tour-top">
         <div><span class="tour-label" id="tourLabel">나의 부스 투어</span><b class="tour-num"><span id="tourCount">0</span><small> / <span id="tourTotal">0</span></small></b></div>
         <button type="button" class="tour-badge" id="slotBtn" aria-label="안 가 본 부스 추천받기"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 3h5v5"/><path d="M4 20 21 3"/><path d="M21 16v5h-5"/><path d="m15 15 6 6"/><path d="M4 4l5 5"/></svg><span id="tourBadge">시작해 볼까요?</span></button>
@@ -399,18 +491,11 @@ button:focus-visible{outline:3px solid var(--pink);outline-offset:2px}
       <button type="button" class="scan-btn" id="scanOpen"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8V5a1 1 0 0 1 1-1h3M16 4h3a1 1 0 0 1 1 1v3M20 16v3a1 1 0 0 1-1 1h-3M8 20H5a1 1 0 0 1-1-1v-3"/><path d="M7 12h10"/></svg>부스 QR 스캔하기</button>
       <p class="tour-note"><span class="one">기록은 처음 연 브라우저에만 저장돼요.</span><span class="one"><b>시크릿 모드는 탭을 닫으면 기록이 사라져요.</b></span></p>
     </section>
-    <div class="map" id="map" role="group" aria-label="부스 배치도">
-      <h2 class="title">부스 배치도</h2>
-      <div class="field"><div class="fl"><span aria-hidden="true">잔디광장</span><p class="hint" id="hint">부스를 누르면 소개가 나와요</p></div></div>
-    </div>
-    <p class="legend"><span class="lg"><span class="sq" aria-hidden="true"></span>스탬프 교환소</span></p>
-    <div class="prog-entry">
-      <h2>프로그램 보기</h2>
-      <div class="parts">
-        <button type="button" class="part-btn" data-go="part1"><span class="tab">1부</span><span class="body">부스 전시·체험<br>10:00~15:00</span></button>
-        <button type="button" class="part-btn" data-go="part2"><span class="tab">2부</span><span class="body">공연마당<br>14:00~16:00</span></button>
-      </div>
-    </div>
+    <section class="sboard" aria-label="나의 스탬프 판">
+      <div class="sb-head"><h2>나의 스탬프 판</h2><span class="sb-left" id="sbLeft"></span></div>
+      <div class="sb-grid" id="sbGrid"></div>
+      <p class="sb-hint">칸을 누르면 부스 소개가 나와요.</p>
+    </section>
   </section>
 
   <section id="part1" hidden>
@@ -495,11 +580,40 @@ button:focus-visible{outline:3px solid var(--pink);outline-offset:2px}
     <button type="button" class="ms-cancel" id="mapCancel">취소</button>
   </div>
 </div>
+<div class="reg-scrim" id="tch" hidden role="dialog" aria-modal="true" aria-labelledby="tchTitle">
+  <form class="reg-card" id="tchForm" autocomplete="off" novalidate>
+    <h2 id="tchTitle">교사 확인</h2>
+    <div id="tchStep1">
+      <p class="reg-sub">교사용 비밀번호 6자리를 입력해 주세요.</p>
+      <input id="tchPin" type="password" inputmode="numeric" pattern="[0-9]*" autocomplete="off" placeholder="●●●●●●" class="tch-pin">
+    </div>
+    <div id="tchStep2" hidden>
+      <p class="tch-who" id="tchWho"></p>
+      <p class="reg-sub">이 폰의 등록 정보와 스탬프 기록을 모두 지울까요?<br>지운 뒤에는 되돌릴 수 없어요.</p>
+    </div>
+    <p class="reg-err" id="tchErr" hidden></p>
+    <div class="reg-actions"><button type="button" class="reg-cancel" id="tchCancel">취소</button><button type="submit" class="reg-ok" id="tchOk">확인</button></div>
+  </form>
+</div>
+<div class="reg-scrim" id="reg" hidden role="dialog" aria-modal="true" aria-labelledby="regTitle">
+  <form class="reg-card" id="regForm" autocomplete="off" novalidate>
+    <h2 id="regTitle">스탬프 투어 참가 등록</h2>
+    <p class="reg-sub">경품 교환 때 본인 확인에 쓰여요.</p>
+    <label for="regName">이름</label>
+    <input id="regName" maxlength="10" placeholder="예: 홍길동" autocomplete="off">
+    <label for="regSid">학번 (5자리)</label>
+    <input id="regSid" inputmode="numeric" pattern="[0-9]*" placeholder="예: 20315 (2학년 3반 15번)" autocomplete="off">
+    <p class="reg-err" id="regErr" hidden></p>
+    <p class="reg-warn">※ 폰 한 대에는 한 명만 등록할 수 있어요.<br>※ 등록한 뒤에는 이름과 학번을 바꿀 수 없어요.</p>
+    <div class="reg-actions"><button type="button" class="reg-cancel" id="regCancel">취소</button><button type="submit" class="reg-ok">등록하고 시작</button></div>
+  </form>
+</div>
 <div class="scrim" id="scrim" hidden>
   <div class="card" role="dialog" aria-modal="true" aria-labelledby="pTitle">
     <h2 id="pTitle"></h2>
     <div id="pBody" class="items"></div>
     <button type="button" class="visit-btn" id="visitBtn">✓ 방문 완료</button>
+    <button type="button" class="map-link" id="mapLink">배치도에서 위치 보기 ›</button>
     <div class="nav">
       <button id="prev" type="button">◀ 이전</button>
       <button id="next" type="button">다음 ▶</button>
@@ -600,11 +714,16 @@ STAMP_BOOTHS.forEach(name=>{const i=list.findIndex(b=>b.name===name); if(i<0)ret
   Object.assign(s.style,{left:pct(onRight?b.x-22:b.x+b.w-18,W),top:pct(b.y-16,H)});
   if(onRight) s.style.transform='rotate(12deg)';
   s.addEventListener('click',()=>openBooth(i)); map.appendChild(s);});
+/* ===== 체험 부스 표시 (배치도 원본의 하트 표시 기준) ===== */
+const EXPERIENCE=["체육과", "스포츠 규칙 연구", "창업 시뮬레이션", "모의창업반", "인성복지부", "중국문화체험", "일본어", "학생자치회", "수학과", "영어과", "보건간호과", "2학년 6반 페이스페인팅", "굿즈 창작반", "그래픽 SW과", "공공데이터 활용반", "메이크 웹", "메이크 게임개발", "메이크 정보보안", "메이크 인공지능", "STEAM 클럽", "위클래스/ 보건실", "미술반", "생태학교 환경부스"];
+const missingExp=EXPERIENCE.filter(n=>!list.some(b=>b.name===n)); if(missingExp.length) console.warn('체험 부스 이름 확인 필요:',missingExp);
+list.forEach((b,i)=>{ b.exp=EXPERIENCE.includes(b.name); if(b.exp){ btns[i].classList.add('exp'); btns[i].setAttribute('aria-label',b.name+' (체험 부스)'); } });
+
 const scrim=document.getElementById('scrim'); let cur=-1, lastFocus=null;
 function show(i){
   cur=(i+list.length)%list.length; const b=list[cur];
   btns.forEach(x=>x.classList.remove('on')); btns[cur].classList.add('on');
-  pTitle.textContent=b.name; pBody.replaceChildren(); syncVisitBtn();
+  pTitle.textContent=b.name; if(b.exp){const tg=document.createElement('span'); tg.className='exp-tag'; tg.textContent='♥ 체험'; pTitle.append(' ',tg);} pBody.replaceChildren(); syncVisitBtn();
   b.items.forEach(([org,theme])=>{
     const it=document.createElement('div'); it.className='item';
     if(org){const o=document.createElement('div'); o.className='org'; o.textContent=org; it.append(o);}
@@ -728,7 +847,11 @@ const TOUR=list.map((b,i)=>i).filter(i=>!list[i].stage&&!list[i].exchange);
 const _k=['dy','ras','26','✦','tour'].map((x,i)=>x+i).join('');
 const _h=s=>{let a=0x811c9dc5,b=0x9e3779b1; for(const c of new TextEncoder().encode(s)){a^=c; a=Math.imul(a,0x01000193)>>>0; b=Math.imul(b^c,0x85ebca6b)>>>0; b=(b<<13|b>>>19)>>>0;} return (a.toString(36)+b.toString(36));};
 let devId=''; try{devId=localStorage.getItem('ras-dev')||''; if(!devId){devId=Math.random().toString(36).slice(2,10); localStorage.setItem('ras-dev',devId);}}catch(e){devId='x';}
-const sign=(n,t)=>_h(_k+'|'+devId+'|'+n+'|'+t);
+/* 참가자 등록 (폰 한 대에 한 명) */
+const SID_RE=/^[1-3](0[1-9]|1[0-9]|20)(0[1-9]|[1-3][0-9]|40)$/;
+let who=null;
+try{const w=JSON.parse(localStorage.getItem('ras-who')||'null'); if(w&&typeof w.n==='string'&&SID_RE.test(w.s)&&w.g===_h(_k+'|who|'+devId+'|'+w.n+'|'+w.s)) who=w;}catch(e){}
+const sign=(n,t)=>_h(_k+'|'+devId+'|'+(who?who.s:'-')+'|'+n+'|'+t);
 let visited=new Set(), stamps=[], tampered=false;
 try{
   const raw=JSON.parse(localStorage.getItem('ras-tour-v2')||'[]');
@@ -736,6 +859,8 @@ try{
   else tampered=true;
 }catch(e){ tampered=!!(function(){try{return localStorage.getItem('ras-tour-v2');}catch(_){return null;}})(); }
 try{localStorage.removeItem('tour-visited');}catch(e){}
+/* 등록 정보가 없거나 바뀌었으면 스탬프 기록도 함께 무효 */
+if(!who){visited.clear(); stamps=[]; tampered=false; try{localStorage.removeItem('ras-tour-v2');}catch(e){}}
 const saveTour=()=>{try{localStorage.setItem('ras-tour-v2',JSON.stringify(stamps));}catch(e){}};
 if(tampered){saveTour(); setTimeout(()=>toast('직접 수정된 기록은 인정되지 않아 제외했어요'),600);}
 /* 저장이 막힌 화면(시크릿 모드, 앱 미리보기 등)이면 미리 알려 줘요 */
@@ -754,6 +879,12 @@ function renderTour(){
   document.getElementById('tourFill').style.width=(n/tourTotal*100)+'%';
   document.getElementById('tourBadge').textContent=badgeText(n);
   TOUR.forEach(i=>{btns[i].classList.toggle('visited',visited.has(list[i].name)); btns[i].style.setProperty('--rot',(((i*37)%26)-20)+'deg');});
+  const g=document.getElementById('sbGrid');
+  if(g&&!g.childElementCount) TOUR.forEach(i=>{const c=document.createElement('button'); c.type='button'; c.className='sb-cell'; c.dataset.i=i;
+    c.style.setProperty('--rot',(((i*37)%26)-20)+'deg'); const t=document.createElement('span'); t.textContent=list[i].name; c.append(t);
+    if(list[i].exp) c.classList.add('exp'); c.addEventListener('click',()=>openBooth(i)); g.append(c);});
+  if(g) g.querySelectorAll('.sb-cell').forEach(c=>{const v=visited.has(list[+c.dataset.i].name); c.classList.toggle('on',v); c.setAttribute('aria-label',list[+c.dataset.i].name+(v?' (방문함)':''));});
+  const L=document.getElementById('sbLeft'); if(L) L.textContent=(tourTotal-TOUR.filter(i=>visited.has(list[i].name)).length)?((tourTotal-TOUR.filter(i=>visited.has(list[i].name)).length)+'곳 남았어요'):'모두 모았어요!';
   document.querySelectorAll('#rows1 .row').forEach(r=>{const v=visited.has(list[+r.dataset.bi].name); const t=r.querySelector('.t'); const c=t.querySelector('.vchk');
     if(v&&!c){const s=document.createElement('span'); s.className='vchk'; s.setAttribute('aria-label','방문함'); t.prepend(s);} if(!v&&c) c.remove();});
   return n;
@@ -769,13 +900,14 @@ function confetti(){
     e.addEventListener('animationend',()=>e.remove()); heartLayer.append(e);}
 }
 const visitBtn=document.getElementById('visitBtn');
-function syncVisitBtn(){const b=list[cur]; const ok=!b.stage&&!b.exchange; visitBtn.hidden=!ok; if(!ok)return;
+function syncVisitBtn(){const b=list[cur]; const ml=document.getElementById('mapLink'); if(ml) ml.hidden=!document.body.classList.contains('touring'); const ok=!b.stage&&!b.exchange&&!!who; visitBtn.hidden=!ok; if(!ok)return;
   const v=visited.has(b.name); visitBtn.classList.toggle('done',v); if(v) visitBtn.textContent='✓ 방문 인증 완료'; else visitBtn.innerHTML='<svg class="cam" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8.5A2.5 2.5 0 0 1 5.5 6H8l1.6-2.2A1.5 1.5 0 0 1 10.8 3h2.4a1.5 1.5 0 0 1 1.2.8L16 6h2.5A2.5 2.5 0 0 1 21 8.5v9a2.5 2.5 0 0 1-2.5 2.5h-13A2.5 2.5 0 0 1 3 17.5z"/><circle cx="12" cy="13" r="3.8"/><circle cx="17.6" cy="9" r=".6" fill="currentColor"/></svg><span>QR 스캔으로 방문 인증</span>';}
 function markVisited(name){
+  if(!who){pendingStamp=name; openReg(); return;}
   if(visited.has(name)){toast(name+' 은(는) 이미 인증했어요'); return;}
   const left=cooldownLeft(); if(left){toast(left+'초 뒤에 다음 부스를 인증할 수 있어요'); return;}
   const t=Date.now(); visited.add(name); stamps.push([name,t,sign(name,t)]); saveTour(); const n=renderTour();
-  const i=list.findIndex(b=>b.name===name); if(i>=0){btns[i].classList.add('just'); setTimeout(()=>btns[i].classList.remove('just'),600);}
+  const i=list.findIndex(b=>b.name===name); if(i>=0){btns[i].classList.add('just'); setTimeout(()=>btns[i].classList.remove('just'),600); const c=document.querySelector('.sb-cell[data-i="'+i+'"]'); if(c){c.classList.add('just'); setTimeout(()=>c.classList.remove('just'),700);}}
   if(!calm){const st=document.createElement('div'); st.className='big-stamp'; document.body.append(st); st.addEventListener('animationend',()=>st.remove());}
   try{buzz([0,330,60]);}catch(e){}
   setTimeout(confetti,330);
@@ -813,7 +945,7 @@ visitBtn.addEventListener('click',()=>{if(visited.has(list[cur].name)) return; h
   document.getElementById('slotAgain').addEventListener('click',()=>{if(!spinning) spin();});
   document.getElementById('slotClose').addEventListener('click',close);
   el.addEventListener('click',e=>{if(e.target===el&&!spinning) close();});
-  document.getElementById('slotGo').addEventListener('click',()=>{const i=pick; close(); setTimeout(()=>markBooth(i),120);});
+  document.getElementById('slotGo').addEventListener('click',()=>{const i=pick; hide(); showOnMap(i);});
   window.addEventListener('popstate',()=>{if(!el.hidden) hide();});
   document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!el.hidden) close();});
 })();
@@ -882,14 +1014,7 @@ document.getElementById('scanOpen').addEventListener('click',openScan);
 document.getElementById('scanClose').addEventListener('click',closeScan);
 document.getElementById('scanManual').addEventListener('submit',e=>{e.preventDefault(); const c=codeFromText(document.getElementById('scanCode').value); if(!c){scanError('코드 6자리를 정확히 입력해 주세요.'); return;} handleCode(c,false);});
 /* 카메라 앱으로 QR을 찍어 #v-코드 주소로 들어온 경우 */
-(()=>{const c=codeFromText(location.hash); if(c&&/^#v-/i.test(location.hash)){try{history.replaceState(null,'',location.pathname+location.search);}catch(e){} if(canVerify) boothFromCode(c).then(name=>{if(name) setTimeout(()=>markVisited(name),400);}).catch(()=>{});}})();
-/* 숨은 초기화 (선생님 테스트용): '나의 부스 투어' 글자를 빠르게 5번 → 한 번 더 누르면 초기화 */
-(()=>{const l=document.getElementById('tourLabel'), orig=l.textContent; let taps=[], armed=false, t=null;
-  l.addEventListener('click',()=>{
-    if(armed){clearTimeout(t); armed=false; l.textContent=orig; l.classList.remove('armed'); visited.clear(); stamps=[]; saveTour(); renderTour(); toast('투어 기록을 지웠어요'); return;}
-    const now=Date.now(); taps=taps.filter(x=>now-x<2500); taps.push(now);
-    if(taps.length>=5){taps=[]; armed=true; l.textContent='한 번 더 누르면 기록 초기화'; l.classList.add('armed'); clearTimeout(t); t=setTimeout(()=>{armed=false; l.textContent=orig; l.classList.remove('armed');},3000);}
-  });})();
+(()=>{const c=codeFromText(location.hash); if(c&&/^#v-/i.test(location.hash)){try{history.replaceState(null,'',location.pathname+location.search);}catch(e){} if(canVerify) boothFromCode(c).then(name=>{if(!name) return; if(who) setTimeout(()=>{location.hash='tour'; setTimeout(()=>markVisited(name),300);},300); else {pendingStamp=name; setTimeout(openReg,300);}}).catch(()=>{});}})();
 renderTour();
 
 document.getElementById('topBtn').addEventListener('click',()=>window.scrollTo({top:0,behavior:calm?'auto':'smooth'}));
@@ -923,8 +1048,88 @@ document.getElementById('topBtn').addEventListener('click',()=>window.scrollTo({
   window.addEventListener('popstate',()=>{if(!sheet.hidden) hide();});
 })();
 
+/* ===== 참가 등록 · 투어 화면 ===== */
+let pendingStamp=null;
+const reg=document.getElementById('reg'), regErr=document.getElementById('regErr');
+function fmtSid(s){return (+s[0])+'학년 '+(+s.slice(1,3))+'반 '+(+s.slice(3))+'번';}
+function showWho(){document.body.classList.toggle('registered',!!who); const L=document.getElementById('tourStartLabel'); if(L) L.textContent=who?'내 스탬프 투어':'스탬프 투어'; document.getElementById('whoName').textContent=who?who.n:''; document.getElementById('whoSid').textContent=who?(fmtSid(who.s)+' · '+who.s):'';}
+function openReg(){regErr.hidden=true; reg.hidden=false; pushOv('reg'); setTimeout(()=>document.getElementById('regName').focus(),50);}
+function hideReg(){reg.hidden=true;}
+function closeReg(){const back=ovIs('reg'); hideReg(); if(back){try{history.back();}catch(e){}}}
+document.getElementById('regCancel').addEventListener('click',()=>{pendingStamp=null; closeReg();});
+reg.addEventListener('click',e=>{if(e.target===reg){pendingStamp=null; closeReg();}});
+window.addEventListener('popstate',()=>{if(!reg.hidden) hideReg();});
+document.getElementById('regSid').addEventListener('input',e=>{e.target.value=e.target.value.replace(/\D/g,'').slice(0,5);});
+let regBusy=false;
+function doRegister(){
+  if(regBusy) return; regBusy=true; setTimeout(()=>{regBusy=false;},400);
+  const err=t=>{regErr.textContent=t; regErr.hidden=false; const c=document.querySelector('#regForm'); c.classList.remove('shake'); void c.offsetWidth; c.classList.add('shake'); try{regErr.scrollIntoView({block:'nearest'});}catch(_){}};
+  try{
+    const n=(document.getElementById('regName').value||'').normalize('NFC').trim().replace(/\s+/g,' ');
+    const sid=(document.getElementById('regSid').value||'').replace(/\D/g,'');
+    if(!/^[\p{L} ]{2,12}$/u.test(n)) return err('이름을 정확히 입력해 주세요.');
+    if(!SID_RE.test(sid)) return err('학번 5자리를 확인해 주세요.\n예: 2학년 3반 15번 → 20315');
+    who={n,s:sid,g:_h(_k+'|who|'+devId+'|'+n+'|'+sid)};
+    try{localStorage.setItem('ras-who',JSON.stringify(who));}catch(_){}
+    try{document.activeElement&&document.activeElement.blur();}catch(_){}
+    showWho(); hideReg();
+    try{history.replaceState({},'','#tour');}catch(_){}
+    route();
+    toast(storageOK?(n+' 학생, 스탬프 투어 시작!'):'이 화면은 기록이 저장되지 않아요. 사파리·크롬을 권장해요');
+    if(pendingStamp){const nm=pendingStamp; pendingStamp=null; setTimeout(()=>markVisited(nm),600);}
+  }catch(ex){ err('등록 중 문제가 생겼어요.\n페이지를 새로고침한 뒤 다시 시도해 주세요.\n('+(ex&&ex.message||ex)+')'); }
+}
+document.getElementById('regForm').addEventListener('submit',e=>{e.preventDefault(); doRegister();});
+document.querySelector('#regForm .reg-ok').addEventListener('click',e=>{e.preventDefault(); doRegister();});
+document.getElementById('tourStart').addEventListener('click',()=>{ if(who){inApp=true; location.hash='tour';} else openReg(); });
+showWho();
+
+document.getElementById('mapLink').addEventListener('click',()=>showOnMap(cur));
+
+/* ===== 교사용 초기화: 투어 페이지의 학생 이름 부분을 2초 길게 누르기 → 비밀번호 ===== */
+(()=>{
+  const T_SALT='DY-RAS-2026|teacher', T_HASH='380459961604cac575ed910564733b66';
+  const box=document.getElementById('tch'), s1=document.getElementById('tchStep1'), s2=document.getElementById('tchStep2'), err=document.getElementById('tchErr'), ok=document.getElementById('tchOk'), pinEl=document.getElementById('tchPin');
+  let step=1, fails=0, lockUntil=0, timer=null, busy=false;
+  async function check(pin){
+    const enc=new TextEncoder();
+    const key=await crypto.subtle.importKey('raw',enc.encode('PIN-'+pin),'PBKDF2',false,['deriveBits']);
+    const b=new Uint8Array(await crypto.subtle.deriveBits({name:'PBKDF2',hash:'SHA-256',salt:enc.encode(T_SALT),iterations:150000},key,128));
+    return [...b].map(x=>x.toString(16).padStart(2,'0')).join('')===T_HASH;
+  }
+  function open(){ if(!who||!canVerify) return; step=1; s1.hidden=false; s2.hidden=true; err.hidden=true; pinEl.value=''; ok.textContent='확인'; ok.classList.remove('danger'); box.hidden=false; pushOv('tch'); setTimeout(()=>pinEl.focus(),50); }
+  function hide(){ box.hidden=true; }
+  function close(){ const back=ovIs('tch'); hide(); if(back){try{history.back();}catch(e){}} }
+  const zone=document.querySelector('.tour-who');
+  const start=e=>{ clearTimeout(timer); timer=setTimeout(()=>{buzz(40); open();},2000); };
+  const stop=()=>clearTimeout(timer);
+  zone.addEventListener('pointerdown',start); ['pointerup','pointerleave','pointercancel','pointermove'].forEach(ev=>zone.addEventListener(ev,e=>{ if(ev!=='pointermove'||Math.abs(e.movementX)+Math.abs(e.movementY)>6) stop(); }));
+  zone.addEventListener('contextmenu',e=>e.preventDefault());
+  pinEl.addEventListener('input',()=>{pinEl.value=pinEl.value.replace(/\D/g,'').slice(0,6);});
+  document.getElementById('tchCancel').addEventListener('click',close);
+  box.addEventListener('click',e=>{if(e.target===box) close();});
+  window.addEventListener('popstate',()=>{if(!box.hidden) hide();});
+  document.getElementById('tchForm').addEventListener('submit',async e=>{
+    e.preventDefault(); if(busy) return;
+    if(step===1){
+      if(Date.now()<lockUntil){err.textContent='잠시 후 다시 시도해 주세요.'; err.hidden=false; return;}
+      const v=pinEl.value; if(v.length!==6){err.textContent='비밀번호 6자리를 입력해 주세요.'; err.hidden=false; return;}
+      busy=true; let good=false; try{good=await check(v);}catch(_){good=false;} busy=false;
+      if(!good){ fails++; pinEl.value=''; if(fails>=5){fails=0; lockUntil=Date.now()+60000; err.textContent='5번 틀려서 1분 동안 잠겼어요.';} else err.textContent='비밀번호가 맞지 않아요.'; err.hidden=false; return; }
+      fails=0; step=2; s1.hidden=true; s2.hidden=false; err.hidden=true;
+      document.getElementById('tchWho').textContent=who.n+' · '+fmtSid(who.s)+' ('+who.s+')';
+      ok.textContent='모두 지우기'; ok.classList.add('danger'); return;
+    }
+    visited.clear(); stamps=[]; who=null;
+    try{localStorage.removeItem('ras-tour-v2'); localStorage.removeItem('ras-who');}catch(_){}
+    hide(); renderTour(); showWho();
+    try{history.replaceState(null,'',location.pathname+location.search);}catch(_){} route();
+    toast('초기화했어요. 새 학생이 등록할 수 있어요');
+  });
+})();
+
 /* ===== 페이지 이동 (주소 #part1, #part2) ===== */
-const pages=['home','part1','part2']; let inApp=false, pending=null;
+const pages=['home','tour','part1','part2']; let inApp=false, pending=null;
 const hint=document.getElementById('hint');
 function clearFind(){btns.forEach(x=>x.classList.remove('find')); hint.className='hint'; hint.textContent='부스를 누르면 소개가 나와요';}
 function markBooth(i){
@@ -939,8 +1144,19 @@ function goHome(){
   else {try{history.replaceState(null,'',location.pathname+location.search);}catch(e){location.hash='';} route();}
 }
 function goToBooth(i){pending=i; goHome();}
+function showOnMap(i){
+  if(!scrim.hidden) scrim.hidden=true;
+  const sl=document.getElementById('slot'); if(sl&&!sl.hidden) sl.hidden=true;
+  pending=i;
+  try{ if(history.state&&history.state.ov) history.replaceState(null,'','#map'); else history.pushState(null,'','#map'); }catch(e){ location.hash='map'; return; }
+  inApp=true; route();
+}
 function route(){
-  const id=pages.includes(location.hash.slice(1))?location.hash.slice(1):'home';
+  const h=location.hash.slice(1);
+  if(h==='tour'&&!who){try{history.replaceState(null,'',location.pathname+location.search);}catch(e){} setTimeout(openReg,50);}
+  const id=(h==='tour'&&!who)?'home':(pages.includes(h)?h:'home');
+  document.body.classList.toggle('touring',id==='tour');
+  document.body.classList.toggle('registered',!!who);
   if(!scrim.hidden) hideBooth();
   pages.forEach(p=>document.getElementById(p).hidden=(p!==id));
   window.scrollTo(0,0);
@@ -950,7 +1166,7 @@ function route(){
 document.querySelectorAll('[data-go]').forEach(b=>b.addEventListener('click',()=>{inApp=true; location.hash=b.dataset.go;}));
 document.querySelectorAll('.back').forEach(b=>b.addEventListener('click',goHome));
 /* 화면 아무 곳이나 누르면 분홍 위치 표시 해제 */
-document.addEventListener('click',e=>{if(pending===null && !e.target.closest('.row') && document.querySelector('.booth.find')) clearFind();});
+document.addEventListener('click',e=>{if(pending===null && !e.target.closest('.row, #slotGo, #mapLink') && document.querySelector('.booth.find')) clearFind();});
 window.addEventListener('popstate',()=>{if(!scanEl.hidden) hideScan(); if(!scrim.hidden) hideBooth();});
 window.addEventListener('hashchange',route);
 route();
