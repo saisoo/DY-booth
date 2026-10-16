@@ -438,6 +438,11 @@ body:not(.registered) .row .vchk{display:none}
 /* 잔디광장 정렬: 버튼 → 잔디광장 → 안내 */
 .field .fl{display:flex!important;flex-direction:column;align-items:center;justify-content:center;gap:1.4cqw!important;width:100%;padding-inline:3cqw;box-sizing:border-box}
 .tour-start{margin:0 0 2.4cqw!important}
+/* 스탬프 투어 버튼: 체크와 글자 높이 맞춤 + 팝 그림자 */
+.tour-start{align-items:center;line-height:1;box-shadow:1.2cqw 1.2cqw 0 #14102e!important}
+.tour-start:active{box-shadow:0 0 0 #14102e!important;transform:translate(1.2cqw,1.2cqw)}
+.tour-start svg{display:block;flex:none;width:1.1em!important;height:1.1em!important;transform:translateY(-.06em)}
+#tourStartLabel{display:block;line-height:1}
 .fl-name{line-height:1}
 .field .hint{margin:0!important;text-align:center}
 /* 등록 창: 키보드가 닫힐 때 창이 움직여 버튼을 놓치지 않게 위쪽 정렬 */
