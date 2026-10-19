@@ -443,6 +443,8 @@ body:not(.registered) .row .vchk{display:none}
 .tour-start:active{box-shadow:0 0 0 #14102e!important;transform:translate(1.2cqw,1.2cqw)}
 .tour-start svg{display:block;flex:none;width:1.1em!important;height:1.1em!important;transform:translateY(-.06em)}
 #tourStartLabel{display:block;line-height:1}
+/* 글자가 두 줄로 깨지지 않게 */
+.tour-start{white-space:nowrap;max-width:100%;box-sizing:border-box;padding-inline:3.8cqw!important}
 .fl-name{line-height:1}
 .field .hint{margin:0!important;text-align:center}
 /* 등록 창: 키보드가 닫힐 때 창이 움직여 버튼을 놓치지 않게 위쪽 정렬 */
@@ -1074,7 +1076,7 @@ document.getElementById('topBtn').addEventListener('click',()=>window.scrollTo({
 let pendingStamp=null;
 const reg=document.getElementById('reg'), regErr=document.getElementById('regErr');
 function fmtSid(s){return (+s[0])+'학년 '+(+s.slice(1,3))+'반 '+(+s.slice(3))+'번';}
-function showWho(){document.body.classList.toggle('registered',!!who); const L=document.getElementById('tourStartLabel'); if(L) L.textContent=who?'내 스탬프 투어':'스탬프 투어'; document.getElementById('whoName').textContent=who?who.n:''; document.getElementById('whoSid').textContent=who?(fmtSid(who.s)+' · '+who.s):'';}
+function showWho(){document.body.classList.toggle('registered',!!who); const L=document.getElementById('tourStartLabel'); if(L) L.textContent='스탬프 투어'; document.getElementById('whoName').textContent=who?who.n:''; document.getElementById('whoSid').textContent=who?(fmtSid(who.s)+' · '+who.s):'';}
 function openReg(){regErr.hidden=true; reg.hidden=false; pushOv('reg'); setTimeout(()=>document.getElementById('regName').focus(),50);}
 function hideReg(){reg.hidden=true;}
 function closeReg(){const back=ovIs('reg'); hideReg(); if(back){try{history.back();}catch(e){}}}
