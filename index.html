@@ -407,6 +407,11 @@ body:not(.registered) .row .vchk{display:none}
 .tour-who{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap;padding-bottom:8px;border-bottom:2px solid #efeaff}
 .who-name{font-size:20px;font-weight:900;color:var(--pop-ink);letter-spacing:-.02em}
 .who-name::after{content:" 학생";font-size:14px;font-weight:700;color:var(--muted)}
+body.visitor .who-name::after{content:" 님"}
+/* 등록 창: 방문객 전환 */
+#regForm:not(.visitor) .v-only{display:none}
+.reg-switch{font:inherit;margin-top:8px;padding:10px 12px;border:2px dashed var(--pop-pu);border-radius:12px;background:#f6f2ff;color:var(--pop-pu);font-size:14px;font-weight:800;cursor:pointer;touch-action:manipulation}
+#regForm.visitor h2::after{content:" (방문객)";font-size:15px;color:var(--pop-pu)}
 .who-sid{font-size:13px;font-weight:700;color:var(--pop-pu);font-variant-numeric:tabular-nums}
 /* ===== 스탬프 투어 페이지 ===== */
 #tour .tour{margin-top:4px}
@@ -443,14 +448,6 @@ body:not(.registered) .row .vchk{display:none}
 .tour-start:active{box-shadow:0 0 0 #14102e!important;transform:translate(1.2cqw,1.2cqw)}
 .tour-start svg{display:block;flex:none;width:1.1em!important;height:1.1em!important;transform:translateY(-.06em)}
 #tourStartLabel{display:block;line-height:1}
-/* 스탬프 투어 오픈 전 (10/23 06:00 KST 전): 잠금 모양 */
-.tour-start .ic-lock{display:none}
-body.tour-closed .tour-start .ic-lock{display:block}
-body.tour-closed .tour-start .ic-check{display:none}
-body.tour-closed .tour-start{background:#cdc6ec!important;color:rgba(43,35,102,.6)!important;animation:none!important;cursor:default;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
-body.tour-closed .tour-start:active{transform:none!important;box-shadow:1.2cqw 1.2cqw 0 #14102e!important}
-.tour-soon{display:none}
-body.tour-closed .tour-soon{display:block;margin:-.6cqw 0 1.4cqw;color:var(--pop-ye);font-size:2.8cqw;font-weight:800;line-height:1.3;text-align:center;letter-spacing:-.01em;white-space:nowrap}
 /* 글자가 두 줄로 깨지지 않게 */
 .tour-start{white-space:nowrap;max-width:100%;box-sizing:border-box;padding-inline:3.8cqw!important}
 .fl-name{line-height:1}
@@ -494,7 +491,7 @@ body.tour-closed .tour-soon{display:block;margin:-.6cqw 0 1.4cqw;color:var(--pop
     </header>
     <div class="map" id="map" role="group" aria-label="부스 배치도">
       <h2 class="title">부스 배치도</h2>
-      <div class="field"><div class="fl"><button type="button" class="tour-start" id="tourStart"><svg class="ic-lock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="10.5" width="14" height="10" rx="2.2"/><path d="M8.5 10.5V7.8a3.5 3.5 0 0 1 7 0v2.7"/></svg><svg class="ic-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M8.5 12.5l2.4 2.4 4.8-5.2"/></svg><span id="tourStartLabel">스탬프 투어</span></button><p class="tour-soon" id="tourSoon">10.23(금) 오전 6시 오픈</p><span class="fl-name" aria-hidden="true">잔디광장</span><p class="hint" id="hint">부스를 누르면 소개가 나와요</p></div></div>
+      <div class="field"><div class="fl"><button type="button" class="tour-start" id="tourStart"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M8.5 12.5l2.4 2.4 4.8-5.2"/></svg><span id="tourStartLabel">스탬프 투어</span></button><span class="fl-name" aria-hidden="true">잔디광장</span><p class="hint" id="hint">부스를 누르면 소개가 나와요</p></div></div>
     </div>
     <p class="legend"><span class="lg"><span class="hrt" aria-hidden="true">♥</span>체험 부스</span><span class="lg"><span class="sq" aria-hidden="true"></span>스탬프 교환소</span></p>
     <div class="prog-entry">
@@ -627,13 +624,16 @@ body.tour-closed .tour-soon{display:block;margin:-.6cqw 0 1.4cqw;color:var(--pop
   <form class="reg-card" id="regForm" autocomplete="off" novalidate>
     <h2 id="regTitle">스탬프 투어 참가 등록</h2>
     <p class="reg-sub">경품 교환 때 본인 확인에 쓰여요.</p>
+    <label for="regOrg" class="v-only">소속</label>
+    <input id="regOrg" class="v-only" maxlength="20" placeholder="예: OO중학교, 학부모" autocomplete="off">
     <label for="regName">이름</label>
     <input id="regName" maxlength="10" placeholder="예: 홍길동" autocomplete="off">
-    <label for="regSid">학번 (5자리)</label>
+    <label for="regSid" id="regSidLabel">학번 (5자리)</label>
     <input id="regSid" inputmode="numeric" pattern="[0-9]*" placeholder="예: 20315 (2학년 3반 15번)" autocomplete="off">
     <p class="reg-err" id="regErr" hidden></p>
-    <p class="reg-warn">※ 폰 한 대에는 한 명만 등록할 수 있어요.<br>※ 등록한 뒤에는 이름과 학번을 바꿀 수 없어요.</p>
+    <p class="reg-warn">※ 폰 한 대에는 한 명만 등록할 수 있어요.<br>※ 등록한 뒤에는 <span id="regWarnWhat">이름과 학번을</span> 바꿀 수 없어요.</p>
     <div class="reg-actions"><button type="button" class="reg-cancel" id="regCancel">취소</button><button type="submit" class="reg-ok">등록하고 시작</button></div>
+    <button type="button" class="reg-switch" id="regSwitch">방문객일 경우 여기를 클릭하세요</button>
   </form>
 </div>
 <div class="scrim" id="scrim" hidden>
@@ -881,8 +881,9 @@ const _h=s=>{let a=0x811c9dc5,b=0x9e3779b1; for(const c of new TextEncoder().enc
 let devId=''; try{devId=localStorage.getItem('ras-dev')||''; if(!devId){devId=Math.random().toString(36).slice(2,10); localStorage.setItem('ras-dev',devId);}}catch(e){devId='x';}
 /* 참가자 등록 (폰 한 대에 한 명) */
 const SID_RE=/^[1-3](0[1-9]|1[0-9]|20)(0[1-9]|[1-3][0-9]|40)$/;
+const VIS_RE=/^V\d{4}$/; /* 방문객: V + 휴대폰 뒷자리 4자리 */
 let who=null;
-try{const w=JSON.parse(localStorage.getItem('ras-who')||'null'); if(w&&typeof w.n==='string'&&SID_RE.test(w.s)&&w.g===_h(_k+'|who|'+devId+'|'+w.n+'|'+w.s)) who=w;}catch(e){}
+try{const w=JSON.parse(localStorage.getItem('ras-who')||'null'); if(w&&typeof w.n==='string'&&((SID_RE.test(w.s)&&w.g===_h(_k+'|who|'+devId+'|'+w.n+'|'+w.s))||(VIS_RE.test(w.s)&&typeof w.o==='string'&&w.g===_h(_k+'|who|'+devId+'|'+w.n+'|'+w.s+'|'+w.o)))) who=w;}catch(e){}
 const sign=(n,t)=>_h(_k+'|'+devId+'|'+(who?who.s:'-')+'|'+n+'|'+t);
 let visited=new Set(), stamps=[], tampered=false;
 try{
@@ -1045,31 +1046,8 @@ function tick(){
 document.getElementById('scanOpen').addEventListener('click',openScan);
 document.getElementById('scanClose').addEventListener('click',closeScan);
 document.getElementById('scanManual').addEventListener('submit',e=>{e.preventDefault(); const c=codeFromText(document.getElementById('scanCode').value); if(!c){scanError('코드 6자리를 정확히 입력해 주세요.'); return;} handleCode(c,false);});
-/* ===== 스탬프 투어 오픈 시각: 2026-10-23 06:00 (한국 시간) =====
-   폰 시계를 바꿔도 소용없도록, 가능하면 서버(GitHub) 시간을 기준으로 해요. */
-const OPEN_AT=Date.UTC(2026,9,22,21,0,0);
-const SOON_MSG='스탬프 투어는 10월 23일(금) 오전 6시에 열려요';
-let clockSkew=0, gateTimer=null;
-const isPreview=()=>{try{return localStorage.getItem('ras-pv')==='1';}catch(_){return false;}};
-const tourOpen=()=>isPreview()||Date.now()+clockSkew>=OPEN_AT;
-function applyGate(){
-  const open=tourOpen();
-  document.body.classList.toggle('tour-closed',!open);
-  const b=document.getElementById('tourStart'); if(b) b.setAttribute('aria-disabled',open?'false':'true');
-  if(open&&gateTimer){clearInterval(gateTimer); gateTimer=null;}
-  return open;
-}
-applyGate();
-if(!tourOpen()) gateTimer=setInterval(applyGate,15000);
-document.addEventListener('visibilitychange',()=>{if(!document.hidden) applyGate();});
-(async()=>{ try{
-  if(!/^https?:$/.test(location.protocol)) return;
-  const r=await fetch(location.pathname+'?now='+Date.now(),{method:'HEAD',cache:'no-store'});
-  const d=Date.parse(r.headers.get('Date')||''); if(!isNaN(d)) clockSkew=d-Date.now();
- }catch(_){} applyGate(); })();
-
 /* 카메라 앱으로 QR을 찍어 #v-코드 주소로 들어온 경우 */
-(()=>{const c=codeFromText(location.hash); if(c&&/^#v-/i.test(location.hash)){try{history.replaceState(null,'',location.pathname+location.search);}catch(e){} if(!tourOpen()){setTimeout(()=>toast(SOON_MSG),400); return;} if(canVerify) boothFromCode(c).then(name=>{if(!name) return; if(who) setTimeout(()=>{location.hash='tour'; setTimeout(()=>markVisited(name),300);},300); else {pendingStamp=name; setTimeout(openReg,300);}}).catch(()=>{});}})();
+(()=>{const c=codeFromText(location.hash); if(c&&/^#v-/i.test(location.hash)){try{history.replaceState(null,'',location.pathname+location.search);}catch(e){} if(canVerify) boothFromCode(c).then(name=>{if(!name) return; if(who) setTimeout(()=>{location.hash='tour'; setTimeout(()=>markVisited(name),300);},300); else {pendingStamp=name; setTimeout(openReg,300);}}).catch(()=>{});}})();
 renderTour();
 
 document.getElementById('topBtn').addEventListener('click',()=>window.scrollTo({top:0,behavior:calm?'auto':'smooth'}));
@@ -1106,38 +1084,55 @@ document.getElementById('topBtn').addEventListener('click',()=>window.scrollTo({
 /* ===== 참가 등록 · 투어 화면 ===== */
 let pendingStamp=null;
 const reg=document.getElementById('reg'), regErr=document.getElementById('regErr');
-function fmtSid(s){return (+s[0])+'학년 '+(+s.slice(1,3))+'반 '+(+s.slice(3))+'번';}
-function showWho(){document.body.classList.toggle('registered',!!who); const L=document.getElementById('tourStartLabel'); if(L) L.textContent='스탬프 투어'; document.getElementById('whoName').textContent=who?who.n:''; document.getElementById('whoSid').textContent=who?(fmtSid(who.s)+' · '+who.s):'';}
-function openReg(){regErr.hidden=true; reg.hidden=false; pushOv('reg'); setTimeout(()=>document.getElementById('regName').focus(),50);}
+const isVisitor=s=>VIS_RE.test(s||'');
+function fmtSid(s){return isVisitor(s)?'방문객':(+s[0])+'학년 '+(+s.slice(1,3))+'반 '+(+s.slice(3))+'번';}
+function whoLine(s){return isVisitor(s)?((who&&who.o?who.o+' · ':'')+'뒷자리 '+s.slice(1)):fmtSid(s)+' · '+s;}
+function showWho(){document.body.classList.toggle('registered',!!who); const L=document.getElementById('tourStartLabel'); if(L) L.textContent='스탬프 투어'; document.getElementById('whoName').textContent=who?who.n:''; document.getElementById('whoSid').textContent=who?whoLine(who.s):''; document.body.classList.toggle('visitor',!!(who&&isVisitor(who.s)));}
+function openReg(){regErr.hidden=true; reg.hidden=false; pushOv('reg'); setTimeout(()=>document.getElementById(regMode==='v'?'regOrg':'regName').focus(),50);}
 function hideReg(){reg.hidden=true;}
 function closeReg(){const back=ovIs('reg'); hideReg(); if(back){try{history.back();}catch(e){}}}
 document.getElementById('regCancel').addEventListener('click',()=>{pendingStamp=null; closeReg();});
 reg.addEventListener('click',e=>{if(e.target===reg){pendingStamp=null; closeReg();}});
 window.addEventListener('popstate',()=>{if(!reg.hidden) hideReg();});
-document.getElementById('regSid').addEventListener('input',e=>{e.target.value=e.target.value.replace(/\D/g,'').slice(0,5);});
+let regMode='s';
+function setRegMode(m){
+  regMode=m; const f=document.getElementById('regForm'); f.classList.toggle('visitor',m==='v');
+  const inp=document.getElementById('regSid');
+  document.getElementById('regSidLabel').textContent=m==='v'?'전화번호 뒷자리 (4자리)':'학번 (5자리)';
+  inp.placeholder=m==='v'?'예: 1234':'예: 20315 (2학년 3반 15번)';
+  document.getElementById('regWarnWhat').textContent=m==='v'?'입력한 정보를':'이름과 학번을';
+  document.getElementById('regSwitch').textContent=m==='v'?'덕영고 학생은 여기를 클릭하세요':'방문객일 경우 여기를 클릭하세요';
+  inp.value=inp.value.replace(/\D/g,'').slice(0,m==='v'?4:5); regErr.hidden=true;
+  setTimeout(()=>document.getElementById(m==='v'?'regOrg':'regName').focus(),30);
+}
+document.getElementById('regSwitch').addEventListener('click',()=>setRegMode(regMode==='v'?'s':'v'));
+document.getElementById('regSid').addEventListener('input',e=>{e.target.value=e.target.value.replace(/\D/g,'').slice(0,regMode==='v'?4:5);});
 let regBusy=false;
 function doRegister(){
   if(regBusy) return; regBusy=true; setTimeout(()=>{regBusy=false;},400);
   const err=t=>{regErr.textContent=t; regErr.hidden=false; const c=document.querySelector('#regForm'); c.classList.remove('shake'); void c.offsetWidth; c.classList.add('shake'); try{regErr.scrollIntoView({block:'nearest'});}catch(_){}};
   try{
     const n=(document.getElementById('regName').value||'').normalize('NFC').trim().replace(/\s+/g,' ');
-    const sid=(document.getElementById('regSid').value||'').replace(/\D/g,'');
+    const raw=(document.getElementById('regSid').value||'').replace(/\D/g,'');
+    const sid=regMode==='v'?'V'+raw:raw;
+    const o=regMode==='v'?(document.getElementById('regOrg').value||'').normalize('NFC').trim().replace(/\s+/g,' '):'';
+    if(regMode==='v'&&!/^[\p{L}\p{N} ·()\-]{2,20}$/u.test(o)) return err('소속을 입력해 주세요.\n예: OO중학교, 학부모');
     if(!/^[\p{L} ]{2,12}$/u.test(n)) return err('이름을 정확히 입력해 주세요.');
-    if(!SID_RE.test(sid)) return err('학번 5자리를 확인해 주세요.\n예: 2학년 3반 15번 → 20315');
-    who={n,s:sid,g:_h(_k+'|who|'+devId+'|'+n+'|'+sid)};
+    if(regMode==='v'){ if(!VIS_RE.test(sid)) return err('전화번호 뒷자리 4자리를 입력해 주세요.'); }
+    else if(!SID_RE.test(sid)) return err('학번 5자리를 확인해 주세요.\n예: 2학년 3반 15번 → 20315');
+    who=o?{n,s:sid,o,g:_h(_k+'|who|'+devId+'|'+n+'|'+sid+'|'+o)}:{n,s:sid,g:_h(_k+'|who|'+devId+'|'+n+'|'+sid)};
     try{localStorage.setItem('ras-who',JSON.stringify(who));}catch(_){}
     try{document.activeElement&&document.activeElement.blur();}catch(_){}
     showWho(); hideReg();
     try{history.replaceState({},'','#tour');}catch(_){}
     route();
-    toast(storageOK?(n+' 학생, 스탬프 투어 시작!'):'이 화면은 기록이 저장되지 않아요. 사파리·크롬을 권장해요');
+    toast(storageOK?(n+(regMode==='v'?' 님':' 학생')+', 스탬프 투어 시작!'):'이 화면은 기록이 저장되지 않아요. 사파리·크롬을 권장해요');
     if(pendingStamp){const nm=pendingStamp; pendingStamp=null; setTimeout(()=>markVisited(nm),600);}
   }catch(ex){ err('등록 중 문제가 생겼어요.\n페이지를 새로고침한 뒤 다시 시도해 주세요.\n('+(ex&&ex.message||ex)+')'); }
 }
 document.getElementById('regForm').addEventListener('submit',e=>{e.preventDefault(); doRegister();});
 document.querySelector('#regForm .reg-ok').addEventListener('click',e=>{e.preventDefault(); doRegister();});
-let skipTourClick=false;
-document.getElementById('tourStart').addEventListener('click',()=>{ if(skipTourClick){skipTourClick=false; return;} if(!applyGate()){toast(SOON_MSG); return;} if(who){inApp=true; location.hash='tour';} else openReg(); });
+document.getElementById('tourStart').addEventListener('click',()=>{ if(who){inApp=true; location.hash='tour';} else openReg(); });
 showWho();
 
 document.getElementById('mapLink').addEventListener('click',()=>showOnMap(cur));
@@ -1146,14 +1141,14 @@ document.getElementById('mapLink').addEventListener('click',()=>showOnMap(cur));
 (()=>{
   const T_SALT='DY-RAS-2026|teacher', T_HASH='380459961604cac575ed910564733b66';
   const box=document.getElementById('tch'), s1=document.getElementById('tchStep1'), s2=document.getElementById('tchStep2'), err=document.getElementById('tchErr'), ok=document.getElementById('tchOk'), pinEl=document.getElementById('tchPin');
-  let step=1, fails=0, lockUntil=0, timer=null, busy=false, mode='reset';
+  let step=1, fails=0, lockUntil=0, timer=null, busy=false;
   async function check(pin){
     const enc=new TextEncoder();
     const key=await crypto.subtle.importKey('raw',enc.encode('PIN-'+pin),'PBKDF2',false,['deriveBits']);
     const b=new Uint8Array(await crypto.subtle.deriveBits({name:'PBKDF2',hash:'SHA-256',salt:enc.encode(T_SALT),iterations:150000},key,128));
     return [...b].map(x=>x.toString(16).padStart(2,'0')).join('')===T_HASH;
   }
-  function open(m){ mode=m||'reset'; if((mode==='reset'&&!who)||!canVerify) return; document.getElementById('tchTitle').textContent=mode==='pv'?'교사 미리보기':'교사 확인'; step=1; s1.hidden=false; s2.hidden=true; err.hidden=true; pinEl.value=''; ok.textContent='확인'; ok.classList.remove('danger'); box.hidden=false; pushOv('tch'); setTimeout(()=>pinEl.focus(),50); }
+  function open(){ if(!who||!canVerify) return; step=1; s1.hidden=false; s2.hidden=true; err.hidden=true; pinEl.value=''; ok.textContent='확인'; ok.classList.remove('danger'); box.hidden=false; pushOv('tch'); setTimeout(()=>pinEl.focus(),50); }
   function hide(){ box.hidden=true; }
   function close(){ const back=ovIs('tch'); hide(); if(back){try{history.back();}catch(e){}} }
   const zone=document.querySelector('.tour-who');
@@ -1161,12 +1156,6 @@ document.getElementById('mapLink').addEventListener('click',()=>showOnMap(cur));
   const stop=()=>clearTimeout(timer);
   zone.addEventListener('pointerdown',start); ['pointerup','pointerleave','pointercancel','pointermove'].forEach(ev=>zone.addEventListener(ev,e=>{ if(ev!=='pointermove'||Math.abs(e.movementX)+Math.abs(e.movementY)>6) stop(); }));
   zone.addEventListener('contextmenu',e=>e.preventDefault());
-  /* 오픈 전 미리보기: 잠긴 스탬프 투어 버튼을 2초 길게 누르기 → 비밀번호 */
-  const tb=document.getElementById('tourStart'); let pvTimer=null;
-  tb.addEventListener('pointerdown',()=>{ if(!document.body.classList.contains('tour-closed')) return; clearTimeout(pvTimer); pvTimer=setTimeout(()=>{skipTourClick=true; buzz(40); open('pv');},2000); });
-  ['pointerup','pointerleave','pointercancel'].forEach(ev=>tb.addEventListener(ev,()=>{clearTimeout(pvTimer); if(skipTourClick) setTimeout(()=>{skipTourClick=false;},400);}));
-  document.addEventListener('pointerup',()=>{ if(skipTourClick) setTimeout(()=>{skipTourClick=false;},400); });
-  tb.addEventListener('contextmenu',e=>{ if(document.body.classList.contains('tour-closed')) e.preventDefault(); });
   pinEl.addEventListener('input',()=>{pinEl.value=pinEl.value.replace(/\D/g,'').slice(0,6);});
   document.getElementById('tchCancel').addEventListener('click',close);
   box.addEventListener('click',e=>{if(e.target===box) close();});
@@ -1178,17 +1167,15 @@ document.getElementById('mapLink').addEventListener('click',()=>showOnMap(cur));
       const v=pinEl.value; if(v.length!==6){err.textContent='비밀번호 6자리를 입력해 주세요.'; err.hidden=false; return;}
       busy=true; let good=false; try{good=await check(v);}catch(_){good=false;} busy=false;
       if(!good){ fails++; pinEl.value=''; if(fails>=5){fails=0; lockUntil=Date.now()+60000; err.textContent='5번 틀려서 1분 동안 잠겼어요.';} else err.textContent='비밀번호가 맞지 않아요.'; err.hidden=false; return; }
-      fails=0;
-      if(mode==='pv'){ try{localStorage.setItem('ras-pv','1');}catch(_){} close(); applyGate(); toast('교사 미리보기: 이 폰에서 스탬프 투어를 열었어요'); return; }
-      step=2; s1.hidden=true; s2.hidden=false; err.hidden=true;
-      document.getElementById('tchWho').textContent=who.n+' · '+fmtSid(who.s)+' ('+who.s+')';
+      fails=0; step=2; s1.hidden=true; s2.hidden=false; err.hidden=true;
+      document.getElementById('tchWho').textContent=who.n+' · '+(isVisitor(who.s)?'방문객 · '+(who.o||'')+' (뒷자리 '+who.s.slice(1)+')':fmtSid(who.s)+' ('+who.s+')');
       ok.textContent='모두 지우기'; ok.classList.add('danger'); return;
     }
     visited.clear(); stamps=[]; who=null;
     try{localStorage.removeItem('ras-tour-v2'); localStorage.removeItem('ras-who');}catch(_){}
     hide(); renderTour(); showWho();
     try{history.replaceState(null,'',location.pathname+location.search);}catch(_){} route();
-    toast('초기화했어요. 새 학생이 등록할 수 있어요');
+    toast('초기화했어요. 새로 등록할 수 있어요');
   });
 })();
 
@@ -1217,7 +1204,6 @@ function showOnMap(i){
 }
 function route(){
   const h=location.hash.slice(1);
-  if(h==='tour'&&!tourOpen()){try{history.replaceState(null,'',location.pathname+location.search);}catch(e){} setTimeout(()=>toast(SOON_MSG),50); pages.forEach(p=>document.getElementById(p).hidden=(p!=='home')); document.body.classList.remove('touring'); return;}
   if(h==='tour'&&!who){try{history.replaceState(null,'',location.pathname+location.search);}catch(e){} setTimeout(openReg,50);}
   const id=(h==='tour'&&!who)?'home':(pages.includes(h)?h:'home');
   document.body.classList.toggle('touring',id==='tour');
